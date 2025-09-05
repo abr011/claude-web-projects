@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prostý kalendář</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .calendar {
+            background: white;
+            border: 2px solid #007bff;
+            border-radius: 10px;
+            padding: 15px;
+            width: 350px;
+            margin: 20px auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        
+        .nav-btn:hover {
+            background: #0056b3;
+        }
+        
+        .month-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            background: #f8f9fa;
+            padding: 12px;
+            text-align: center;
+            font-weight: bold;
+            color: #666;
+            border-bottom: 2px solid #dee2e6;
+        }
+        
+        td {
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            height: 40px;
+            border: 1px solid #f0f0f0;
+        }
+        
+        td:hover {
+            background: #e3f2fd;
+        }
+        
+        .today {
+            background: #007bff !important;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .other-month {
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>📅 Prostý kalendář</h1>
+    
+    <div class="calendar">
+        <div class="header">
+            <button class="nav-btn" onclick="prevMonth()">‹</button>
+            <div class="month-title" id="monthTitle">Srpen 2025</div>
+            <button class="nav-btn" onclick="nextMonth()">›</button>
+        </div>
+        
+        <table>
+            <tr>
+                <th>Po</th>
+                <th>Út</th>
+                <th>St</th>
+                <th>Čt</th>
+                <th>Pá</th>
+                <th>So</th>
+                <th>Ne</th>
+            </tr>
+            <tbody id="calendarBody">
+                <!-- Zde se vygenerují řádky s dny -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        let currentYear = 2025;
+        let currentMonth = 7; // 0-11 (7 = srpen)
+        
+        const months = ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", 
+                       "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"];
+        
+        function generateCalendar() {
+            const today = new Date();
+            const firstDay = new Date(currentYear, currentMonth, 1);
+            const lastDay = new Date(currentYear, currentMonth + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            
+            // Nastav název měsíce
+            document.getElementById('monthTitle').textContent = `${months[currentMonth]} ${currentYear}`;
+            
+            // Zjisti, kterým dnem týdne začíná měsíc (pondělí = 0)
+            let startingDay = firstDay.getDay() - 1;
+            if (startingDay < 0) startingDay = 6; // neděle
+            
+            // Vymaž předchozí obsah
+            const tbody = document.getElementById('calendarBody');
+            tbody.innerHTML = '';
+            
+            let date = 1;
+            
+            // Vytvoř 6 řádků (týdnů)
+            for (let week = 0; week < 6; week++) {
+                const row = document.createElement('tr');
+                
+                // Vytvoř 7 buněk (dnů)
+                for (let day = 0; day < 7; day++) {
+                    const cell = document.createElement('td');
+                    
+                    if (week === 0 && day < startingDay) {
+                        // Prázdná buňka před začátkem měsíce
+                        cell.textContent = '';
+                        cell.classList.add('other-month');
+                    } else if (date > daysInMonth) {
+                        // Prázdná buňka po konci měsíce
+                        cell.textContent = '';
+                        cell.classList.add('other-month');
+                    } else {
+                        // Normální den
+                        cell.textContent = date;
+                        
+                        // Zkontroluj, jestli je to dnešní den
+                        if (currentYear === today.getFullYear() && 
+                            currentMonth === today.getMonth() && 
+                            date === today.getDate()) {
+                            cell.classList.add('today');
+                        }
+                        
+                        cell.onclick = function() {
+                            alert(`Vybrán den: ${date}. ${months[currentMonth]} ${currentYear}`);
+                        };
+                        
+                        date++;
+                    }
+                    
+                    row.appendChild(cell);
+                }
+                
+                tbody.appendChild(row);
+                
+                // Pokud už máme všechny dny, přestaň
+                if (date > daysInMonth) break;
+            }
+        }
+        
+        function prevMonth() {
+            if (currentMonth === 0) {
+                currentMonth = 11;
+                currentYear--;
+            } else {
+                currentMonth--;
+            }
+            generateCalendar();
+        }
+        
+        function nextMonth() {
+            if (currentMonth === 11) {
+                currentMonth = 0;
+                currentYear++;
+            } else {
+                currentMonth++;
+            }
+            generateCalendar();
+        }
+        
+        // Spusť při načtení
+        generateCalendar();
+    </script>
+</body>
+</html>

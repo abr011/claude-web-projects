@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Čistý kalendář</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        
+        .calendar {
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            width: 300px;
+            padding: 10px;
+            margin: 20px auto;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .nav-button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .nav-button:hover {
+            background: #45a049;
+        }
+        
+        .month-year {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+        }
+        
+        .day-header {
+            background: #f5f5f5;
+            padding: 10px 5px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .day-cell {
+            background: white;
+            padding: 10px 5px;
+            text-align: center;
+            cursor: pointer;
+            min-height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .day-cell:hover {
+            background: #e8f4fd;
+        }
+        
+        .day-cell.today {
+            background: #2196F3;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .day-cell.other-month {
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>📅 Čistý kalendář</h1>
+    
+    <div class="calendar">
+        <div class="header">
+            <button class="nav-button" onclick="changeMonth(-1)">‹</button>
+            <div class="month-year" id="monthYear">Srpen 2025</div>
+            <button class="nav-button" onclick="changeMonth(1)">›</button>
+        </div>
+        
+        <div class="days-grid" id="daysGrid">
+            <!-- Hlavička dnů -->
+            <div class="day-header">Po</div>
+            <div class="day-header">Út</div>
+            <div class="day-header">St</div>
+            <div class="day-header">Čt</div>
+            <div class="day-header">Pá</div>
+            <div class="day-header">So</div>
+            <div class="day-header">Ne</div>
+            
+            <!-- Dny se vygenerují přímo zde -->
+        </div>
+    </div>
+
+    <script>
+        let currentDate = new Date(2025, 7, 14); // 14. srpna 2025
+        const monthNames = ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", 
+                           "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"];
+        
+        function renderCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            const today = new Date();
+            
+            // Nastav header
+            document.getElementById('monthYear').textContent = `${monthNames[month]} ${year}`;
+            
+            // Najdi první den měsíce a kolik má dní
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            
+            // První den týdne (0 = neděle, 1 = pondělí, ...)
+            let startDay = firstDay.getDay();
+            startDay = startDay === 0 ? 6 : startDay - 1; // Převeď na pondělí = 0
+            
+            // Vymaž předchozí dny (ale ponechej hlavičky)
+            const grid = document.getElementById('daysGrid');
+            const headers = grid.querySelectorAll('.day-header');
+            grid.innerHTML = '';
+            
+            // Vrať hlavičky zpět
+            headers.forEach(header => grid.appendChild(header));
+            
+            // Přidej prázdné buňky pro dny před prvním dnem měsíce
+            for (let i = 0; i < startDay; i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.className = 'day-cell other-month';
+                grid.appendChild(emptyCell);
+            }
+            
+            // Přidej všechny dny měsíce
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayCell = document.createElement('div');
+                dayCell.className = 'day-cell';
+                dayCell.textContent = day;
+                
+                // Zvýrazni dnešní den
+                if (year === today.getFullYear() && 
+                    month === today.getMonth() && 
+                    day === today.getDate()) {
+                    dayCell.classList.add('today');
+                }
+                
+                dayCell.onclick = function() {
+                    alert(`Vybráno: ${day}. ${monthNames[month]} ${year}`);
+                };
+                
+                grid.appendChild(dayCell);
+            }
+        }
+        
+        function changeMonth(direction) {
+            currentDate.setMonth(currentDate.getMonth() + direction);
+            renderCalendar();
+        }
+        
+        // Inicializace
+        renderCalendar();
+    </script>
+</body>
+</html>

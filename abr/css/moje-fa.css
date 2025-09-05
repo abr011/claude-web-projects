@@ -1,0 +1,33 @@
+body {
+  font-size: 16px !important; 
+
+}
+
+
+.mega {
+  font-size: 64px;
+  font-weight: 800; 
+}
+
+.huge {
+  font-size: 36px;
+  font-weight: 800; 
+}
+
+span.OddeleniCislicPoDvou {
+margin-left: 4px;
+
+}
+
+.huge .OddeleniCislicPoDvou {
+margin-left: 6px;
+
+}
+
+.huge .OddeleniCislicPoDvouOsmPet {
+margin-left: 10px;
+
+}
+
+.red {color: red;}
+

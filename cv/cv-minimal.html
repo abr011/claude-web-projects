@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV - Aleš Brom (Minimalistické)</title>
+    <style>
+        /* MINIMALISTICKÉ CV - CLEAN & SIMPLE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: white;
+            color: #333;
+            line-height: 1.6;
+            font-size: 14px;
+            font-weight: 300;
+        }
+
+        .cv-container {
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 40px;
+            background: white;
+            min-height: 297mm;
+        }
+
+        .cv-header {
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cv-name {
+            font-size: 42px;
+            font-weight: 100;
+            color: #222;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+
+        .cv-title {
+            font-size: 18px;
+            color: #666;
+            font-weight: 300;
+            margin-bottom: 25px;
+        }
+
+        .cv-contact {
+            font-size: 14px;
+            color: #888;
+            line-height: 1.4;
+        }
+
+        .contact-row {
+            margin-bottom: 4px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 400;
+            color: #222;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 8px;
+        }
+
+        .profile-text {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #444;
+            text-align: justify;
+        }
+
+        .job {
+            margin-bottom: 30px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .job:last-child {
+            border-bottom: none;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8px;
+        }
+
+        .job-title {
+            font-size: 16px;
+            font-weight: 400;
+            color: #222;
+        }
+
+        .job-period {
+            font-size: 13px;
+            color: #999;
+            font-weight: 300;
+        }
+
+        .job-company {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .job-points {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .job-points li {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 6px;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .job-points li:before {
+            content: '•';
+            color: #ccc;
+            position: absolute;
+            left: 0;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            margin-top: 30px;
+        }
+
+        .skill-group {
+            margin-bottom: 20px;
+        }
+
+        .skill-group h4 {
+            font-size: 13px;
+            font-weight: 400;
+            color: #222;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .skill-group p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .language-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .language {
+            color: #333;
+        }
+
+        .level {
+            color: #999;
+        }
+
+        .clients-list {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+            text-align: justify;
+        }
+
+        .nav-buttons {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.9);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-buttons button,
+        .nav-buttons a {
+            padding: 8px 16px;
+            margin: 0 5px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #333;
+            text-decoration: none;
+            font-size: 12px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .nav-buttons button:hover,
+        .nav-buttons a:hover {
+            background: #f8f8f8;
+            border-color: #ccc;
+        }
+
+        @media print {
+            .nav-buttons {
+                display: none;
+            }
+            
+            .cv-container {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .two-column {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .job-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .cv-name {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-buttons">
+        <button onclick="window.print()">Print</button>
+        <a href="cv.html">Modern</a>
+        <a href="cv-traditional.html">Traditional</a>
+    </div>
+
+    <div class="cv-container">
+        <header class="cv-header">
+            <h1 class="cv-name">Aleš Brom</h1>
+            <div class="cv-title">UX Designer, Researcher, and Consultant</div>
+            <div class="cv-contact">
+                <div class="contact-row">ales.brom@gmail.com</div>
+                <div class="contact-row">+420 602 655 775</div>
+                <div class="contact-row">Kroupova 2756, Praha 5</div>
+                <div class="contact-row">www.alesbrom.cz</div>
+            </div>
+        </header>
+
+        <section class="section">
+            <h2 class="section-title">Profile</h2>
+            <p class="profile-text">
+                I find and solve issues in business processes to increase profit and improve customer experience. 
+                With 15+ years of experience, I deliver user-centric solutions that are innovative, intuitive, 
+                and aligned with modern technologies and business goals. I specialize in UX, Product Design, 
+                Service Design, and Business Analysis.
+            </p>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Experience</h2>
+            
+            <div class="job">
+                <div class="job-header">
+                    <div class="job-title">UX Designer, Researcher, and Consultant</div>
+                    <div class="job-period">2011 — Present</div>
+                </div>
+                <div class="job-company">Freelance</div>
+                <ul class="job-points">
+                    <li>Working with clients from startups to established companies and corporations</li>
+                    <li>Projects ranging from mobile apps to complex information systems</li>
+                    <li>Collaborating with teams from single person to 100+ members</li>
+                    <li>Full process from ideation through research to wireframes</li>
+                    <li>Communication across all levels: business owners to frontend developers</li>
+                </ul>
+            </div>
+
+            <div class="job">
+                <div class="job-header">
+                    <div class="job-title">UX Designer</div>
+                    <div class="job-period">2010 — 2011</div>
+                </div>
+                <div class="job-company">Actum s.r.o.</div>
+                <ul class="job-points">
+                    <li>Requirements analysis and information architecture design</li>
+                    <li>Interaction design and wireframe creation</li>
+                    <li>User testing management</li>
+                    <li>Clients: Hill's, GSK, Microsoft, PRE</li>
+                </ul>
+            </div>
+
+            <div class="job">
+                <div class="job-header">
+                    <div class="job-title">UX Designer</div>
+                    <div class="job-period">2009 — 2010</div>
+                </div>
+                <div class="job-company">Media Technologies s.r.o.</div>
+            </div>
+
+            <div class="job">
+                <div class="job-header">
+                    <div class="job-title">Business Analyst</div>
+                    <div class="job-period">2007 — 2009</div>
+                </div>
+                <div class="job-company">Logos a.s.</div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Education</h2>
+            <div class="job">
+                <div class="job-header">
+                    <div class="job-title">Master's Degree in Informatics</div>
+                    <div class="job-period">1995 — 2001</div>
+                </div>
+                <div class="job-company">Czech University of Life Sciences</div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Selected Clients</h2>
+            <div class="clients-list">
+                Wüstenrot, Penzijní fond České spořitelny, RWE, ČSOB, KB, ING, Člověk v tísni, Metrans, 
+                Contember, T-Mobile, Tipsport, Sodexo, TA ČR, Metro/Makro, Leveris, MSD, and more.
+            </div>
+        </section>
+
+        <div class="two-column">
+            <div>
+                <section class="section">
+                    <h2 class="section-title">Skills</h2>
+                    <div class="skill-group">
+                        <h4>Core</h4>
+                        <p>Problem Defining, Problem Solving, Creativity, Research & Testing</p>
+                    </div>
+                    <div class="skill-group">
+                        <h4>UX Methods</h4>
+                        <p>Usability Testing, IxD, Information Architecture, Analytics</p>
+                    </div>
+                    <div class="skill-group">
+                        <h4>Tools</h4>
+                        <p>Figma, Miro, Axure, Google Analytics, HTML, CSS, JavaScript</p>
+                    </div>
+                </section>
+            </div>
+
+            <div>
+                <section class="section">
+                    <h2 class="section-title">Languages</h2>
+                    <div class="language-item">
+                        <span class="language">Czech</span>
+                        <span class="level">Native</span>
+                    </div>
+                    <div class="language-item">
+                        <span class="language">English</span>
+                        <span class="level">C1</span>
+                    </div>
+                    <div class="language-item">
+                        <span class="language">Spanish</span>
+                        <span class="level">B1</span>
+                    </div>
+                    <div class="language-item">
+                        <span class="language">German</span>
+                        <span class="level">A1</span>
+                    </div>
+                    <div class="language-item">
+                        <span class="language">Russian</span>
+                        <span class="level">A1</span>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2 class="section-title">Interests</h2>
+                    <p style="font-size: 14px; color: #666;">Football, mountain biking, food & cooking, reading, woodworking</p>
+                </section>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test stylování datumů</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body { padding: 20px; font-family: Arial, sans-serif; background: white; }
+        .test-row { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+        .result { font-size: 18px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>🎨 Test stylování datumů</h1>
+    
+    <div class="test-row">
+        <h3>Datum bez stylování:</h3>
+        <div class="result" id="normal-date"></div>
+    </div>
+    
+    <div class="test-row">
+        <h3>Datum se stylováním:</h3>
+        <div class="result" id="styled-date"></div>
+    </div>
+    
+    <div class="test-row">
+        <h3>Několik různých datumů:</h3>
+        <div id="multiple-dates"></div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Test různých datumů
+        const testDates = [
+            new Date('2025-08-14'),
+            new Date('2024-12-31'),
+            new Date('2025-01-01'),
+            new Date('2025-03-05')
+        ];
+        
+        // Normální datum
+        document.getElementById('normal-date').textContent = formatDate(testDates[0]);
+        
+        // Stylované datum
+        document.getElementById('styled-date').innerHTML = formatDate(testDates[0], true);
+        
+        // Více datumů
+        const multipleDatesEl = document.getElementById('multiple-dates');
+        testDates.forEach(date => {
+            const div = document.createElement('div');
+            div.className = 'result';
+            div.innerHTML = `
+                <strong>Normální:</strong> ${formatDate(date)} | 
+                <strong>Stylované:</strong> ${formatDate(date, true)}
+            `;
+            multipleDatesEl.appendChild(div);
+        });
+    </script>
+</body>
+</html>

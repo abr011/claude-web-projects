@@ -1,0 +1,113 @@
+
+body  {
+	font-weight: 300;
+}
+
+.red {
+	color: red;
+}
+
+.inline {
+	display: inline-block;
+}
+
+.hero {
+	font-size: 200%;
+	font-weight: 500;
+}
+
+.bla {
+	font-size: 12px;
+	font-weight: 500;
+	line-height: 14px;
+	padding-top: 18px;
+	DD84A1 FFBBBE #FDF8B8
+}
+
+.blab {
+	font-size: 12px;
+	font-weight: 500;
+	line-height: 14px;
+	padding-top: 4px;
+
+}
+
+.a {
+	padding-top: 4px;
+}
+
+.lead  {
+	font-weight: 300;
+	
+}
+
+.lead_case  {
+	font-weight: 300;
+	font-size: 32px;
+}
+
+.skrtly {
+	text-decoration: line-through;
+}
+
+h4 {
+	padding-top: 1.4em;
+}
+
+.common_approach {
+	display: inline-block;
+    padding: .25em .4em;
+    background-color: #FFDDDE;
+    font-weight: 400;
+    line-height: 1.6;
+    text-align: center;
+    border-radius: .25rem;
+    margin: .25em;
+	font-size: 14px;
+}
+
+.money {
+	display: inline-block;
+    padding: .25em .4em;
+    background-color: #DEFFDD;
+    font-weight: 400;
+    line-height: 1.6;
+    text-align: center;
+    border-radius: .25rem;
+    margin: .25em;
+	font-size: 14px;
+}
+
+.pill {
+display: inline-block;
+    padding: .25em .4em;
+    background-color: #DEDDFF;
+    font-weight: 500;
+    line-height: 1;
+    text-align: center;
+    border-radius: .25rem;
+    margin: .25em;
+    font-size: 14px;
+}
+
+.whitish {
+	background-color: white;
+	border: solid 1px lightgray;
+}
+
+.talking {
+
+    font-weight: 400;
+    line-height: 1.8;
+   
+    font-size: 14px;
+}
+
+.gray {
+	background-color: lightgray;
+}
+	
+.fake {
+	color: white;
+}	
+

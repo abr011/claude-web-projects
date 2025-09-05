@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Fakturační aplikace</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .debug-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+        .debug-button { margin: 5px; padding: 10px; background: #007bff; color: white; border: none; cursor: pointer; }
+        .debug-button:hover { background: #0056b3; }
+        .debug-button.danger { background: #dc3545; }
+        .debug-button.danger:hover { background: #a71e2a; }
+        .log { background: #f8f9fa; padding: 10px; font-family: monospace; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <h1>🐛 Debug Fakturační aplikace</h1>
+    
+    <div class="debug-section">
+        <h2>📊 Stav LocalStorage</h2>
+        <button class="debug-button" onclick="checkLocalStorage()">Zkontrolovat localStorage</button>
+        <button class="debug-button danger" onclick="clearLocalStorage()">Vymazat localStorage</button>
+        <div id="localStorage-log" class="log"></div>
+    </div>
+    
+    <div class="debug-section">
+        <h2>🧪 Testovací data</h2>
+        <button class="debug-button" onclick="addTestInvoices()">Přidat testovací faktury</button>
+        <button class="debug-button" onclick="addTestClients()">Přidat testovací klienty</button>
+        <div id="testData-log" class="log"></div>
+    </div>
+    
+    <div class="debug-section">
+        <h2>🔧 Aplikace</h2>
+        <button class="debug-button" onclick="window.location.href='index.html'">↩️ Zpět na aplikaci</button>
+    </div>
+
+    <script>
+        function log(elementId, message) {
+            const element = document.getElementById(elementId);
+            element.textContent += new Date().toLocaleTimeString() + ': ' + message + '\n';
+        }
+
+        function checkLocalStorage() {
+            const logEl = 'localStorage-log';
+            document.getElementById(logEl).textContent = '';
+            
+            log(logEl, '=== KONTROLA LOCALSTORAGE ===');
+            
+            // Zkontroluj faktury
+            const invoiceData = localStorage.getItem('invoiceApp_data');
+            if (invoiceData) {
+                try {
+                    const invoices = JSON.parse(invoiceData);
+                    log(logEl, `✅ Faktury načteny: ${invoices.length} položek`);
+                    invoices.forEach((inv, index) => {
+                        log(logEl, `  ${index + 1}. ${inv.number} - ${inv.clientName} - ${inv.amount} Kč`);
+                    });
+                } catch (error) {
+                    log(logEl, `❌ Chyba při parsování faktur: ${error.message}`);
+                }
+            } else {
+                log(logEl, '⚠️ Žádné faktury v localStorage');
+            }
+            
+            // Zkontroluj klienty
+            const clientData = localStorage.getItem('invoiceApp_clients');
+            if (clientData) {
+                try {
+                    const clients = JSON.parse(clientData);
+                    log(logEl, `✅ Klienti načteni: ${clients.length} položek`);
+                    clients.forEach((client, index) => {
+                        log(logEl, `  ${index + 1}. ${client.name} - IČO: ${client.ico}`);
+                    });
+                } catch (error) {
+                    log(logEl, `❌ Chyba při parsování klientů: ${error.message}`);
+                }
+            } else {
+                log(logEl, '⚠️ Žádní klienti v localStorage');
+            }
+        }
+
+        function clearLocalStorage() {
+            const logEl = 'localStorage-log';
+            if (confirm('Opravdu chcete vymazat všechna data z localStorage?')) {
+                localStorage.removeItem('invoiceApp_data');
+                localStorage.removeItem('invoiceApp_clients');
+                log(logEl, '🗑️ LocalStorage vymazán');
+            }
+        }
+
+        function addTestInvoices() {
+            const logEl = 'testData-log';
+            document.getElementById(logEl).textContent = '';
+            
+            log(logEl, '=== PŘIDÁVÁNÍ TESTOVACÍCH FAKTUR ===');
+            
+            const testInvoices = [
+                {
+                    id: Date.now() + 1,
+                    number: 'F2024001',
+                    clientName: 'ABC s.r.o.',
+                    clientAddress: 'Pražská 456\\n120 00 Praha 2',
+                    clientIco: '12345678',
+                    clientDic: 'CZ12345678',
+                    amount: 25000,
+                    description: 'Vývoj webové aplikace pro správu faktur',
+                    issueDate: '2024-08-01',
+                    dueDate: '2024-08-15',
+                    createdAt: new Date().toISOString(),
+                    status: 'sent'
+                },
+                {
+                    id: Date.now() + 2,
+                    number: 'F2024002', 
+                    clientName: 'XYZ spol. s r.o.',
+                    clientAddress: 'Brněnská 789\\n602 00 Brno',
+                    clientIco: '87654321',
+                    clientDic: 'CZ87654321',
+                    amount: 15500,
+                    description: 'Konzultační služby IT a návrh systému',
+                    issueDate: '2024-08-05',
+                    dueDate: '2024-08-20',
+                    createdAt: new Date().toISOString(),
+                    status: 'draft'
+                }
+            ];
+            
+            localStorage.setItem('invoiceApp_data', JSON.stringify(testInvoices));
+            log(logEl, `✅ Přidáno ${testInvoices.length} testovacích faktur`);
+        }
+
+        function addTestClients() {
+            const logEl = 'testData-log';
+            
+            log(logEl, '=== PŘIDÁVÁNÍ TESTOVACÍCH KLIENTŮ ===');
+            
+            const testClients = [
+                {
+                    name: 'ABC s.r.o.',
+                    address: 'Pražská 456\\n120 00 Praha 2',
+                    street: 'Pražská 456',
+                    city: 'Praha 2',
+                    postal: '120 00',
+                    ico: '12345678',
+                    dic: 'CZ12345678'
+                },
+                {
+                    name: 'XYZ spol. s r.o.',
+                    address: 'Brněnská 789\\n602 00 Brno',
+                    street: 'Brněnská 789',
+                    city: 'Brno',
+                    postal: '602 00',
+                    ico: '87654321',
+                    dic: 'CZ87654321'
+                },
+                {
+                    name: 'OSVČ Jan Novák',
+                    address: 'Krásná 123\\n400 00 Ústí nad Labem',
+                    street: 'Krásná 123',
+                    city: 'Ústí nad Labem',
+                    postal: '400 00',
+                    ico: '11223344',
+                    dic: ''
+                }
+            ];
+            
+            localStorage.setItem('invoiceApp_clients', JSON.stringify(testClients));
+            log(logEl, `✅ Přidáno ${testClients.length} testovacích klientů`);
+        }
+
+        // Automatická kontrola při načtení
+        window.onload = function() {
+            checkLocalStorage();
+        };
+    </script>
+</body>
+</html>

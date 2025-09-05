@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rychlý Debug</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: white; }
+        .debug-box { border: 1px solid #ccc; padding: 15px; margin: 10px 0; }
+        .result { font-weight: bold; color: #007bff; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>🐛 Rychlý Debug</h1>
+    
+    <div class="debug-box">
+        <h3>1. LocalStorage - Klienti</h3>
+        <div id="clients-debug"></div>
+        <button onclick="fixClientsData()">Opravit data klientů</button>
+    </div>
+    
+    <div class="debug-box">
+        <h3>2. Test stylování datumů</h3>
+        <div>Normální: <span id="date-normal"></span></div>
+        <div>Stylované: <span id="date-styled"></span></div>
+        <button onclick="testDateStyling()">Test stylů</button>
+    </div>
+
+    <script>
+        // Test klientů
+        function debugClients() {
+            const clientData = localStorage.getItem('invoiceApp_clients');
+            const clientsDiv = document.getElementById('clients-debug');
+            
+            if (clientData) {
+                try {
+                    const clients = JSON.parse(clientData);
+                    clientsDiv.innerHTML = `<div class="result">✅ Nalezeno ${clients.length} klientů:</div>`;
+                    clients.forEach((client, i) => {
+                        clientsDiv.innerHTML += `<div>${i+1}. ${client.name} (IČO: ${client.ico})</div>`;
+                    });
+                } catch (error) {
+                    clientsDiv.innerHTML = `<div class="error">❌ Chyba při parsování: ${error.message}</div>`;
+                }
+            } else {
+                clientsDiv.innerHTML = `<div class="error">⚠️ Žádní klienti v localStorage</div>`;
+            }
+        }
+
+        function fixClientsData() {
+            const testClients = [
+                {
+                    name: 'ABC s.r.o.',
+                    address: 'Pražská 456\\n120 00 Praha 2',
+                    street: 'Pražská 456',
+                    city: 'Praha 2', 
+                    postal: '120 00',
+                    ico: '12345678',
+                    dic: 'CZ12345678'
+                },
+                {
+                    name: 'XYZ spol. s r.o.',
+                    address: 'Brněnská 789\\n602 00 Brno',
+                    street: 'Brněnská 789',
+                    city: 'Brno',
+                    postal: '602 00', 
+                    ico: '87654321',
+                    dic: 'CZ87654321'
+                }
+            ];
+            
+            localStorage.setItem('invoiceApp_clients', JSON.stringify(testClients));
+            alert('✅ Data klientů opravena!');
+            debugClients();
+        }
+
+        // Test stylování
+        function testDateStyling() {
+            // Inline CSS pro test
+            const style = document.createElement('style');
+            style.textContent = `
+                .date-format .year { color: #888888 !important; font-weight: normal !important; }
+                .date-format .day-month { font-weight: 500 !important; }
+            `;
+            document.head.appendChild(style);
+            
+            const today = new Date();
+            const formatted = today.toLocaleDateString('cs-CZ', {
+                day: 'numeric', month: 'numeric', year: 'numeric'
+            });
+            
+            // Normální
+            document.getElementById('date-normal').textContent = formatted;
+            
+            // Stylované
+            const parts = formatted.split('.');
+            if (parts.length === 3) {
+                const dayMonth = parts[0] + '.' + parts[1] + '.';
+                const year = parts[2];
+                document.getElementById('date-styled').innerHTML = 
+                    `<span class="date-format"><span class="day-month">${dayMonth}</span><span class="year">${year}</span></span>`;
+            }
+        }
+
+        // Automaticky spustit při načtení
+        window.onload = function() {
+            debugClients();
+            testDateStyling();
+        };
+    </script>
+</body>
+</html>

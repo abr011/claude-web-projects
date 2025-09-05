@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS Kalendář</title>
+    <style>
+        body { padding: 20px; font-family: Arial, sans-serif; }
+        
+        .date-container {
+            position: relative;
+            display: inline-block;
+            margin: 20px;
+        }
+        
+        .date-field {
+            border: 2px solid #007bff;
+            padding: 10px 15px;
+            cursor: pointer;
+            background: white;
+            border-radius: 4px;
+            width: 150px;
+        }
+        
+        .calendar-popup {
+            position: absolute;
+            left: 100%;
+            top: 0;
+            margin-left: 15px;
+            background: white;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            display: none;
+            min-width: 180px;
+        }
+        
+        .date-container:hover .calendar-popup {
+            display: block;
+        }
+        
+        .calendar-popup h4 {
+            margin: 0 0 10px 0;
+            color: #007bff;
+        }
+        
+        .date-option {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            margin: 3px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+            text-decoration: none;
+            color: black;
+        }
+        
+        .date-option:hover {
+            background: #e3f2fd;
+        }
+        
+        /* Pro mobil - zobraz pod polem */
+        @media (max-width: 768px) {
+            .calendar-popup {
+                left: 0;
+                top: 100%;
+                margin-left: 0;
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>📅 CSS Kalendář (bez JavaScriptu)</h1>
+    
+    <p>Najeď myší na pole:</p>
+    
+    <div class="date-container">
+        <div class="date-field">
+            14.8.2025 (hover)
+        </div>
+        <div class="calendar-popup">
+            <h4>📅 Výběr data</h4>
+            <a href="#" class="date-option">Včera (13.8.2025)</a>
+            <a href="#" class="date-option">Dnes (14.8.2025)</a>
+            <a href="#" class="date-option">Zítra (15.8.2025)</a>
+        </div>
+    </div>
+    
+    <div class="date-container">
+        <div class="date-field">
+            28.8.2025 (hover)
+        </div>
+        <div class="calendar-popup">
+            <h4>📅 Výběr data</h4>
+            <a href="#" class="date-option">Včera (27.8.2025)</a>
+            <a href="#" class="date-option">Dnes (28.8.2025)</a>
+            <a href="#" class="date-option">Zítra (29.8.2025)</a>
+        </div>
+    </div>
+</body>
+</html>
