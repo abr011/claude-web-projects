@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zadání_UX UI_Software602</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.4;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #f8f9fa;
+            padding: 40px 20px 20px 20px;
+            border-bottom: 1px solid #e9ecef;
+            position: relative;
+        }
+
+        .no-signature-label {
+            background: #e9ecef;
+            color: #666;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            position: absolute;
+            right: -5px;
+            top: -20px;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            margin: 0 0 5px 0;
+            position: relative;
+        }
+
+        .title-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .title-text {
+            cursor: pointer;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .title-text:hover {
+            text-decoration: underline;
+        }
+
+        .title-input {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            border: 2px solid #007bff;
+            border-radius: 4px;
+            padding: 4px 8px;
+            background: white;
+            outline: none;
+            min-width: 600px;
+        }
+
+        .edit-icon {
+            color: #007bff;
+            cursor: pointer;
+            font-size: 16px;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .edit-icon:hover {
+            opacity: 1;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        .description {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        .description:hover {
+            text-decoration: underline;
+        }
+
+        .add-documents {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+            margin-top: 10px;
+            display: block;
+        }
+
+        .add-documents:hover {
+            text-decoration: underline;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 30px;
+        }
+
+        .signature-section h2 {
+            font-size: 20px;
+            margin: 0 0 20px 0;
+            color: #333;
+        }
+
+        .signature-box {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .signer-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .signer-email {
+            color: #666;
+            text-decoration: none;
+            border-bottom: 1px solid #666;
+        }
+
+        .signer-email:hover {
+            color: #007bff;
+            border-bottom-color: #007bff;
+        }
+
+        .add-colleague {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+            margin-top: 15px;
+            display: block;
+        }
+
+        .add-colleague:hover {
+            text-decoration: underline;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #dee2e6;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        .add-person {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+            margin-top: 15px;
+            display: block;
+        }
+
+        .add-person:hover {
+            text-decoration: underline;
+        }
+
+        .notes-section {
+            grid-column: 1 / -1;
+            margin-top: 30px;
+            border-top: 1px solid #e9ecef;
+            padding-top: 30px;
+        }
+
+        .notes-section h2 {
+            font-size: 20px;
+            margin: 0 0 20px 0;
+            color: #333;
+        }
+
+        .footer {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-link {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .send-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .send-button:hover {
+            background: #0056b3;
+        }
+
+        .additional-note {
+            color: #666;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .save-btn-secondary {
+            background: transparent;
+            color: #007bff;
+            border: 1px solid #007bff;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .save-btn-secondary:hover {
+            background: #f0f7ff;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            width: 90%;
+            height: 90%;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 30px;
+            color: #666;
+            cursor: pointer;
+            z-index: 1001;
+            background: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        .modal-content iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-overlay" id="pdfModal" onclick="closePdfPreview(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="modal-close" onclick="closePdfPreview()">&times;</span>
+            <iframe id="pdfFrame" src=""></iframe>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <div class="title-container">
+                <h1 class="title">
+                    <a href="#" class="title-text" id="title-text" onclick="openPdfPreview()">Zadání_UX UI_Software602</a>
+                    <input type="text" class="title-input" id="title-input" style="display: none;" onblur="saveTitleEdit()" onkeydown="handleTitleKeydown(event)">
+                    <span class="no-signature-label">bez parafy</span>
+                </h1>
+                <span class="edit-icon" onclick="enableTitleEdit()" title="Upravit název">✏️</span>
+            </div>
+            <a href="#" class="description" id="add-description-link" onclick="toggleDescription()">+ Přidat popis dokumentu</a>
+            <br>
+            <div id="description-fields" style="display: none; margin-top: 15px;">
+                <div style="display: flex; gap: 15px;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="doc-description">Popis dokumentu</label>
+                        <input type="text" id="doc-description" placeholder="Zadejte popis dokumentu" style="width: 600px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="doc-type">Typ dokumentu</label>
+                        <input type="text" id="doc-type" placeholder="např. NDA" style="width: 200px;">
+                    </div>
+                </div>
+                <button onclick="saveDescription()" class="save-btn-secondary">Uložit</button>
+            </div>
+            <div id="description-saved" style="display: none; margin-top: 5px;">
+                <span id="saved-text"></span>
+                <a href="#" class="description" onclick="editSavedDescription()" style="margin-left: 10px;">Upravit</a>
+            </div>
+            <div style="margin-top: 30px;">
+                <button onclick="addDocuments()" class="save-btn-secondary" style="margin: 0; width: 230px;">+ Přidat další dokumenty</button>
+                <div class="additional-note" style="margin-top: 5px; font-size: 12px;">Ať už doplňkové nebo vyžadující podpis</div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="signature-section">
+                <h2>Podpis na naší straně</h2>
+                <div class="signature-box">
+                    <div class="signer-name">Aleš Brom</div>
+                    <a href="mailto:ales.brom@gmail.com" class="signer-email">ales.brom@gmail.com</a>
+                </div>
+                <a href="#" class="add-colleague" onclick="addColleague()">+ Přidat kolegu – spolupodepisuje</a>
+            </div>
+
+            <div class="signature-section">
+                <h2>Podpis protistrany</h2>
+                <div class="signature-box">
+                    <div class="form-group">
+                        <label for="counterparty-name">Jméno a příjmení</label>
+                        <input type="text" id="counterparty-name" value="Franta Vomáčka">
+                    </div>
+                    <div class="form-group">
+                        <label for="counterparty-email">Email</label>
+                        <input type="email" id="counterparty-email" value="vomacka@gmail.com">
+                    </div>
+                </div>
+                <a href="#" class="add-person" onclick="addCounterparty()">+ Přidat další osobu u protistrany</a>
+            </div>
+
+            <div class="notes-section">
+                <h2>Poznámky a přístupy k dokumentu</h2>
+            </div>
+        </div>
+
+        <div class="footer">
+            <a href="#" class="back-link" onclick="goBack()">Zpět</a>
+            <button class="send-button" onclick="sendForSigning()">Odeslat k podepsání</button>
+        </div>
+    </div>
+
+    <script>
+        function enableTitleEdit() {
+            const titleText = document.getElementById('title-text');
+            const titleInput = document.getElementById('title-input');
+            
+            titleInput.value = titleText.textContent;
+            titleText.style.display = 'none';
+            titleInput.style.display = 'block';
+            titleInput.focus();
+            titleInput.select();
+        }
+
+        function saveTitleEdit() {
+            const titleText = document.getElementById('title-text');
+            const titleInput = document.getElementById('title-input');
+            
+            const newTitle = titleInput.value.trim();
+            if (newTitle) {
+                titleText.textContent = newTitle;
+                document.title = newTitle;
+            }
+            
+            titleInput.style.display = 'none';
+            titleText.style.display = 'block';
+        }
+
+        function handleTitleKeydown(event) {
+            if (event.key === 'Enter') {
+                event.target.blur();
+            } else if (event.key === 'Escape') {
+                const titleText = document.getElementById('title-text');
+                const titleInput = document.getElementById('title-input');
+                titleInput.style.display = 'none';
+                titleText.style.display = 'block';
+            }
+        }
+
+        function toggleDescription() {
+            event.preventDefault();
+            const fields = document.getElementById('description-fields');
+            const link = document.getElementById('add-description-link');
+            if (fields.style.display === 'none') {
+                fields.style.display = 'block';
+                link.textContent = '− Skrýt popis dokumentu';
+            } else {
+                fields.style.display = 'none';
+                link.textContent = '+ Přidat popis dokumentu';
+            }
+        }
+
+        function saveDescription() {
+            const description = document.getElementById('doc-description').value;
+            const docType = document.getElementById('doc-type').value;
+
+            if (!description && !docType) {
+                return;
+            }
+
+            let savedText = '';
+            if (description && docType) {
+                savedText = description + ', ' + docType;
+            } else {
+                savedText = description || docType;
+            }
+
+            document.getElementById('saved-text').textContent = savedText;
+
+            document.getElementById('description-fields').style.display = 'none';
+            document.getElementById('description-saved').style.display = 'block';
+            document.getElementById('add-description-link').style.display = 'none';
+        }
+
+        function editSavedDescription() {
+            event.preventDefault();
+            document.getElementById('description-saved').style.display = 'none';
+            document.getElementById('description-fields').style.display = 'block';
+            document.getElementById('add-description-link').style.display = 'block';
+            document.getElementById('add-description-link').textContent = '− Skrýt popis dokumentu';
+        }
+
+        function addDocuments() {
+            alert('Otevírá se dialog pro přidání dalších dokumentů...');
+        }
+
+        function addColleague() {
+            const name = prompt('Jméno a příjmení kolegy:');
+            const email = prompt('Email kolegy:');
+            if (name && email) {
+                alert(`Přidán kolega: ${name} (${email})`);
+            }
+        }
+
+        function addCounterparty() {
+            const name = prompt('Jméno a příjmení další osoby:');
+            const email = prompt('Email další osoby:');
+            if (name && email) {
+                alert(`Přidána další osoba protistrany: ${name} (${email})`);
+            }
+        }
+
+        function sendForSigning() {
+            const counterpartyName = document.getElementById('counterparty-name').value;
+            const counterpartyEmail = document.getElementById('counterparty-email').value;
+            
+            if (!counterpartyName || !counterpartyEmail) {
+                alert('Prosím vyplňte všechny povinné údaje protistrany.');
+                return;
+            }
+            
+            if (confirm(`Odeslat dokument k podpisu pro ${counterpartyName} (${counterpartyEmail})?`)) {
+                alert('Dokument byl odeslán k podpisu!');
+            }
+        }
+
+        function goBack() {
+            if (confirm('Opravdu se chcete vrátit? Neuložené změny budou ztraceny.')) {
+                window.history.back();
+            }
+        }
+
+        function openPdfPreview() {
+            const modal = document.getElementById('pdfModal');
+            const iframe = document.getElementById('pdfFrame');
+            iframe.src = 'Zadání_UX UI_Software602.pdf';
+            modal.style.display = 'flex';
+            event.preventDefault();
+        }
+
+        function closePdfPreview(e) {
+            const modal = document.getElementById('pdfModal');
+            const iframe = document.getElementById('pdfFrame');
+            modal.style.display = 'none';
+            iframe.src = '';
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePdfPreview();
+            }
+        });
+    </script>
+</body>
+</html>
