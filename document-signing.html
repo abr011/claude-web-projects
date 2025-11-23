@@ -559,35 +559,57 @@
         }
 
         function saveCounterparty() {
-            const nameInput = document.getElementById('new-counterparty-name');
-            const emailInput = document.getElementById('new-counterparty-email');
-            const name = nameInput.value.trim();
-            const email = emailInput.value.trim();
-
-            if (!name) {
-                alert('Vyplňte jméno a příjmení');
-                nameInput.focus();
-                return;
-            }
-
-            if (!email || !email.includes('@') || !email.includes('.')) {
-                alert('Zadejte platný email');
-                emailInput.focus();
-                return;
-            }
-
             const savedContainer = document.getElementById('saved-counterparties');
-            const savedPerson = document.createElement('div');
-            savedPerson.className = 'signature-box';
-            savedPerson.style.marginTop = '15px';
-            savedPerson.innerHTML = `
-                <div class="signer-name">${name}</div>
-                <a href="mailto:${email}" class="signer-email">${email}</a>
-            `;
-            savedContainer.appendChild(savedPerson);
 
-            nameInput.value = '';
-            emailInput.value = '';
+            // Original fields
+            const origNameInput = document.getElementById('counterparty-name');
+            const origEmailInput = document.getElementById('counterparty-email');
+            const origName = origNameInput.value.trim();
+            const origEmail = origEmailInput.value.trim();
+
+            // New fields
+            const newNameInput = document.getElementById('new-counterparty-name');
+            const newEmailInput = document.getElementById('new-counterparty-email');
+            const newName = newNameInput.value.trim();
+            const newEmail = newEmailInput.value.trim();
+
+            // Save original if filled
+            if (origName && origEmail) {
+                if (!origEmail.includes('@') || !origEmail.includes('.')) {
+                    alert('Zadejte platný email v prvním poli');
+                    origEmailInput.focus();
+                    return;
+                }
+                const savedPerson = document.createElement('div');
+                savedPerson.className = 'signature-box';
+                savedPerson.style.marginTop = '15px';
+                savedPerson.innerHTML = `
+                    <div class="signer-name">${origName}</div>
+                    <a href="mailto:${origEmail}" class="signer-email">${origEmail}</a>
+                `;
+                savedContainer.appendChild(savedPerson);
+                origNameInput.value = '';
+                origEmailInput.value = '';
+            }
+
+            // Save new if filled
+            if (newName && newEmail) {
+                if (!newEmail.includes('@') || !newEmail.includes('.')) {
+                    alert('Zadejte platný email');
+                    newEmailInput.focus();
+                    return;
+                }
+                const savedPerson = document.createElement('div');
+                savedPerson.className = 'signature-box';
+                savedPerson.style.marginTop = '15px';
+                savedPerson.innerHTML = `
+                    <div class="signer-name">${newName}</div>
+                    <a href="mailto:${newEmail}" class="signer-email">${newEmail}</a>
+                `;
+                savedContainer.appendChild(savedPerson);
+                newNameInput.value = '';
+                newEmailInput.value = '';
+            }
 
             document.getElementById('additional-counterparty').style.display = 'none';
             document.getElementById('add-counterparty-link').textContent = '+ Přidat další osobu u protistrany';
