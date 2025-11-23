@@ -414,18 +414,21 @@
 
             <div class="signature-section">
                 <h2>Podpis protistrany</h2>
-                <div class="signature-box">
-                    <div class="form-group">
-                        <label for="counterparty-name">Jméno a příjmení</label>
-                        <input type="text" id="counterparty-name" placeholder="Jméno a příjmení" style="width: 300px;">
+                <div id="original-counterparty-form">
+                    <div class="signature-box">
+                        <div class="form-group">
+                            <label for="counterparty-name">Jméno a příjmení</label>
+                            <input type="text" id="counterparty-name" placeholder="Jméno a příjmení" style="width: 300px;">
+                        </div>
+                        <div class="form-group">
+                            <label for="counterparty-email">Email</label>
+                            <input type="email" id="counterparty-email" placeholder="email@example.com" style="width: 300px;">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="counterparty-email">Email</label>
-                        <input type="email" id="counterparty-email" placeholder="email@example.com" style="width: 300px;">
-                    </div>
+                    <button onclick="saveCounterparty()" class="save-btn-secondary">Uložit</button>
                 </div>
-                <a href="#" class="add-person" id="add-counterparty-link" onclick="toggleCounterparty()">+ Přidat další osobu u protistrany</a>
                 <div id="saved-counterparties"></div>
+                <a href="#" class="add-person" id="add-counterparty-link" onclick="toggleCounterparty()" style="display: none;">+ Přidat další osobu u protistrany</a>
                 <div id="additional-counterparty" style="display: none; margin-top: 15px;">
                     <div class="signature-box" id="counterparty-form">
                         <div class="form-group">
@@ -438,7 +441,6 @@
                         </div>
                     </div>
                     <button onclick="saveCounterparty()" class="save-btn-secondary">Uložit</button>
-                    <a href="#" class="add-person" onclick="addMoreCounterparty(event)">+ Přidat další osobu</a>
                 </div>
             </div>
 
@@ -611,7 +613,13 @@
                 newEmailInput.value = '';
             }
 
+            // Hide original form if it was used
+            if (origName && origEmail) {
+                document.getElementById('original-counterparty-form').style.display = 'none';
+            }
+
             document.getElementById('additional-counterparty').style.display = 'none';
+            document.getElementById('add-counterparty-link').style.display = 'block';
             document.getElementById('add-counterparty-link').textContent = '+ Přidat další osobu u protistrany';
         }
 
