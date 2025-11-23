@@ -9,23 +9,20 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #f5f5f5;
+            background-color: #fafafa;
             line-height: 1.4;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: #fafafa;
             overflow: hidden;
         }
 
         .header {
-            background: #f8f9fa;
-            padding: 40px 20px 20px 20px;
-            border-bottom: 1px solid #e9ecef;
+            background: #fafafa;
+            padding: 40px 20px 20px 70px;
             position: relative;
         }
 
@@ -37,16 +34,26 @@
             font-size: 12px;
             font-weight: 500;
             position: absolute;
-            right: -5px;
+            left: 0;
             top: -20px;
         }
 
         .title {
             font-size: 28px;
             font-weight: bold;
-            color: #333;
+            color: #1a1a1a;
             margin: 0 0 5px 0;
             position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .seal-icon {
+            display: inline-flex;
+            vertical-align: middle;
+            margin-left: -50px;
+            margin-right: 15px;
         }
 
         .title-container {
@@ -68,7 +75,7 @@
         .title-input {
             font-size: 28px;
             font-weight: bold;
-            color: #333;
+            color: #1a1a1a;
             border: 2px solid #007bff;
             border-radius: 4px;
             padding: 4px 8px;
@@ -123,18 +130,17 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 40px;
-            padding: 30px;
+            padding: 30px 30px 30px 70px;
         }
 
         .signature-section h2 {
             font-size: 20px;
             margin: 0 0 20px 0;
-            color: #333;
+            color: #1a1a1a;
         }
 
         .signature-box {
-            background: #f8f9fa;
-            border: 2px solid #dee2e6;
+            background: #fafafa;
             border-radius: 8px;
             padding: 20px;
             margin: 15px 0;
@@ -144,7 +150,7 @@
             font-size: 18px;
             font-weight: bold;
             margin-bottom: 5px;
-            color: #333;
+            color: #1a1a1a;
         }
 
         .signer-email {
@@ -177,14 +183,14 @@
         .form-group label {
             display: block;
             margin-bottom: 5px;
-            color: #333;
+            color: #1a1a1a;
             font-weight: 500;
         }
 
         .form-group input {
             width: 100%;
             padding: 10px;
-            border: 2px solid #dee2e6;
+            border: 2px solid #e0e0e0;
             border-radius: 4px;
             font-size: 14px;
             box-sizing: border-box;
@@ -210,20 +216,18 @@
         .notes-section {
             grid-column: 1 / -1;
             margin-top: 30px;
-            border-top: 1px solid #e9ecef;
             padding-top: 30px;
         }
 
         .notes-section h2 {
             font-size: 20px;
             margin: 0 0 20px 0;
-            color: #333;
+            color: #1a1a1a;
         }
 
         .footer {
-            padding: 20px 30px;
-            background: #f8f9fa;
-            border-top: 1px solid #e9ecef;
+            padding: 20px 30px 20px 70px;
+            background: #fafafa;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -317,7 +321,7 @@
         }
 
         .modal-close:hover {
-            color: #333;
+            color: #1a1a1a;
         }
 
         .modal-content iframe {
@@ -339,6 +343,25 @@
         <div class="header">
             <div class="title-container">
                 <h1 class="title">
+                    <span class="seal-icon">
+                        <svg width="36" height="36" viewBox="0 0 36 36">
+                            <defs>
+                                <radialGradient id="waxGradient" cx="30%" cy="30%">
+                                    <stop offset="0%" stop-color="#9e9e9e"/>
+                                    <stop offset="50%" stop-color="#757575"/>
+                                    <stop offset="100%" stop-color="#545454"/>
+                                </radialGradient>
+                            </defs>
+                            <!-- Organic wax blob -->
+                            <path d="M18 2 C23 1 26 4 29 6 C32 9 33 13 33 18 C34 23 31 27 28 30 C24 33 20 34 16 33 C11 33 7 30 5 26 C2 22 2 17 3 13 C4 8 8 4 13 2 C15 1 17 2 18 2 Z"
+                                  fill="url(#waxGradient)" stroke="#404040" stroke-width="0.5"/>
+                            <!-- Inner embossed circle -->
+                            <circle cx="18" cy="17" r="10" fill="none" stroke="#404040" stroke-width="1.5" opacity="0.5"/>
+                            <circle cx="18" cy="17" r="7" fill="none" stroke="#404040" stroke-width="1" opacity="0.4"/>
+                            <!-- 602 embossed text -->
+                            <text x="18" y="21" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="bold" font-family="Georgia, serif">602</text>
+                        </svg>
+                    </span>
                     <a href="#" class="title-text" id="title-text" onclick="openPdfPreview()">Zadání_UX UI_Software602</a>
                     <input type="text" class="title-input" id="title-input" style="display: none;" onblur="saveTitleEdit()" onkeydown="handleTitleKeydown(event)">
                     <span class="no-signature-label">bez parafy</span>
