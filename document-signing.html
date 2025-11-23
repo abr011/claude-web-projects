@@ -390,11 +390,6 @@
                         <input type="text" id="doc-type" placeholder="např. NDA" style="width: 300px;">
                     </div>
                 </div>
-                <button onclick="saveDescription()" class="save-btn-secondary">Uložit</button>
-            </div>
-            <div id="description-saved" style="display: none; margin-top: 5px;">
-                <span id="saved-text"></span>
-                <a href="#" class="description" onclick="editSavedDescription()" style="margin-left: 10px;">Upravit</a>
             </div>
             <div style="margin-top: 30px;">
                 <button onclick="addDocuments()" class="save-btn-secondary" style="margin: 0; width: 230px;">+ Přidat další dokumenty</button>
@@ -425,17 +420,7 @@
                     </div>
                 </div>
                 <a href="#" class="add-person" id="add-counterparty-link" onclick="toggleCounterparty()">+ Přidat další osobu u protistrany</a>
-                <div id="additional-counterparty" style="display: none; margin-top: 15px;">
-                    <div class="signature-box">
-                        <div class="form-group">
-                            <label>Jméno a příjmení</label>
-                            <input type="text" placeholder="Jméno a příjmení" style="width: 300px;">
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" placeholder="email@example.com" style="width: 300px;">
-                        </div>
-                    </div>
+                <div id="additional-counterparties">
                 </div>
             </div>
 
@@ -542,17 +527,26 @@
             }
         }
 
+        let counterpartyCount = 0;
+
         function toggleCounterparty() {
             event.preventDefault();
-            const fields = document.getElementById('additional-counterparty');
-            const link = document.getElementById('add-counterparty-link');
-            if (fields.style.display === 'none') {
-                fields.style.display = 'block';
-                link.textContent = '− Skrýt další osobu';
-            } else {
-                fields.style.display = 'none';
-                link.textContent = '+ Přidat další osobu u protistrany';
-            }
+            counterpartyCount++;
+            const container = document.getElementById('additional-counterparties');
+            const newPerson = document.createElement('div');
+            newPerson.className = 'signature-box';
+            newPerson.style.marginTop = '15px';
+            newPerson.innerHTML = `
+                <div class="form-group">
+                    <label>Jméno a příjmení</label>
+                    <input type="text" placeholder="Jméno a příjmení" style="width: 300px;">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="email@example.com" style="width: 300px;">
+                </div>
+            `;
+            container.appendChild(newPerson);
         }
 
         function sendForSigning() {
