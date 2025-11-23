@@ -425,15 +425,16 @@
                     </div>
                 </div>
                 <a href="#" class="add-person" id="add-counterparty-link" onclick="toggleCounterparty()">+ Přidat další osobu u protistrany</a>
+                <div id="saved-counterparties"></div>
                 <div id="additional-counterparty" style="display: none; margin-top: 15px;">
-                    <div class="signature-box">
+                    <div class="signature-box" id="counterparty-form">
                         <div class="form-group">
                             <label>Jméno a příjmení</label>
-                            <input type="text" placeholder="Jméno a příjmení" style="width: 300px;">
+                            <input type="text" id="new-counterparty-name" placeholder="Jméno a příjmení" style="width: 300px;">
                         </div>
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" placeholder="email@example.com" style="width: 300px;">
+                            <input type="email" id="new-counterparty-email" placeholder="email@example.com" style="width: 300px;">
                         </div>
                     </div>
                     <button onclick="saveCounterparty()" class="save-btn-secondary">Uložit</button>
@@ -558,7 +559,38 @@
         }
 
         function saveCounterparty() {
-            // Auto-save koncept - data se ukládají
+            const nameInput = document.getElementById('new-counterparty-name');
+            const emailInput = document.getElementById('new-counterparty-email');
+            const name = nameInput.value.trim();
+            const email = emailInput.value.trim();
+
+            if (!name) {
+                alert('Vyplňte jméno a příjmení');
+                nameInput.focus();
+                return;
+            }
+
+            if (!email || !email.includes('@') || !email.includes('.')) {
+                alert('Zadejte platný email');
+                emailInput.focus();
+                return;
+            }
+
+            const savedContainer = document.getElementById('saved-counterparties');
+            const savedPerson = document.createElement('div');
+            savedPerson.className = 'signature-box';
+            savedPerson.style.marginTop = '15px';
+            savedPerson.innerHTML = `
+                <div class="signer-name">${name}</div>
+                <a href="mailto:${email}" class="signer-email">${email}</a>
+            `;
+            savedContainer.appendChild(savedPerson);
+
+            nameInput.value = '';
+            emailInput.value = '';
+
+            document.getElementById('additional-counterparty').style.display = 'none';
+            document.getElementById('add-counterparty-link').textContent = '+ Přidat další osobu u protistrany';
         }
 
         function addMoreCounterparty(e) {
