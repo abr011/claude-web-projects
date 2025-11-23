@@ -137,9 +137,9 @@
 
         .content {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            padding: 30px 30px 30px 70px;
+            grid-template-columns: auto 1fr;
+            gap: 60px;
+            padding: 30px 30px 30px 20px;
         }
 
         .signature-section h2 {
@@ -387,7 +387,7 @@
                     </div>
                     <div class="form-group" style="margin-bottom: 0;">
                         <label for="doc-type">Typ dokumentu</label>
-                        <input type="text" id="doc-type" placeholder="např. NDA" style="width: 200px;">
+                        <input type="text" id="doc-type" placeholder="např. NDA" style="width: 300px;">
                     </div>
                 </div>
                 <button onclick="saveDescription()" class="save-btn-secondary">Uložit</button>
@@ -417,11 +417,11 @@
                 <div class="signature-box">
                     <div class="form-group">
                         <label for="counterparty-name">Jméno a příjmení</label>
-                        <input type="text" id="counterparty-name" placeholder="Jméno a příjmení" style="width: 200px;">
+                        <input type="text" id="counterparty-name" placeholder="Jméno a příjmení" style="width: 300px;">
                     </div>
                     <div class="form-group">
                         <label for="counterparty-email">Email</label>
-                        <input type="email" id="counterparty-email" placeholder="email@example.com" style="width: 200px;">
+                        <input type="email" id="counterparty-email" placeholder="email@example.com" style="width: 300px;">
                     </div>
                 </div>
                 <a href="#" class="add-person" onclick="addCounterparty()">+ Přidat další osobu u protistrany</a>
