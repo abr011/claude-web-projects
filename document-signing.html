@@ -391,7 +391,7 @@
                 <div style="display: flex; gap: 15px;">
                     <div class="form-group" style="margin-bottom: 0;">
                         <label for="doc-description">Popis dokumentu</label>
-                        <input type="text" id="doc-description" placeholder="Zadejte popis dokumentu" style="width: 600px;">
+                        <input type="text" id="doc-description" style="width: 600px;">
                     </div>
                     <div class="form-group" style="margin-bottom: 0;">
                         <label for="doc-type">Typ dokumentu</label>
@@ -426,11 +426,11 @@
                     <div class="signature-box">
                         <div class="form-group">
                             <label for="counterparty-name">Jméno a příjmení</label>
-                            <input type="text" id="counterparty-name" placeholder="Jméno a příjmení" style="width: 300px;">
+                            <input type="text" id="counterparty-name" style="width: 300px;">
                         </div>
                         <div class="form-group">
                             <label for="counterparty-email">Email</label>
-                            <input type="email" id="counterparty-email" placeholder="email@example.com" style="width: 300px;">
+                            <input type="email" id="counterparty-email" style="width: 300px;">
                         </div>
                     </div>
                 </div>
@@ -440,11 +440,11 @@
                     <div class="signature-box" id="counterparty-form">
                         <div class="form-group">
                             <label>Jméno a příjmení</label>
-                            <input type="text" id="new-counterparty-name" placeholder="Jméno a příjmení" style="width: 300px;">
+                            <input type="text" id="new-counterparty-name" style="width: 300px;">
                         </div>
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" id="new-counterparty-email" placeholder="email@example.com" style="width: 300px;">
+                            <input type="email" id="new-counterparty-email" style="width: 300px;">
                         </div>
                     </div>
                     <button onclick="saveCounterparty()" class="save-btn-secondary">Uložit</button>
@@ -460,13 +460,13 @@
                     <div>
                         <div class="form-group">
                             <label for="internal-note">Interní poznámka</label>
-                            <input type="text" id="internal-note" placeholder="Poznámka viditelná pouze pro vás">
+                            <input type="text" id="internal-note">
                         </div>
                     </div>
                     <div>
                         <div class="form-group">
                             <label for="public-note">Poznámka pro všechny</label>
-                            <input type="text" id="public-note" placeholder="Poznámka viditelná pro všechny">
+                            <input type="text" id="public-note">
                         </div>
                     </div>
                     <div class="form-group">
