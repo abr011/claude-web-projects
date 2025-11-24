@@ -243,8 +243,14 @@
         .footer {
             padding: 40px 30px 20px 70px;
             display: flex;
-            justify-content: space-between;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
             align-items: center;
+            gap: 30px;
+        }
+
+        .footer .back-link {
+            margin-left: -40px;
         }
 
         .back-link {
