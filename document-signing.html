@@ -20,9 +20,9 @@
         }
 
         .page-title {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 400;
-            color: #888;
+            color: #999;
             margin: 0 0 30px 70px;
         }
 
@@ -138,9 +138,20 @@
         }
 
         .signature-section h2 {
-            font-size: 14px;
-            font-weight: 600;
+            font-size: 15px;
+            font-weight: 500;
             margin: 0 0 12px 0;
+            color: #555;
+        }
+
+        .section-header-link {
+            font-size: 15px;
+            font-weight: 500;
+            color: #555;
+            text-decoration: none;
+        }
+
+        .section-header-link:hover {
             color: #1a1a1a;
         }
 
@@ -467,7 +478,7 @@
         </div>
 
         <div class="notes-section">
-            <a href="#" class="description" id="notes-link" onclick="toggleNotes()" style="font-size: 16px; font-weight: 500;">+ Poznámky a přístupy k dokumentu</a>
+            <a href="#" class="section-header-link" id="notes-link" onclick="toggleNotes()">+ Poznámky a přístupy k dokumentu</a>
             <div id="notes-content" style="display: none; margin-top: 20px;">
                 <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 80px;">
                     <div>
