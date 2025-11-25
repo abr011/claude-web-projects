@@ -458,6 +458,35 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="sendingModal" onclick="closeSendingModal(event)">
+        <div class="access-modal-content" onclick="event.stopPropagation()">
+            <span class="modal-close" onclick="closeSendingModal()">&times;</span>
+            <h2 style="margin: 0 0 30px 0; font-size: 22px;">Kdy odeslat dokument k podepsání</h2>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 20px;">
+                <div class="access-option" onclick="selectSendingMethod('immediately')">
+                    <h3>Hned</h3>
+                    <p>Dokument se odešle okamžitě bez další kontroly. Vhodné pro běžné dokumenty, kde není potřeba další schvalování.</p>
+                </div>
+
+                <div class="access-option" onclick="selectSendingMethod('colleagues')">
+                    <h3>Až podepíší kolegové</h3>
+                    <p>Kontrola 4 a více očí - dokument se odešle až po podpisu všech určených kolegů. Zajistí, že dokument prošel interní kontrolou.</p>
+                </div>
+
+                <div class="access-option" onclick="selectSendingMethod('approval')">
+                    <h3>Až po kontrole a po schválení</h3>
+                    <p>Dokument musí projít kontrolou a následně být schválen odpovědnou osobou před odesláním. Nejvyšší stupeň kontroly.</p>
+                </div>
+
+                <div class="access-option" onclick="selectSendingMethod('complex')">
+                    <h3>Složitější scénář</h3>
+                    <p>Nastavte vlastní workflow s více kroky, podmínkami a schvalovacími procesy. Pro specifické firemní postupy.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <h2 class="page-title">Podepisování dokumentu - protistrana</h2>
         <div class="header">
@@ -522,8 +551,8 @@
                 <div id="saved-colleagues"></div>
                 <a href="#" class="add-colleague" id="add-colleague-link" onclick="toggleColleague()">+ Přidat kolegu – spolupodepisuje</a>
                 <div id="colleague-message" style="display: none; margin-top: 20px; font-size: 13px; color: #666;">
-                    Dokument odešleme,<br>až podepíší kolegové
-                    <a href="#" class="description" onclick="event.preventDefault(); alert('Změnit nastavení');">změnit</a>
+                    <span id="sending-summary">Dokument odešleme,<br>až podepíší kolegové</span>
+                    <a href="#" class="description" onclick="event.preventDefault(); openSendingModal();">změnit</a>
                 </div>
                 <div id="additional-colleague" style="display: none; margin-top: 15px;">
                     <div class="signature-box">
@@ -1047,6 +1076,39 @@
 
             // TODO: Show appropriate UI for the selected method
             alert('Vybrali jste metodu: ' + method + '\nZde se zobrazí příslušné rozhraní pro nastavení.');
+        }
+
+        function openSendingModal() {
+            const modal = document.getElementById('sendingModal');
+            modal.style.display = 'flex';
+        }
+
+        function closeSendingModal(e) {
+            const modal = document.getElementById('sendingModal');
+            modal.style.display = 'none';
+        }
+
+        function selectSendingMethod(method) {
+            const summary = document.getElementById('sending-summary');
+
+            let summaryText = '';
+            if (method === 'immediately') {
+                summaryText = 'Dokument se odešle hned';
+            } else if (method === 'colleagues') {
+                summaryText = 'Dokument odešleme,<br>až podepíší kolegové';
+            } else if (method === 'approval') {
+                summaryText = 'Dokument odešleme až po kontrole a schválení';
+            } else if (method === 'complex') {
+                summaryText = 'Dokument má nastavený složitější scénář odesílání';
+            }
+
+            summary.innerHTML = summaryText;
+            closeSendingModal();
+
+            // TODO: Show appropriate UI for the selected method
+            if (method !== 'colleagues') {
+                alert('Vybrali jste metodu: ' + method + '\nZde se zobrazí příslušné rozhraní pro nastavení.');
+            }
         }
 
         function toggleNotesSettings() {
