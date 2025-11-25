@@ -460,6 +460,10 @@
                 </div>
                 <div id="saved-colleagues"></div>
                 <a href="#" class="add-colleague" id="add-colleague-link" onclick="toggleColleague()">+ Přidat kolegu – spolupodepisuje</a>
+                <div id="colleague-message" style="display: none; margin-top: 12px; font-size: 13px; color: #666;">
+                    Dokument odešleme až podepíší všichni na naší straně
+                    <a href="#" class="description" onclick="event.preventDefault(); alert('Změnit nastavení');">změnit</a>
+                </div>
                 <div id="additional-colleague" style="display: none; margin-top: 15px;">
                     <div class="signature-box">
                         <div class="form-group">
@@ -644,6 +648,15 @@
             }
         }
 
+        function removeColleague(element) {
+            element.parentElement.parentElement.remove();
+            // Check if there are any colleagues left
+            const savedContainer = document.getElementById('saved-colleagues');
+            if (savedContainer.children.length === 0) {
+                document.getElementById('colleague-message').style.display = 'none';
+            }
+        }
+
         function saveColleague() {
             const savedContainer = document.getElementById('saved-colleagues');
             const nameInput = document.getElementById('colleague-name');
@@ -668,13 +681,9 @@
             savedPerson.innerHTML = `
                 <div class="signer-name">
                     ${name}
-                    <span class="remove-person" onclick="this.parentElement.parentElement.remove()" title="Odstranit osobu">&times;</span>
+                    <span class="remove-person" onclick="removeColleague(this)" title="Odstranit osobu">&times;</span>
                 </div>
                 <a href="mailto:${email}" class="signer-email">${email}</a>
-                <div style="margin-top: 8px; font-size: 13px; color: #666;">
-                    Dokument protistraně zašleme až podepíše i kolega.
-                    <a href="#" class="description" onclick="event.preventDefault(); alert('Změnit nastavení');">změnit</a>
-                </div>
             `;
             savedContainer.appendChild(savedPerson);
             nameInput.value = '';
@@ -682,6 +691,9 @@
 
             document.getElementById('additional-colleague').style.display = 'none';
             document.getElementById('add-colleague-link').textContent = '+ Přidat kolegu – spolupodepisuje';
+
+            // Show the message
+            document.getElementById('colleague-message').style.display = 'block';
         }
 
         function toggleCounterparty() {
