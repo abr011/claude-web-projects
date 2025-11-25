@@ -671,6 +671,10 @@
                     <span class="remove-person" onclick="this.parentElement.parentElement.remove()" title="Odstranit osobu">&times;</span>
                 </div>
                 <a href="mailto:${email}" class="signer-email">${email}</a>
+                <div style="margin-top: 8px; font-size: 13px; color: #666;">
+                    Dokument protistraně zašleme až podepíše i kolega.
+                    <a href="#" class="description" onclick="event.preventDefault(); alert('Změnit nastavení');">změnit</a>
+                </div>
             `;
             savedContainer.appendChild(savedPerson);
             nameInput.value = '';
