@@ -525,22 +525,22 @@
                 <div id="access-settings" style="display: none; margin-top: 12px;">
                     <div class="form-group">
                         <label class="field-label">Kdo bude mít přístup k dokumentu</label>
-                        <div style="margin-top: 8px;">
-                            <label class="radio-label" style="display: block; margin-bottom: 6px;">
-                                <input type="radio" name="document-access" value="signers" checked>
+                        <div style="margin-top: 8px; display: flex; gap: 20px; flex-wrap: wrap;">
+                            <label class="radio-label">
+                                <input type="radio" name="document-access" value="signers" checked onchange="showAccessCheckbox()">
                                 ti, co podepsali
                             </label>
-                            <label class="radio-label" style="display: block; margin-bottom: 6px;">
-                                <input type="radio" name="document-access" value="all">
+                            <label class="radio-label">
+                                <input type="radio" name="document-access" value="all" onchange="showAccessCheckbox()">
                                 všichni
                             </label>
-                            <label class="radio-label" style="display: block; margin-bottom: 6px;">
-                                <input type="radio" name="document-access" value="custom">
+                            <label class="radio-label">
+                                <input type="radio" name="document-access" value="custom" onchange="showAccessCheckbox()">
                                 nastavit podrobně
                             </label>
                         </div>
                     </div>
-                    <div style="margin-top: 8px;">
+                    <div id="access-default-wrapper" style="display: none; margin-top: 12px;">
                         <label class="radio-label">
                             <input type="checkbox" id="access-default">
                             nastavit jako výchozí
@@ -894,11 +894,18 @@
             event.preventDefault();
             const summary = document.getElementById('access-summary');
             const settings = document.getElementById('access-settings');
+            const checkboxWrapper = document.getElementById('access-default-wrapper');
 
             if (settings.style.display === 'none') {
                 summary.style.display = 'none';
                 settings.style.display = 'block';
+                checkboxWrapper.style.display = 'none'; // Hide checkbox when opening
             }
+        }
+
+        function showAccessCheckbox() {
+            const checkboxWrapper = document.getElementById('access-default-wrapper');
+            checkboxWrapper.style.display = 'block';
         }
 
         function saveAccessSettings() {
