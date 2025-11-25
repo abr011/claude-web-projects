@@ -1087,6 +1087,32 @@
             }
         }
 
+        function validateEmail(email) {
+            return email.includes('@') && email.includes('.');
+        }
+
+        function checkCounterpartyFields() {
+            const nameInput = document.getElementById('counterparty-name');
+            const emailInput = document.getElementById('counterparty-email');
+
+            if (!nameInput || !emailInput) return;
+
+            const name = nameInput.value.trim();
+            const email = emailInput.value.trim();
+
+            // If both fields are filled and email is valid, change button text
+            if (name && email && validateEmail(email)) {
+                document.getElementById('main-action-btn').textContent = 'Odeslat k podepsání';
+            } else {
+                // Only reset if there are no saved colleagues or counterparties
+                const savedColleagues = document.getElementById('saved-colleagues');
+                const savedCounterparties = document.getElementById('saved-counterparties');
+                if (savedColleagues.children.length === 0 && savedCounterparties.children.length === 0) {
+                    document.getElementById('main-action-btn').textContent = 'Uložit a stáhnout';
+                }
+            }
+        }
+
         // Add Enter key support to all existing inputs
         document.addEventListener('DOMContentLoaded', function() {
             // Colleague inputs
@@ -1103,15 +1129,17 @@
                 });
             }
 
-            // Counterparty inputs
+            // Counterparty inputs with real-time validation
             const counterpartyNameInput = document.getElementById('counterparty-name');
             const counterpartyEmailInput = document.getElementById('counterparty-email');
             if (counterpartyNameInput) {
+                counterpartyNameInput.addEventListener('input', checkCounterpartyFields);
                 counterpartyNameInput.addEventListener('keydown', function(e) {
                     if (e.key === 'Enter') saveCounterparty();
                 });
             }
             if (counterpartyEmailInput) {
+                counterpartyEmailInput.addEventListener('input', checkCounterpartyFields);
                 counterpartyEmailInput.addEventListener('keydown', function(e) {
                     if (e.key === 'Enter') saveCounterparty();
                 });
