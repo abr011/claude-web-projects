@@ -595,10 +595,8 @@
                                 <input type="radio" name="document-access" value="all" onchange="showAccessCheckbox()" style="width: auto;">
                                 všichni
                             </label>
-                            <label style="display: inline-block; cursor: pointer;">
-                                <input type="radio" name="document-access" value="custom" onchange="openAccessModal()" style="width: auto;">
-                                nastavit podrobně
-                            </label>
+                            <span style="color: #666; margin-right: 8px;">nebo</span>
+                            <a href="#" class="description" onclick="event.preventDefault(); openAccessModal();" style="font-size: 16px;">nastavit podrobně</a>
                         </div>
                     </div>
                     <div id="access-default-wrapper" style="display: none; margin-top: 12px;">
