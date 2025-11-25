@@ -575,9 +575,24 @@
 
         <div class="notes-section">
             <div style="font-size: 14px; color: #666; line-height: 1.6;">
-                <div style="margin-bottom: 8px;">
+                <div id="notes-summary" style="margin-bottom: 8px;">
                     U dokumentu není ani interní poznámka (jen pro nás) ani poznámka viditelná pro všechny
-                    <a href="#" class="description" onclick="event.preventDefault(); alert('Změnit poznámky');">změnit</a>
+                    <a href="#" class="description" onclick="toggleNotesSettings()">změnit</a>
+                </div>
+                <div id="notes-settings" style="display: none; margin-top: 12px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                        <div class="form-group">
+                            <label for="internal-note">Interní poznámka</label>
+                            <input type="text" id="internal-note" onkeydown="handleNotesKeydown(event)" style="width: 100%;">
+                            <div class="additional-note" style="margin-top: 5px;">Zobrazí se pouze osobám na naší straně</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="public-note">Veřejná poznámka</label>
+                            <input type="text" id="public-note" onkeydown="handleNotesKeydown(event)" style="width: 100%;">
+                            <div class="additional-note" style="margin-top: 5px;">Uvidí ji i protistrana</div>
+                        </div>
+                    </div>
+                    <button onclick="saveNotesSettings()" class="save-btn-secondary" style="margin-top: 12px;">Uložit</button>
                 </div>
                 <div id="access-summary">
                     Dokument bude přístupný jen těm, kteří ho podepsali
@@ -1023,6 +1038,90 @@
             // TODO: Show appropriate UI for the selected method
             alert('Vybrali jste metodu: ' + method + '\nZde se zobrazí příslušné rozhraní pro nastavení.');
         }
+
+        function toggleNotesSettings() {
+            event.preventDefault();
+            const summary = document.getElementById('notes-summary');
+            const settings = document.getElementById('notes-settings');
+
+            if (settings.style.display === 'none') {
+                summary.style.display = 'none';
+                settings.style.display = 'block';
+            }
+        }
+
+        function saveNotesSettings() {
+            const summary = document.getElementById('notes-summary');
+            const settings = document.getElementById('notes-settings');
+            const internalNote = document.getElementById('internal-note').value.trim();
+            const publicNote = document.getElementById('public-note').value.trim();
+
+            let summaryText = '';
+            if (!internalNote && !publicNote) {
+                summaryText = 'U dokumentu není ani interní poznámka (jen pro nás) ani poznámka viditelná pro všechny';
+            } else if (internalNote && !publicNote) {
+                summaryText = 'Dokument má pouze interní poznámku';
+            } else if (!internalNote && publicNote) {
+                summaryText = 'Dokument má pouze veřejnou poznámku';
+            } else {
+                summaryText = 'Dokument má interní i veřejnou poznámku';
+            }
+
+            summary.innerHTML = summaryText + ' <a href="#" class="description" onclick="toggleNotesSettings()">změnit</a>';
+            settings.style.display = 'none';
+            summary.style.display = 'block';
+        }
+
+        function handleNotesKeydown(event) {
+            if (event.key === 'Enter') {
+                saveNotesSettings();
+            }
+        }
+
+        // Add Enter key support to all existing inputs
+        document.addEventListener('DOMContentLoaded', function() {
+            // Colleague inputs
+            const colleagueNameInput = document.getElementById('colleague-name');
+            const colleagueEmailInput = document.getElementById('colleague-email');
+            if (colleagueNameInput) {
+                colleagueNameInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') saveColleague();
+                });
+            }
+            if (colleagueEmailInput) {
+                colleagueEmailInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') saveColleague();
+                });
+            }
+
+            // Counterparty inputs
+            const counterpartyNameInput = document.getElementById('counterparty-name');
+            const counterpartyEmailInput = document.getElementById('counterparty-email');
+            if (counterpartyNameInput) {
+                counterpartyNameInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') saveCounterparty();
+                });
+            }
+            if (counterpartyEmailInput) {
+                counterpartyEmailInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') saveCounterparty();
+                });
+            }
+
+            // Description inputs
+            const docDescriptionInput = document.getElementById('doc-description');
+            const docTypeInput = document.getElementById('doc-type');
+            if (docDescriptionInput) {
+                docDescriptionInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') saveDescription();
+                });
+            }
+            if (docTypeInput) {
+                docTypeInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') saveDescription();
+                });
+            }
+        });
     </script>
 </body>
 </html>
