@@ -514,6 +514,13 @@
 
         <div class="notes-section">
             <a href="#" class="section-header-link" id="notes-link" onclick="toggleNotes()">+ Poznámky a přístupy k dokumentu</a>
+            <div id="notes-summary" style="margin-top: 12px; font-size: 14px; color: #666; line-height: 1.6;">
+                <div>U dokumentu není ani interní poznámka (jen pro nás) ani poznámka viditelná pro všechny</div>
+                <div style="margin-top: 6px;">
+                    Dokument bude přístupný jen těm, kteří ho podepsali
+                    <a href="#" class="description" onclick="event.preventDefault(); alert('Změnit nastavení');" style="margin-left: 6px;">změnit</a>
+                </div>
+            </div>
             <div id="notes-content" style="display: none; margin-top: 20px;">
                 <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 80px;">
                     <div>
@@ -842,12 +849,15 @@
         function toggleNotes() {
             event.preventDefault();
             const content = document.getElementById('notes-content');
+            const summary = document.getElementById('notes-summary');
             const link = document.getElementById('notes-link');
             if (content.style.display === 'none') {
                 content.style.display = 'block';
+                summary.style.display = 'none';
                 link.textContent = '− Poznámky a přístupy k dokumentu';
             } else {
                 content.style.display = 'none';
+                summary.style.display = 'block';
                 link.textContent = '+ Poznámky a přístupy k dokumentu';
             }
         }
