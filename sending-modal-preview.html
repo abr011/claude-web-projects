@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal - Kdy odeslat dokument</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+        }
+
+        .modal-overlay {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .access-modal-content {
+            background: white;
+            max-width: 1100px;
+            width: 90%;
+            border-radius: 8px;
+            position: relative;
+            padding: 40px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 30px;
+            color: #666;
+            cursor: pointer;
+            z-index: 1001;
+            background: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .modal-close:hover {
+            color: #1a1a1a;
+        }
+
+        .access-option {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: border-color 0.2s, background-color 0.2s;
+        }
+
+        .access-option:hover {
+            border-color: #007bff;
+            background-color: #f8f9fa;
+        }
+
+        .access-option h3 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .access-option p {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-overlay">
+        <div class="access-modal-content">
+            <span class="modal-close">&times;</span>
+            <h2 style="margin: 0 0 30px 0; font-size: 22px;">Kdy odeslat dokument k podepsání</h2>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 20px;">
+                <div class="access-option">
+                    <h3>Hned</h3>
+                    <p>Dokument se odešle okamžitě bez další kontroly. Vhodné pro běžné dokumenty, kde není potřeba další schvalování.</p>
+                </div>
+
+                <div class="access-option" style="background-color: #e3f2fd; border-color: #007bff;">
+                    <h3>Až podepíší kolegové</h3>
+                    <p>Kontrola 4 a více očí - dokument se odešle až po podpisu všech určených kolegů. Zajistí, že dokument prošel interní kontrolou.</p>
+                    <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #007bff;">
+                        <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">Vybraný kolega:</div>
+                        <div style="font-size: 14px;">Jan Novák</div>
+                        <div style="font-size: 13px; color: #666;">jan.novak@example.com</div>
+                    </div>
+                </div>
+
+                <div class="access-option">
+                    <h3>Až po kontrole a po schválení</h3>
+                    <p>Dokument musí projít kontrolou a následně být schválen odpovědnou osobou před odesláním. Nejvyšší stupeň kontroly.</p>
+                </div>
+
+                <div class="access-option">
+                    <h3>Složitější scénář</h3>
+                    <p>Nastavte vlastní workflow s více kroky, podmínkami a schvalovacími procesy. Pro specifické firemní postupy.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
