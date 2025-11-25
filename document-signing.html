@@ -551,6 +551,7 @@
                         <div class="form-group">
                             <label for="counterparty-email">Email</label>
                             <input type="email" id="counterparty-email" style="width: 300px;">
+                            <div id="email-error" style="display: none; color: #d32f2f; font-size: 12px; margin-top: 4px;">Zadejte platnou emailovou adresu</div>
                         </div>
                     </div>
                 </div>
@@ -1113,6 +1114,24 @@
             }
         }
 
+        function validateCounterpartyEmail() {
+            const emailInput = document.getElementById('counterparty-email');
+            const errorDiv = document.getElementById('email-error');
+
+            if (!emailInput || !errorDiv) return;
+
+            const email = emailInput.value.trim();
+
+            // Only validate if user entered something
+            if (email && !validateEmail(email)) {
+                errorDiv.style.display = 'block';
+                emailInput.style.borderColor = '#d32f2f';
+            } else {
+                errorDiv.style.display = 'none';
+                emailInput.style.borderColor = '#ddd';
+            }
+        }
+
         // Add Enter key support to all existing inputs
         document.addEventListener('DOMContentLoaded', function() {
             // Colleague inputs
@@ -1140,6 +1159,7 @@
             }
             if (counterpartyEmailInput) {
                 counterpartyEmailInput.addEventListener('input', checkCounterpartyFields);
+                counterpartyEmailInput.addEventListener('blur', validateCounterpartyEmail);
                 counterpartyEmailInput.addEventListener('keydown', function(e) {
                     if (e.key === 'Enter') saveCounterparty();
                 });
