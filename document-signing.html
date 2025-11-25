@@ -387,6 +387,42 @@
             height: 100%;
             border: none;
         }
+
+        .access-modal-content {
+            background: white;
+            max-width: 600px;
+            border-radius: 8px;
+            position: relative;
+            padding: 40px;
+        }
+
+        .access-option {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: border-color 0.2s, background-color 0.2s;
+        }
+
+        .access-option:hover {
+            border-color: #007bff;
+            background-color: #f8f9fa;
+        }
+
+        .access-option h3 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .access-option p {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
@@ -394,6 +430,25 @@
         <div class="modal-content" onclick="event.stopPropagation()">
             <span class="modal-close" onclick="closePdfPreview()">&times;</span>
             <iframe id="pdfFrame" src=""></iframe>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="accessModal" onclick="closeAccessModal(event)">
+        <div class="access-modal-content" onclick="event.stopPropagation()">
+            <span class="modal-close" onclick="closeAccessModal()">&times;</span>
+            <h2 style="margin: 0 0 30px 0; font-size: 22px;">Jak nastavit přístup k dokumentu</h2>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="access-option" onclick="selectAccessMethod('custom')">
+                    <h3>Skupina lidí dle vlastní volby</h3>
+                    <p>Vytvoříte si vlastní skupinu osob a přiřadíte ji k dokumentu. Můžete si nadefinovat jakoukoliv kombinaci lidí pro konkrétní účel.</p>
+                </div>
+
+                <div class="access-option" onclick="selectAccessMethod('organizational')">
+                    <h3>Typické organizační složky</h3>
+                    <p>Použijete předdefinované skupiny podle organizační struktury (např. "Vedení", "Účetní", "IT oddělení"). Standardní nastavení pro běžné firemní procesy.</p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -535,7 +590,7 @@
                                 všichni
                             </label>
                             <label style="display: inline-block; cursor: pointer;">
-                                <input type="radio" name="document-access" value="custom" onchange="showAccessCheckbox()" style="width: auto;">
+                                <input type="radio" name="document-access" value="custom" onchange="openAccessModal()" style="width: auto;">
                                 nastavit podrobně
                             </label>
                         </div>
@@ -929,6 +984,38 @@
             // Hide settings, show summary
             settings.style.display = 'none';
             summary.style.display = 'block';
+        }
+
+        function openAccessModal() {
+            const modal = document.getElementById('accessModal');
+            modal.style.display = 'flex';
+        }
+
+        function closeAccessModal(e) {
+            const modal = document.getElementById('accessModal');
+            modal.style.display = 'none';
+        }
+
+        function selectAccessMethod(method) {
+            // Handle the selected access method
+            const summary = document.getElementById('access-summary');
+            const settings = document.getElementById('access-settings');
+
+            let summaryText = '';
+            if (method === 'custom') {
+                summaryText = 'Dokument má nastavený přístup pro vlastní skupinu';
+            } else if (method === 'organizational') {
+                summaryText = 'Dokument má nastavený přístup dle organizační struktury';
+            }
+
+            summary.innerHTML = summaryText + ' <a href="#" class="description" onclick="toggleAccessSettings()">změnit</a>';
+            settings.style.display = 'none';
+            summary.style.display = 'block';
+
+            closeAccessModal();
+
+            // TODO: Show appropriate UI for the selected method
+            alert('Vybrali jste metodu: ' + method + '\nZde se zobrazí příslušné rozhraní pro nastavení.');
         }
     </script>
 </body>
