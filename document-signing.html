@@ -1158,8 +1158,17 @@
                 });
             }
             if (counterpartyEmailInput) {
-                counterpartyEmailInput.addEventListener('input', checkCounterpartyFields);
-                counterpartyEmailInput.addEventListener('blur', validateCounterpartyEmail);
+                counterpartyEmailInput.addEventListener('input', function() {
+                    checkCounterpartyFields();
+                    // Also validate on input after first blur
+                    if (counterpartyEmailInput.dataset.touched === 'true') {
+                        validateCounterpartyEmail();
+                    }
+                });
+                counterpartyEmailInput.addEventListener('blur', function() {
+                    counterpartyEmailInput.dataset.touched = 'true';
+                    validateCounterpartyEmail();
+                });
                 counterpartyEmailInput.addEventListener('keydown', function(e) {
                     if (e.key === 'Enter') saveCounterparty();
                 });
