@@ -518,9 +518,35 @@
                     U dokumentu není ani interní poznámka (jen pro nás) ani poznámka viditelná pro všechny
                     <a href="#" class="description" onclick="event.preventDefault(); alert('Změnit poznámky');">změnit</a>
                 </div>
-                <div>
+                <div id="access-summary">
                     Dokument bude přístupný jen těm, kteří ho podepsali
-                    <a href="#" class="description" onclick="event.preventDefault(); alert('Změnit přístup');">změnit</a>
+                    <a href="#" class="description" onclick="toggleAccessSettings()">změnit</a>
+                </div>
+                <div id="access-settings" style="display: none; margin-top: 12px;">
+                    <div class="form-group">
+                        <label class="field-label">Kdo bude mít přístup k dokumentu</label>
+                        <div style="margin-top: 8px;">
+                            <label class="radio-label" style="display: block; margin-bottom: 6px;">
+                                <input type="radio" name="document-access" value="signers" checked>
+                                ti, co podepsali
+                            </label>
+                            <label class="radio-label" style="display: block; margin-bottom: 6px;">
+                                <input type="radio" name="document-access" value="all">
+                                všichni
+                            </label>
+                            <label class="radio-label" style="display: block; margin-bottom: 6px;">
+                                <input type="radio" name="document-access" value="custom">
+                                nastavit podrobně
+                            </label>
+                        </div>
+                    </div>
+                    <div style="margin-top: 8px;">
+                        <label class="radio-label">
+                            <input type="checkbox" id="access-default">
+                            nastavit jako výchozí
+                        </label>
+                    </div>
+                    <button onclick="saveAccessSettings()" class="save-btn-secondary" style="margin-top: 12px;">Uložit</button>
                 </div>
             </div>
             <div id="notes-content" style="display: none; margin-top: 20px;">
@@ -862,6 +888,40 @@
                 summary.style.display = 'block';
                 link.textContent = '+ Poznámky a přístupy k dokumentu';
             }
+        }
+
+        function toggleAccessSettings() {
+            event.preventDefault();
+            const summary = document.getElementById('access-summary');
+            const settings = document.getElementById('access-settings');
+
+            if (settings.style.display === 'none') {
+                summary.style.display = 'none';
+                settings.style.display = 'block';
+            }
+        }
+
+        function saveAccessSettings() {
+            const summary = document.getElementById('access-summary');
+            const settings = document.getElementById('access-settings');
+            const selectedRadio = document.querySelector('input[name="document-access"]:checked');
+
+            let summaryText = '';
+            if (selectedRadio.value === 'signers') {
+                summaryText = 'Dokument bude přístupný jen těm, kteří ho podepsali';
+            } else if (selectedRadio.value === 'all') {
+                summaryText = 'Dokument bude přístupný všem';
+            } else if (selectedRadio.value === 'custom') {
+                // TODO: Handle custom access settings UI
+                summaryText = 'Dokument má nastavený vlastní přístup';
+            }
+
+            // Update summary text
+            summary.innerHTML = summaryText + ' <a href="#" class="description" onclick="toggleAccessSettings()">změnit</a>';
+
+            // Hide settings, show summary
+            settings.style.display = 'none';
+            summary.style.display = 'block';
         }
     </script>
 </body>
