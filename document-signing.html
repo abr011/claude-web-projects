@@ -513,12 +513,14 @@
         </div>
 
         <div class="notes-section">
-            <a href="#" class="section-header-link" id="notes-link" onclick="toggleNotes()">+ Poznámky a přístupy k dokumentu</a>
-            <div id="notes-summary" style="margin-top: 12px; font-size: 14px; color: #666; line-height: 1.6;">
-                <div>U dokumentu není ani interní poznámka (jen pro nás) ani poznámka viditelná pro všechny</div>
-                <div style="margin-top: 6px;">
+            <div style="font-size: 14px; color: #666; line-height: 1.6;">
+                <div style="margin-bottom: 8px;">
+                    U dokumentu není ani interní poznámka (jen pro nás) ani poznámka viditelná pro všechny
+                    <a href="#" class="description" onclick="event.preventDefault(); alert('Změnit poznámky');">změnit</a>
+                </div>
+                <div>
                     Dokument bude přístupný jen těm, kteří ho podepsali
-                    <a href="#" class="description" onclick="event.preventDefault(); alert('Změnit nastavení');" style="margin-left: 6px;">změnit</a>
+                    <a href="#" class="description" onclick="event.preventDefault(); alert('Změnit přístup');">změnit</a>
                 </div>
             </div>
             <div id="notes-content" style="display: none; margin-top: 20px;">
