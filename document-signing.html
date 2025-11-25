@@ -166,6 +166,22 @@
             font-weight: 600;
             margin-bottom: 4px;
             color: #1a1a1a;
+            position: relative;
+        }
+
+        .remove-person {
+            display: inline-block;
+            margin-left: 8px;
+            color: #999;
+            cursor: pointer;
+            font-size: 20px;
+            line-height: 1;
+            font-weight: normal;
+            transition: color 0.15s;
+        }
+
+        .remove-person:hover {
+            color: #d32f2f;
         }
 
         .signer-email {
@@ -647,8 +663,12 @@
                 const savedPerson = document.createElement('div');
                 savedPerson.className = 'signature-box';
                 savedPerson.style.marginTop = '15px';
+                savedPerson.style.position = 'relative';
                 savedPerson.innerHTML = `
-                    <div class="signer-name">${origName}</div>
+                    <div class="signer-name">
+                        ${origName}
+                        <span class="remove-person" onclick="this.parentElement.parentElement.remove()" title="Odstranit osobu">&times;</span>
+                    </div>
                     <a href="mailto:${origEmail}" class="signer-email">${origEmail}</a>
                 `;
                 savedContainer.appendChild(savedPerson);
@@ -666,8 +686,12 @@
                 const savedPerson = document.createElement('div');
                 savedPerson.className = 'signature-box';
                 savedPerson.style.marginTop = '15px';
+                savedPerson.style.position = 'relative';
                 savedPerson.innerHTML = `
-                    <div class="signer-name">${newName}</div>
+                    <div class="signer-name">
+                        ${newName}
+                        <span class="remove-person" onclick="this.parentElement.parentElement.remove()" title="Odstranit osobu">&times;</span>
+                    </div>
                     <a href="mailto:${newEmail}" class="signer-email">${newEmail}</a>
                 `;
                 savedContainer.appendChild(savedPerson);
