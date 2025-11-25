@@ -1061,11 +1061,11 @@
             if (!internalNote && !publicNote) {
                 summaryText = 'U dokumentu není ani interní poznámka (jen pro nás) ani poznámka viditelná pro všechny';
             } else if (internalNote && !publicNote) {
-                summaryText = 'Interní poznámka: ' + internalNote;
+                summaryText = 'Interní poznámka: <em>' + internalNote + '</em>';
             } else if (!internalNote && publicNote) {
-                summaryText = 'Veřejná poznámka: ' + publicNote;
+                summaryText = 'Veřejná poznámka: <em>' + publicNote + '</em>';
             } else {
-                summaryText = 'Interní poznámka: ' + internalNote + ' | Veřejná poznámka: ' + publicNote;
+                summaryText = 'Interní poznámka: <em>' + internalNote + '</em> | Veřejná poznámka: <em>' + publicNote + '</em>';
             }
 
             summary.innerHTML = summaryText + ' <a href="#" class="description" onclick="toggleNotesSettings()">změnit</a>';
