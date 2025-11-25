@@ -526,18 +526,9 @@
                     <div class="form-group">
                         <label class="field-label">Kdo bude mít přístup k dokumentu</label>
                         <div style="display: flex; gap: 20px; font-size: 16px;">
-                            <label class="radio-label">
-                                <input type="radio" name="document-access" value="signers" checked onchange="showAccessCheckbox()">
-                                ti, kteří ho podepsali
-                            </label>
-                            <label class="radio-label">
-                                <input type="radio" name="document-access" value="all" onchange="showAccessCheckbox()">
-                                všichni
-                            </label>
-                            <label class="radio-label">
-                                <input type="radio" name="document-access" value="custom" onchange="showAccessCheckbox()">
-                                nastavit podrobně
-                            </label>
+                            <label class="radio-label"><input type="radio" name="document-access" value="signers" checked onchange="showAccessCheckbox()"> ti, kteří ho podepsali</label>
+                            <label class="radio-label"><input type="radio" name="document-access" value="all" onchange="showAccessCheckbox()"> všichni</label>
+                            <label class="radio-label"><input type="radio" name="document-access" value="custom" onchange="showAccessCheckbox()"> nastavit podrobně</label>
                         </div>
                     </div>
                     <div id="access-default-wrapper" style="display: none; margin-top: 12px;">
