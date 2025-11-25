@@ -438,7 +438,7 @@
             <span class="modal-close" onclick="closeAccessModal()">&times;</span>
             <h2 style="margin: 0 0 30px 0; font-size: 22px;">Jak nastavit přístup k dokumentu</h2>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
                 <div class="access-option" onclick="selectAccessMethod('custom')">
                     <h3>Skupina lidí dle vlastní volby</h3>
                     <p>Vytvoříte si vlastní skupinu osob a přiřadíte ji k dokumentu. Můžete si nadefinovat jakoukoliv kombinaci lidí pro konkrétní účel.</p>
@@ -447,6 +447,11 @@
                 <div class="access-option" onclick="selectAccessMethod('organizational')">
                     <h3>Typické organizační složky</h3>
                     <p>Použijete předdefinované skupiny podle organizační struktury (např. "Vedení", "Účetní", "IT oddělení"). Standardní nastavení pro běžné firemní procesy.</p>
+                </div>
+
+                <div class="access-option" onclick="selectAccessMethod('folders')">
+                    <h3>Složky s přístupovými právy</h3>
+                    <p>Vytvoříte složku a nastavíte, kdo k ní má přístup (konkrétní lidé nebo skupiny). Všechny dokumenty ve složce zdědí tato přístupová práva. Ideální pro organizaci velkého množství dokumentů.</p>
                 </div>
             </div>
         </div>
@@ -1006,6 +1011,8 @@
                 summaryText = 'Dokument má nastavený přístup pro vlastní skupinu';
             } else if (method === 'organizational') {
                 summaryText = 'Dokument má nastavený přístup dle organizační struktury';
+            } else if (method === 'folders') {
+                summaryText = 'Dokument má nastavený přístup přes složku';
             }
 
             summary.innerHTML = summaryText + ' <a href="#" class="description" onclick="toggleAccessSettings()">změnit</a>';
