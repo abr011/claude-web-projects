@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test kalendáře</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body { padding: 20px; font-family: Arial, sans-serif; background: white; }
+        .test-container { margin: 20px 0; padding: 20px; border: 1px solid #ddd; position: relative; }
+    </style>
+</head>
+<body>
+    <h1>🗓️ Test kalendáře</h1>
+    
+    <div class="test-container">
+        <h3>Test kalendáře - klik do pole:</h3>
+        <div class="date-input-wrapper">
+            <div contenteditable="true" id="test-date" class="form-control form-control-short date-input" 
+                 data-placeholder="d.m.rrrr (klik pro kalendář)" data-name="testDate" 
+                 style="border: 2px solid #007bff; padding: 10px; cursor: pointer;"
+                 title="Klikni pro otevření kalendáře">14.8.2025</div>
+        </div>
+        <div id="test-date-calendar" class="custom-calendar hidden"></div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Simulace osnovní funkce showDatePicker
+        function showDatePicker(dateFieldId) {
+            const calendar = document.querySelector(`#${dateFieldId}-calendar`);
+            const visibleField = document.querySelector(`#${dateFieldId}`);
+            
+            console.log(`📅 Otevírám kalendář pro ${dateFieldId}`);
+            
+            // Získej aktuální datum z pole nebo použij dnešní
+            let currentDate = new Date();
+            const currentText = visibleField.textContent.trim();
+            if (currentText && !currentText.includes('klik pro kalendář')) {
+                const parsed = parseDate(currentText);
+                if (parsed) currentDate = parsed;
+            }
+            
+            // Vytvořit kalendář
+            createCalendar(calendar, currentDate, (selectedDate) => {
+                visibleField.innerHTML = formatDate(selectedDate, true);
+                hideCalendar(calendar);
+            });
+            
+            // Zobraz kalendář
+            calendar.classList.remove('hidden');
+            console.log('📅 Kalendář zobrazen');
+        }
+        
+        function createCalendar(container, currentDate, onDateSelect) {
+            const today = new Date();
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            
+            const monthNames = [
+                'Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen',
+                'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'
+            ];
+            
+            const dayNames = ['Po', 'Út', 'St', 'Čt', 'Pá', 'So', 'Ne'];
+            
+            container.innerHTML = `
+                <div class="calendar-header">
+                    <button type="button" class="calendar-nav-btn" id="prev-month">←</button>
+                    <div class="calendar-month-year">${monthNames[month]} ${year}</div>
+                    <button type="button" class="calendar-nav-btn" id="next-month">→</button>
+                </div>
+                <div class="calendar-grid">
+                    ${dayNames.map(day => `<div class="calendar-day-header">${day}</div>`).join('')}
+                    <div id="calendar-days"></div>
+                </div>
+                <div class="calendar-actions">
+                    <button type="button" class="calendar-btn secondary" id="calendar-cancel">Zrušit</button>
+                    <button type="button" class="calendar-btn primary" id="calendar-today">Dnes</button>
+                </div>
+            `;
+            
+            // Generuj dny
+            generateCalendarDays(container, year, month, today, currentDate, onDateSelect);
+            
+            // Event listenery
+            container.querySelector('#prev-month').addEventListener('click', () => {
+                const newDate = new Date(year, month - 1, 1);
+                createCalendar(container, newDate, onDateSelect);
+            });
+            
+            container.querySelector('#next-month').addEventListener('click', () => {
+                const newDate = new Date(year, month + 1, 1);
+                createCalendar(container, newDate, onDateSelect);
+            });
+            
+            container.querySelector('#calendar-today').addEventListener('click', () => {
+                onDateSelect(today);
+            });
+            
+            container.querySelector('#calendar-cancel').addEventListener('click', () => {
+                hideCalendar(container);
+            });
+        }
+        
+        function generateCalendarDays(container, year, month, today, currentDate, onDateSelect) {
+            const daysContainer = container.querySelector('#calendar-days');
+            const firstDay = new Date(year, month, 1);
+            const startDate = new Date(firstDay);
+            
+            // Začni v pondělí (1 = pondělí, 0 = neděle -> převedeme na 6)
+            const dayOfWeek = (firstDay.getDay() + 6) % 7;
+            startDate.setDate(startDate.getDate() - dayOfWeek);
+            
+            let html = '';
+            for (let i = 0; i < 42; i++) { // 6 týdnů × 7 dní
+                const date = new Date(startDate.getTime() + i * 24 * 60 * 60 * 1000);
+                const isCurrentMonth = date.getMonth() === month;
+                const isToday = date.toDateString() === today.toDateString();
+                const isSelected = date.toDateString() === currentDate.toDateString();
+                
+                const classes = ['calendar-day'];
+                if (!isCurrentMonth) classes.push('other-month');
+                if (isToday) classes.push('today');
+                if (isSelected) classes.push('selected');
+                
+                html += `<div class="${classes.join(' ')}" data-date="${date.toISOString().split('T')[0]}">
+                    ${date.getDate()}
+                </div>`;
+            }
+            
+            daysContainer.innerHTML = html;
+            
+            // Event listenery pro dny
+            daysContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('calendar-day')) {
+                    const dateStr = e.target.dataset.date;
+                    const selectedDate = new Date(dateStr);
+                    onDateSelect(selectedDate);
+                }
+            });
+        }
+        
+        function hideCalendar(calendar) {
+            calendar.classList.add('hidden');
+        }
+        
+        function parseDate(dateString) {
+            if (!dateString) return null;
+            
+            const parts = dateString.split('.');
+            if (parts.length !== 3) return null;
+            
+            const day = parseInt(parts[0], 10);
+            const month = parseInt(parts[1], 10) - 1; // měsíce jsou 0-indexované
+            const year = parseInt(parts[2], 10);
+            
+            const date = new Date(year, month, day);
+            
+            // Kontrola validity data
+            if (date.getDate() !== day || date.getMonth() !== month || date.getFullYear() !== year) {
+                return null;
+            }
+            
+            return date;
+        }
+        
+        // Event listener pro test pole
+        document.getElementById('test-date').addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('🖱️ Klik na test pole');
+            setTimeout(() => showDatePicker('test-date'), 50);
+        });
+        
+        console.log('✅ Test kalendáře načten');
+    </script>
+</body>
+</html>

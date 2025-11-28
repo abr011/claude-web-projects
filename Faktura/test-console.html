@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Console Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .console { background: #000; color: #0f0; padding: 15px; font-family: monospace; height: 400px; overflow-y: auto; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+        button { margin: 5px; padding: 10px; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test konzole pro fakturační aplikaci</h1>
+    
+    <div class="test-section">
+        <h2>Test načítání komponentů</h2>
+        <button onclick="testComponentLoading()">Test komponentů</button>
+        <button onclick="testAppState()">Test AppState</button>
+        <button onclick="testLocalStorageData()">Test dat v localStorage</button>
+    </div>
+    
+    <div id="console" class="console"></div>
+
+    <script src="script.js"></script>
+    <script src="components/header.js"></script>
+    <script src="components/navigation.js"></script>
+    <script src="components/invoice-card.js"></script>
+    <script src="components/invoice-list.js"></script>
+    <script src="components/invoice-form.js"></script>
+
+    <script>
+        function log(message, type = 'info') {
+            const console = document.getElementById('console');
+            const timestamp = new Date().toLocaleTimeString();
+            const prefix = type === 'error' ? '❌' : type === 'success' ? '✅' : 'ℹ️';
+            console.innerHTML += `${timestamp} ${prefix} ${message}\n`;
+            console.scrollTop = console.scrollHeight;
+        }
+
+        function testComponentLoading() {
+            log('=== TEST NAČÍTÁNÍ KOMPONENTŮ ===');
+            
+            const requiredComponents = [
+                'HeaderComponent', 
+                'NavigationComponent', 
+                'InvoiceCardComponent', 
+                'InvoiceListComponent', 
+                'InvoiceFormComponent'
+            ];
+            
+            requiredComponents.forEach(componentName => {
+                if (window[componentName]) {
+                    log(`✅ ${componentName} načten`, 'success');
+                } else {
+                    log(`❌ ${componentName} CHYBÍ!`, 'error');
+                }
+            });
+            
+            log('=== TEST GLOBÁLNÍCH FUNKCÍ ===');
+            const requiredFunctions = [
+                'AppState',
+                'ComponentSystem', 
+                'showNotification',
+                'formatCurrency',
+                'formatDate'
+            ];
+            
+            requiredFunctions.forEach(funcName => {
+                if (window[funcName]) {
+                    log(`✅ ${funcName} dostupná`, 'success');
+                } else {
+                    log(`❌ ${funcName} CHYBÍ!`, 'error');
+                }
+            });
+        }
+
+        function testAppState() {
+            log('=== TEST APPSTATE ===');
+            
+            if (!window.AppState) {
+                log('❌ AppState není dostupný!', 'error');
+                return;
+            }
+            
+            try {
+                // Test načtení dat
+                AppState.loadFromStorage();
+                log(`📊 Faktury v AppState: ${AppState.invoices.length}`, 'info');
+                
+                if (AppState.invoices.length > 0) {
+                    AppState.invoices.forEach((inv, index) => {
+                        log(`  ${index + 1}. ${inv.number} - ${inv.clientName} - ${inv.amount} Kč`);
+                    });
+                } else {
+                    log('⚠️ Žádné faktury v AppState');
+                }
+                
+                // Test přidání testovacích dat
+                if (AppState.invoices.length === 0) {
+                    log('📝 Přidávám testovací data...');
+                    AppState.addTestData();
+                    log(`📊 Po přidání: ${AppState.invoices.length} faktur`, 'success');
+                }
+                
+            } catch (error) {
+                log(`❌ Chyba v AppState: ${error.message}`, 'error');
+            }
+        }
+
+        function testLocalStorageData() {
+            log('=== TEST LOCALSTORAGE ===');
+            
+            // Test faktur
+            const invoiceData = localStorage.getItem('invoiceApp_data');
+            if (invoiceData) {
+                try {
+                    const invoices = JSON.parse(invoiceData);
+                    log(`✅ LocalStorage faktury: ${invoices.length} položek`, 'success');
+                } catch (error) {
+                    log(`❌ Chyba parsování faktur: ${error.message}`, 'error');
+                }
+            } else {
+                log('⚠️ Žádné faktury v localStorage');
+            }
+            
+            // Test klientů
+            const clientData = localStorage.getItem('invoiceApp_clients');
+            if (clientData) {
+                try {
+                    const clients = JSON.parse(clientData);
+                    log(`✅ LocalStorage klienti: ${clients.length} položek`, 'success');
+                } catch (error) {
+                    log(`❌ Chyba parsování klientů: ${error.message}`, 'error');
+                }
+            } else {
+                log('⚠️ Žádní klienti v localStorage');
+            }
+        }
+
+        // Automaticky spustit testy
+        window.onload = function() {
+            setTimeout(() => {
+                testComponentLoading();
+                testAppState();
+                testLocalStorageData();
+            }, 1000);
+        };
+    </script>
+</body>
+</html>

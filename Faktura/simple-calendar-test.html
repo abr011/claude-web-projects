@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalendář test</title>
+    <style>
+        body {
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        
+        .date-field {
+            border: 2px solid #007bff;
+            padding: 10px;
+            margin: 20px 0;
+            cursor: pointer;
+            background: white;
+            border-radius: 4px;
+            width: 200px;
+            position: relative;
+        }
+        
+        .calendar-popup {
+            position: fixed;
+            background: white;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            display: none;
+            min-width: 200px;
+        }
+        
+        .calendar-popup button {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            background: white;
+        }
+        
+        .calendar-popup button:hover {
+            background: #e3f2fd;
+        }
+    </style>
+</head>
+<body>
+    <h1>📅 Test kalendáře</h1>
+    
+    <p>Klikni na pole:</p>
+    <div id="test-date" class="date-field" onclick="openCalendar(event, 'test-date')">
+        14.8.2025
+    </div>
+    
+    <div id="calendar" class="calendar-popup">
+        <h4>Výběr data:</h4>
+        <button onclick="selectDate('13.8.2025')">Včera (13.8.2025)</button>
+        <button onclick="selectDate('14.8.2025')">Dnes (14.8.2025)</button>
+        <button onclick="selectDate('15.8.2025')">Zítra (15.8.2025)</button>
+        <button onclick="closeCalendar()" style="background: #f5f5f5; margin-top: 10px;">Zavřít</button>
+    </div>
+
+    <script>
+        let currentField = null;
+        
+        function openCalendar(event, fieldId) {
+            console.log('🖱️ KLIK DETEKOVÁN na:', fieldId);
+            
+            currentField = document.getElementById(fieldId);
+            const calendar = document.getElementById('calendar');
+            
+            // Pozicování kalendáře
+            const rect = currentField.getBoundingClientRect();
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            const calendarWidth = 220; // přibližná šířka kalendáře
+            const calendarHeight = 200; // přibližná výška kalendáře
+            
+            let left = rect.right + 10; // vpravo od pole
+            let top = rect.top;
+            
+            // Pokud by se kalendář nevešel vpravo, dej ho vlevo
+            if (left + calendarWidth > viewportWidth) {
+                left = rect.left - calendarWidth - 10;
+            }
+            
+            // Pokud by se kalendář nevešel vlevo, dej ho pod pole
+            if (left < 0) {
+                left = rect.left;
+                top = rect.bottom + 10;
+            }
+            
+            // Pokud by se kalendář nevešel dolů, dej ho nahoru
+            if (top + calendarHeight > viewportHeight) {
+                top = rect.top - calendarHeight - 10;
+            }
+            
+            // Zajisti, že kalendář bude v okně
+            if (top < 0) top = 10;
+            if (left < 0) left = 10;
+            
+            calendar.style.left = left + 'px';
+            calendar.style.top = top + 'px';
+            calendar.style.display = 'block';
+            
+            console.log('📅 Kalendář zobrazen na pozici:', left, top);
+        }
+        
+        function selectDate(dateStr) {
+            if (currentField) {
+                currentField.textContent = dateStr;
+                console.log('📅 Datum vybráno:', dateStr);
+            }
+            closeCalendar();
+        }
+        
+        function closeCalendar() {
+            document.getElementById('calendar').style.display = 'none';
+            currentField = null;
+            console.log('📅 Kalendář zavřen');
+        }
+        
+        // Zavři kalendář při kliknutí mimo něj
+        document.addEventListener('click', function(event) {
+            const calendar = document.getElementById('calendar');
+            const field = document.getElementById('test-date');
+            
+            if (!calendar.contains(event.target) && event.target !== field) {
+                closeCalendar();
+            }
+        });
+        
+        console.log('✅ Test stránka načtena');
+    </script>
+</body>
+</html>

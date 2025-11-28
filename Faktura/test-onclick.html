@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TEST ONCLICK</title>
+    <style>
+        .test-field {
+            border: 2px solid red;
+            padding: 10px;
+            margin: 20px;
+            cursor: pointer;
+            background: yellow;
+        }
+        .calendar-popup {
+            border: 2px solid blue;
+            background: white;
+            padding: 20px;
+            margin: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 TEST ONCLICK KALENDÁŘE</h1>
+    
+    <div class="test-field" onclick="showTestCalendar()">
+        KLIKNI TADY - ONCLICK TEST
+    </div>
+    
+    <div id="test-calendar" class="calendar-popup">
+        ✅ KALENDÁŘ FUNGUJE!
+        <button onclick="hideTestCalendar()">Zavřít</button>
+    </div>
+
+    <script>
+        function showTestCalendar() {
+            console.log('🖱️ ONCLICK DETEKOVÁN!');
+            alert('ONCLICK FUNGUJE!');
+            document.getElementById('test-calendar').style.display = 'block';
+        }
+        
+        function hideTestCalendar() {
+            document.getElementById('test-calendar').style.display = 'none';
+        }
+        
+        console.log('✅ Test stránka načtena');
+    </script>
+</body>
+</html>

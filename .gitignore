@@ -1,0 +1,17 @@
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore temporary files
+*.tmp
+*.temp
+*.log
+
+# Ignore personal files (if any)
+secrets/
+private/
+
+# Keep our main projects
+!Faktura/
+!cv/
+!abr/

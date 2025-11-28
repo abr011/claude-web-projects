@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐛 Debug kalendáře</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body { padding: 20px; background: white; }
+        .debug-section { margin: 20px 0; padding: 20px; border: 2px solid #007bff; position: relative; }
+        .debug-log { background: #f8f9fa; padding: 10px; margin: 10px 0; border-left: 4px solid #007bff; }
+    </style>
+</head>
+<body>
+    <h1>🗓️ Debug kalendáře</h1>
+    <div id="debug-log" class="debug-log">
+        <strong>Debug log:</strong><br>
+        <div id="log-content"></div>
+    </div>
+
+    <div class="debug-section">
+        <h3>Test 1: Základní kalendář (jednoduchý)</h3>
+        <div class="date-input-wrapper">
+            <div contenteditable="true" id="simple-date" class="form-control form-control-short date-input" 
+                 data-placeholder="klik zde" style="cursor: pointer; border: 2px solid red;">
+                14.8.2025
+            </div>
+        </div>
+        <div id="simple-calendar" class="custom-calendar hidden" style="border: 3px solid red;">
+            KALENDÁŘ SE NAČÍTÁ...
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Debug log
+        function logDebug(message) {
+            const log = document.getElementById('log-content');
+            log.innerHTML += message + '<br>';
+            console.log(message);
+        }
+
+        logDebug('✅ Stránka načtena');
+        logDebug('📦 formatDate funkce dostupná: ' + (typeof formatDate !== 'undefined'));
+        logDebug('📦 AppState dostupný: ' + (typeof AppState !== 'undefined'));
+
+        // Jednoduchý test kalendáře
+        document.getElementById('simple-date').addEventListener('click', function(e) {
+            logDebug('🖱️ KLIK na pole detekován!');
+            
+            const calendar = document.getElementById('simple-calendar');
+            logDebug('📅 Kalendář element nalezen: ' + !!calendar);
+            
+            if (calendar) {
+                // Jednoduché zobrazení
+                if (calendar.classList.contains('hidden')) {
+                    calendar.classList.remove('hidden');
+                    calendar.innerHTML = `
+                        <div style="padding: 20px; background: white;">
+                            <h4>✅ KALENDÁŘ FUNGUJE!</h4>
+                            <p>Dnes: ${new Date().toLocaleDateString('cs-CZ')}</p>
+                            <button onclick="selectToday()">Vybrat dnes</button>
+                            <button onclick="closeCalendar()">Zavřít</button>
+                        </div>
+                    `;
+                    logDebug('📅 Kalendář zobrazen');
+                } else {
+                    calendar.classList.add('hidden');
+                    logDebug('📅 Kalendář skryt');
+                }
+            }
+        });
+
+        window.selectToday = function() {
+            const field = document.getElementById('simple-date');
+            const today = new Date();
+            const formatted = today.toLocaleDateString('cs-CZ', {
+                day: 'numeric', month: 'numeric', year: 'numeric'
+            });
+            field.innerHTML = formatted;
+            logDebug('📅 Datum nastaveno na: ' + formatted);
+            closeCalendar();
+        };
+
+        window.closeCalendar = function() {
+            document.getElementById('simple-calendar').classList.add('hidden');
+            logDebug('📅 Kalendář zavřen');
+        };
+    </script>
+</body>
+</html>

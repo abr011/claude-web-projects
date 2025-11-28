@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fakturační aplikace - Komponentová verze</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <div id="header-container"></div>
+        <main class="main-content">
+            <div id="form-container"></div>
+            <div id="list-container"></div>
+        </main>
+    </div>
+    <div id="notifications-container"></div>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('📄 DOM načten, spouštím načítání komponentů...');
+            loadScript('components/header.js', function() {
+                console.log('✅ header.js načten');
+                loadScript('components/invoice-card.js', function() {
+                    console.log('✅ invoice-card.js načten');
+                    loadScript('components/invoice-list.js', function() {
+                        console.log('✅ invoice-list.js načten');
+                        loadScript('components/invoice-form.js', function() {
+                            console.log('✅ invoice-form.js načten');
+                            console.log('🎉 Všechny komponenty načteny, spouštím aplikaci...');
+                            initApp();
+                        });
+                    });
+                });
+            });
+        });
+        function loadScript(src, callback) {
+            const script = document.createElement('script');
+            script.src = src;
+            script.onload = function() {
+                console.log(`📦 Script načten: ${src}`);
+                if (callback) callback();
+            };
+            script.onerror = function() {
+                console.error(`❌ Chyba při načítání: ${src}`);
+            };
+            document.head.appendChild(script);
+        }
+        function initApp() {
+            console.log('🚀 Inicializuji aplikaci...');
+            const requiredComponents = ['HeaderComponent', 'InvoiceCardComponent', 'InvoiceListComponent', 'InvoiceFormComponent'];
+            const missing = requiredComponents.filter(name => !window[name]);
+            if (missing.length > 0) {
+                console.error('❌ Chybějící komponenty:', missing);
+                alert('Chyba: Některé komponenty se nenačetly: ' + missing.join(', '));
+                return;
+            }
+            try {
+                if (!window.AppState) throw new Error('AppState chybí');
+                if (!window.ComponentSystem) throw new Error('ComponentSystem chybí');
+                console.log('📂 Načítám data z localStorage...');
+                AppState.loadFromStorage();
+                
+                // Pokud nejsou žádné faktury, přidej testovací data
+                if (AppState.invoices.length === 0) {
+                    console.log('📝 Přidávám testovací data...');
+                    AppState.addTestData();
+                }
+                
+                console.log('🔨 Vytvářím komponenty...');
+                Promise.all([
+                    ComponentSystem.createComponent('header', 'header-container'),
+                    ComponentSystem.createComponent('invoice-form', 'form-container'),
+                    ComponentSystem.createComponent('invoice-list', 'list-container')
+                ]).then(() => {
+                    console.log('✅ Všechny komponenty vytvořeny');
+                    AppState.updateStats();
+                    AppState.changeSection('form');
+                    console.log('🎉 Aplikace úspěšně spuštěna!');
+                    showNotification('Aplikace je připravena!', 'success');
+                }).catch(error => {
+                    console.error('❌ Chyba při vytváření komponentů:', error);
+                    console.error('Error details:', error);
+                    showNotification('Chyba při vytváření komponentů: ' + error.message, 'error');
+                    alert('Chyba při vytváření komponentů: ' + error.message);
+                });
+            } catch (error) {
+                console.error('❌ Chyba při inicializaci:', error);
+                console.error('Error details:', error);
+                showNotification('Chyba při spuštění: ' + error.message, 'error');
+                alert('Chyba při spuštění: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>
