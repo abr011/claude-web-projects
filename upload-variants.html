@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Návrhy bloku pro nahrání dokumentu</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 40px;
+            background-color: #fafafa;
+            color: #1a1a1a;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin: 0 0 40px 0;
+        }
+
+        .variants-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .variant-wrapper {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+        }
+
+        .variant-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Varianta 1: Současný styl */
+        .upload-v1 {
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .upload-v1-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0 0 15px 0;
+        }
+
+        .upload-v1-text {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .upload-v1-hint {
+            font-size: 14px;
+            color: #999;
+            margin-top: 15px;
+        }
+
+        /* Varianta 2: Drag & Drop s čárkovaným okrajem */
+        .upload-v2 {
+            border: 2px dashed #d0d0d0;
+            background: #fafafa;
+            padding: 60px 40px;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .upload-v2:hover {
+            border-color: #007bff;
+            background: #f5f8ff;
+        }
+
+        .upload-v2-icon {
+            font-size: 48px;
+            color: #d0d0d0;
+            margin-bottom: 20px;
+        }
+
+        .upload-v2-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0 0 10px 0;
+        }
+
+        .upload-v2-text {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Varianta 3: Kompaktní s ikonou vlevo */
+        .upload-v3 {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .upload-v3-icon {
+            width: 80px;
+            height: 80px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: #999;
+            flex-shrink: 0;
+        }
+
+        .upload-v3-content {
+            flex: 1;
+        }
+
+        .upload-v3-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+        }
+
+        .upload-v3-text {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        /* Varianta 4: Velká plocha s ikonou */
+        .upload-v4 {
+            background: linear-gradient(135deg, #f5f5f5 0%, #fafafa 100%);
+            padding: 80px 40px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .upload-v4:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .upload-v4-icon-wrapper {
+            width: 100px;
+            height: 100px;
+            background: #fff;
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .upload-v4-icon {
+            font-size: 48px;
+            color: #007bff;
+        }
+
+        .upload-v4-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0 0 15px 0;
+        }
+
+        .upload-v4-text {
+            font-size: 15px;
+            color: #666;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        /* Varianta 5: Dva bloky vedle sebe */
+        .upload-v5 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .upload-v5-option {
+            background: #fff;
+            padding: 40px 30px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .upload-v5-option:hover {
+            border-color: #007bff;
+            background: #f5f8ff;
+        }
+
+        .upload-v5-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .upload-v5-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+        }
+
+        .upload-v5-text {
+            font-size: 13px;
+            color: #666;
+        }
+
+        /* Varianta 6: Minimalistická */
+        .upload-v6 {
+            background: #fff;
+            padding: 50px 40px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .upload-v6-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0 0 30px 0;
+        }
+
+        .upload-v6-dropzone {
+            border: 2px dashed #d0d0d0;
+            border-radius: 4px;
+            padding: 40px;
+            transition: all 0.2s;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .upload-v6-dropzone:hover {
+            border-color: #007bff;
+        }
+
+        .upload-v6-dropzone-text {
+            font-size: 15px;
+            color: #666;
+        }
+
+        .upload-v6-or {
+            font-size: 13px;
+            color: #999;
+        }
+
+        /* Společné styly */
+        .btn {
+            padding: 12px 32px;
+            font-size: 15px;
+            font-weight: 500;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #1a1a1a;
+            color: #fafafa;
+        }
+
+        .btn-primary:hover {
+            background: #333;
+        }
+
+        .btn-secondary {
+            background: #fff;
+            color: #1a1a1a;
+            border: 2px solid #1a1a1a;
+        }
+
+        .btn-secondary:hover {
+            background: #1a1a1a;
+            color: #fafafa;
+        }
+
+        .btn-link {
+            background: none;
+            color: #007bff;
+            padding: 8px 16px;
+            text-decoration: underline;
+        }
+
+        .btn-link:hover {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Návrhy bloku pro nahrání dokumentu</h1>
+
+        <div class="variants-grid">
+            <!-- Varianta 1 -->
+            <div class="variant-wrapper">
+                <div class="variant-label">Varianta 1 – Současný styl</div>
+                <div class="upload-v1">
+                    <h3 class="upload-v1-title">Nový dokument</h3>
+                    <p class="upload-v1-text">Pokračujte v podepisování dokumentů elektronicky</p>
+                    <button class="btn btn-primary">Nahrát dokument</button>
+                    <p class="upload-v1-hint">nebo sem přetáhněte soubor</p>
+                </div>
+            </div>
+
+            <!-- Varianta 2 -->
+            <div class="variant-wrapper">
+                <div class="variant-label">Varianta 2 – Drag & Drop s čárkovaným okrajem</div>
+                <div class="upload-v2">
+                    <div class="upload-v2-icon">📄</div>
+                    <h3 class="upload-v2-title">Přetáhněte dokument sem</h3>
+                    <p class="upload-v2-text">nebo klikněte pro výběr souboru</p>
+                </div>
+            </div>
+
+            <!-- Varianta 3 -->
+            <div class="variant-wrapper">
+                <div class="variant-label">Varianta 3 – Kompaktní s ikonou vlevo</div>
+                <div class="upload-v3">
+                    <div class="upload-v3-icon">📁</div>
+                    <div class="upload-v3-content">
+                        <h3 class="upload-v3-title">Nahrát dokument</h3>
+                        <p class="upload-v3-text">Přetáhněte soubor nebo klikněte pro výběr</p>
+                        <button class="btn btn-secondary">Vybrat soubor</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Varianta 4 -->
+            <div class="variant-wrapper">
+                <div class="variant-label">Varianta 4 – Velká plocha s ikonou</div>
+                <div class="upload-v4">
+                    <div class="upload-v4-icon-wrapper">
+                        <div class="upload-v4-icon">⬆</div>
+                    </div>
+                    <h3 class="upload-v4-title">Nahrát nový dokument</h3>
+                    <p class="upload-v4-text">Přetáhněte PDF soubor sem nebo klikněte pro výběr z vašeho zařízení</p>
+                </div>
+            </div>
+
+            <!-- Varianta 5 -->
+            <div class="variant-wrapper" style="grid-column: span 2;">
+                <div class="variant-label">Varianta 5 – Dva bloky vedle sebe</div>
+                <div class="upload-v5">
+                    <div class="upload-v5-option">
+                        <div class="upload-v5-icon">📄</div>
+                        <h3 class="upload-v5-title">Nahrát dokument</h3>
+                        <p class="upload-v5-text">Vyberte PDF soubor z vašeho zařízení</p>
+                    </div>
+                    <div class="upload-v5-option">
+                        <div class="upload-v5-icon">📋</div>
+                        <h3 class="upload-v5-title">Použít šablonu</h3>
+                        <p class="upload-v5-text">Vyberte z již podepsaných dokumentů</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Varianta 6 -->
+            <div class="variant-wrapper" style="grid-column: span 2;">
+                <div class="variant-label">Varianta 6 – Minimalistická s oddělenými opcemi</div>
+                <div class="upload-v6">
+                    <h3 class="upload-v6-title">Nový dokument k podpisu</h3>
+                    <div class="upload-v6-dropzone">
+                        <p class="upload-v6-dropzone-text">Přetáhněte soubor sem</p>
+                        <span class="upload-v6-or">nebo</span>
+                        <button class="btn btn-primary">Vybrat soubor z počítače</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
