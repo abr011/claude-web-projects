@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrace - Potvrzení SMS</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+            color: #1a1a1a;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 80px auto;
+            padding: 40px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo-text {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin: 0 0 10px 0;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 15px;
+            margin-bottom: 40px;
+        }
+
+        .form-box {
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #999;
+        }
+
+        .step.active {
+            color: #1a1a1a;
+            font-weight: 500;
+        }
+
+        .step-number {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            color: #999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .step.active .step-number {
+            background: #1a1a1a;
+            color: #fafafa;
+        }
+
+        .small-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+        }
+
+        .ares-info {
+            margin-bottom: 30px;
+        }
+
+        .company-name {
+            font-size: 15px;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 6px;
+        }
+
+        .company-address {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .large-label {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+        }
+
+        .code-inputs {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .code-input {
+            width: 50px;
+            height: 60px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 500;
+            background: #fafafa;
+            border: none;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+
+        .code-input:focus {
+            outline: 2px solid #1a1a1a;
+            outline-offset: -2px;
+            background: #fff;
+        }
+
+        .help-text {
+            font-size: 13px;
+            color: #666;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .resend-section {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .resend-link {
+            color: #1a1a1a;
+            text-decoration: underline;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        .resend-link:hover {
+            text-decoration: none;
+        }
+
+        .resend-link.disabled {
+            color: #999;
+            cursor: not-allowed;
+            text-decoration: none;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px 32px;
+            font-size: 15px;
+            font-weight: 500;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: #1a1a1a;
+            color: #fafafa;
+        }
+
+        .btn-primary:hover {
+            background: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <div class="logo-text">Sofa SignPoint</div>
+        </div>
+
+        <h1>Registrace</h1>
+        <p class="subtitle">Vytvořte si účet a začněte podepisovat dokumenty</p>
+
+        <div class="form-box">
+            <div class="step-indicator">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-text">Základní údaje</div>
+                </div>
+                <div class="step active">
+                    <div class="step-number">2</div>
+                    <div class="step-text">Potvrzení SMS</div>
+                </div>
+            </div>
+
+            <div class="small-label">Registrujete účet pro firmu</div>
+
+            <div class="ares-info">
+                <div class="company-name">UXTestFirma s.r.o.</div>
+                <div class="company-address">Vinohradská 123, Praha 3, 130 00</div>
+            </div>
+
+            <div class="large-label">Kód z SMS</div>
+
+            <div class="code-inputs">
+                <input type="text" class="code-input" maxlength="1" id="code1" autofocus>
+                <input type="text" class="code-input" maxlength="1" id="code2">
+                <input type="text" class="code-input" maxlength="1" id="code3">
+                <input type="text" class="code-input" maxlength="1" id="code4">
+                <input type="text" class="code-input" maxlength="1" id="code5">
+                <input type="text" class="code-input" maxlength="1" id="code6">
+            </div>
+
+            <div class="help-text">
+                Zadejte 6-místný kód, který jsme vám zaslali na +420 *** *** 775
+            </div>
+
+            <div class="resend-section">
+                <span id="resendText">Kód můžete znovu zaslat za <strong id="countdown">60</strong> sekund</span>
+                <a id="resendLink" class="resend-link disabled">Zaslat znovu</a>
+            </div>
+
+            <button class="btn btn-primary" onclick="completeRegistration()">Dokončit registraci</button>
+        </div>
+    </div>
+
+    <script>
+        let countdownInterval;
+        let timeLeft = 60;
+
+        // Auto-focus next input
+        const inputs = document.querySelectorAll('.code-input');
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', function() {
+                if (this.value.length === 1 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            });
+
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace' && this.value === '' && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+        });
+
+        function startCountdown() {
+            timeLeft = 60;
+            document.getElementById('countdown').textContent = timeLeft;
+            document.getElementById('resendLink').classList.add('disabled');
+            document.getElementById('resendText').style.display = 'inline';
+
+            countdownInterval = setInterval(function() {
+                timeLeft--;
+                document.getElementById('countdown').textContent = timeLeft;
+
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    document.getElementById('resendLink').classList.remove('disabled');
+                    document.getElementById('resendText').style.display = 'none';
+                }
+            }, 1000);
+        }
+
+        document.getElementById('resendLink').addEventListener('click', function() {
+            if (!this.classList.contains('disabled')) {
+                alert('SMS kód byl znovu odeslán');
+                startCountdown();
+            }
+        });
+
+        function completeRegistration() {
+            window.location.href = 'dashboard-zero.html';
+        }
+
+        // Start countdown on page load
+        startCountdown();
+    </script>
+</body>
+</html>

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sofa SignPoint</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+            color: #1a1a1a;
+        }
+
+        .top-nav {
+            background: #fff;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            height: 60px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-right: 40px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            flex: 1;
+        }
+
+        .nav-item {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-size: 15px;
+            padding: 8px 0;
+        }
+
+        .nav-item:hover {
+            color: #666;
+        }
+
+        .nav-item.active {
+            font-weight: 500;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #1a1a1a;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background: #1a1a1a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #fafafa;
+        }
+
+        .user-name {
+            font-size: 15px;
+        }
+
+        .main-content {
+            padding: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 600;
+            margin: 0 0 40px 0;
+        }
+
+        .three-sections {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .section {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            min-height: 300px;
+        }
+
+        .section-header {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .count-badge {
+            background: #e0e0e0;
+            color: #666;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-left: 8px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-state-text {
+            font-size: 15px;
+            color: #999;
+        }
+
+        .upload-banner {
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .upload-banner-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0 0 30px 0;
+        }
+
+        .upload-banner-text {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .upload-dropzone {
+            border: 2px dashed #d0d0d0;
+            border-radius: 4px;
+            padding: 40px;
+            transition: all 0.2s;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .upload-dropzone:hover {
+            border-color: #007bff;
+        }
+
+        .upload-dropzone-text {
+            font-size: 15px;
+            color: #666;
+        }
+
+        .upload-or {
+            font-size: 13px;
+            color: #999;
+        }
+
+        .btn {
+            padding: 12px 32px;
+            font-size: 15px;
+            font-weight: 500;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: #1a1a1a;
+            color: #fafafa;
+        }
+
+        .btn-primary:hover {
+            background: #333;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.hidden {
+            display: none;
+        }
+
+        .modal {
+            background: #fff;
+            border-radius: 8px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0 0 20px 0;
+        }
+
+        .modal-text {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .modal-button {
+            width: 100%;
+        }
+
+        .email-display {
+            background: #f5f5f5;
+            padding: 15px 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .email-address {
+            font-size: 16px;
+            font-weight: 500;
+            color: #1a1a1a;
+        }
+
+        .change-email {
+            color: #666;
+            font-size: 14px;
+            text-decoration: underline;
+            cursor: pointer;
+            margin-top: 15px;
+            display: inline-block;
+        }
+
+        .change-email:hover {
+            color: #1a1a1a;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-nav">
+        <div class="logo">UXTestFirma</div>
+        <div class="nav-menu">
+            <a href="#" class="nav-item active">Dashboard</a>
+            <a href="#" class="nav-item">Dokumenty</a>
+        </div>
+        <div class="user-menu">
+            <div class="user-name">Aleš Brom</div>
+            <div class="user-avatar">AB</div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h1 class="page-title">Dashboard</h1>
+
+        <div class="three-sections">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Čeká na váš podpis <span class="count-badge">0</span></h2>
+                </div>
+                <div class="empty-state">
+                    <div class="empty-state-text">Žádné dokumenty</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Vyžaduje pozornost <span class="count-badge">0</span></h2>
+                </div>
+                <div class="empty-state">
+                    <div class="empty-state-text">Žádné dokumenty</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Čeká na ostatní <span class="count-badge">0</span></h2>
+                </div>
+                <div class="empty-state">
+                    <div class="empty-state-text">Žádné dokumenty</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="upload-banner">
+            <h3 class="upload-banner-title">Nahrajte první dokument</h3>
+            <div class="upload-dropzone">
+                <p class="upload-dropzone-text">Přetáhněte soubor sem</p>
+                <span class="upload-or">nebo</span>
+                <button class="btn btn-primary">Vybrat soubor z počítače</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="welcomeModal">
+        <div class="modal">
+            <h2 class="modal-title">Děkujeme za registraci</h2>
+            <p class="modal-text">Poslali jsme vám email s odkazem pro dokončení registrace. Zkontrolujte prosím schránku a klikněte na odkaz v emailu.</p>
+
+            <div class="email-display">
+                <div class="email-address">ales.brom@gmail.com</div>
+            </div>
+
+            <p class="modal-text" style="font-size: 14px; color: #999; margin-bottom: 0;">Pokud email nevidíte, zkontrolujte složku spam nebo hromadné.</p>
+
+            <a href="#" class="change-email" style="text-align: center; display: block; margin-top: 20px;">Změnit email</a>
+        </div>
+    </div>
+
+    <script>
+        // Zavřít modal kliknutím mimo něj (simuluje kliknutí na odkaz v emailu)
+        document.getElementById('welcomeModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.add('hidden');
+            }
+        });
+
+        // Tlačítko "Nahrát dokument" vede na stránku s nastavením certifikátu
+        document.querySelector('.upload-banner .btn-primary').addEventListener('click', function() {
+            window.location.href = 'certificate-setup.html';
+        });
+    </script>
+</body>
+</html>

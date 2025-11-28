@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podepsání dokumentu - Sofa SignPoint</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 10px 0;
+            background-color: #fafafa;
+            color: #1a1a1a;
+        }
+
+        .page-title {
+            padding: 10px 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .step-indicator {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #999;
+            transition: color 0.2s;
+        }
+
+        .step.active {
+            color: #1a1a1a;
+            font-weight: 500;
+        }
+
+        .step-number {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            color: #999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .step.active .step-number {
+            background: #1a1a1a;
+            color: #fafafa;
+        }
+
+
+        .main-container {
+            display: flex;
+            height: calc(100vh - 40px);
+        }
+
+        .document-viewer {
+            flex: 1;
+            background: #e0e0e0;
+            padding: 40px;
+            overflow: auto;
+        }
+
+        .document-page {
+            background: #fff;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .document-page iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            pointer-events: none;
+        }
+
+        .pdf-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            cursor: crosshair;
+            z-index: 1;
+        }
+
+
+        .sidebar {
+            width: 400px;
+            background: #fff;
+            padding: 40px;
+            border-left: 1px solid #e0e0e0;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 30px;
+        }
+
+        .cancel-link {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .cancel-link:hover {
+            text-decoration: underline;
+        }
+
+        .sidebar-content {
+            flex: 1;
+        }
+
+        .certificate-info {
+            margin-bottom: 120px;
+        }
+
+        .certificate-text {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .additional-note {
+            color: #888;
+            font-size: 12px;
+            margin-top: 6px;
+        }
+
+        .change-certificate {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .change-certificate:hover {
+            text-decoration: underline;
+        }
+
+        .signature-block {
+            background: #f5f5f5;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .signature-top {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .signature-seal {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .signature-name {
+            font-family: 'Bradley Hand', 'Brush Script MT', cursive;
+            font-size: 36px;
+            color: #1a1a1a;
+            font-weight: normal;
+        }
+
+        .signature-details {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .edit-signature {
+            margin-bottom: 30px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .edit-signature a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .edit-signature a:hover {
+            text-decoration: underline;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            font-size: 15px;
+            font-weight: 500;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: #1a1a1a;
+            color: #fafafa;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background: #333;
+        }
+
+        .sidebar-footer {
+            padding-top: 20px;
+        }
+
+        /* Edit signature modal */
+        .edit-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .edit-modal.show {
+            display: flex;
+        }
+
+        .edit-modal-content {
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .edit-modal-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0 0 30px 0;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            font-size: 15px;
+            cursor: pointer;
+            margin: 0;
+        }
+
+        .function-input {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 15px;
+            background: #fafafa;
+            border: none;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-family: inherit;
+            margin-top: 10px;
+        }
+
+        .function-input:focus {
+            outline: 2px solid #1a1a1a;
+            outline-offset: -2px;
+            background: #fff;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #1a1a1a;
+            flex: 1;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .signature-in-document {
+            display: inline-flex;
+            flex-direction: column;
+            gap: 4px;
+            align-items: center;
+            position: absolute;
+            cursor: move;
+        }
+
+        .signature-in-document .signature-top {
+            gap: 10px;
+        }
+
+        .signature-in-document .signature-seal {
+            width: 40px;
+            height: 40px;
+        }
+
+        .signature-in-document .signature-seal svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        .signature-in-document .signature-name {
+            font-size: 24px;
+        }
+
+        .signature-in-document .signature-details {
+            font-size: 11px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="page-title">
+        <div class="step-indicator">
+            <div class="step active">
+                <div class="step-number">1</div>
+                <div class="step-text">Podepsání</div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-text">Odeslání</div>
+            </div>
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="document-viewer">
+            <div class="document-page">
+                <iframe src="Zadání_UX UI_Software602.pdf"></iframe>
+                <div class="pdf-overlay" id="pdfOverlay"></div>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div class="sidebar-content">
+                <div class="certificate-info">
+                    <div class="certificate-text">Dokument se podepisuje certifikátem SignMaster</div>
+                    <a href="#" class="change-certificate">Změnit certifikát</a>
+                </div>
+
+                <div class="signature-block">
+                    <div class="signature-top">
+                        <div class="signature-seal">
+                            <svg width="60" height="60" viewBox="0 0 36 36">
+                                <defs>
+                                    <radialGradient id="waxGradient" cx="30%" cy="30%">
+                                        <stop offset="0%" stop-color="#9e9e9e"/>
+                                        <stop offset="50%" stop-color="#757575"/>
+                                        <stop offset="100%" stop-color="#545454"/>
+                                    </radialGradient>
+                                </defs>
+                                <path d="M18 2 C23 1 26 4 29 6 C32 9 33 13 33 18 C34 23 31 27 28 30 C24 33 20 34 16 33 C11 33 7 30 5 26 C2 22 2 17 3 13 C4 8 8 4 13 2 C15 1 17 2 18 2 Z"
+                                      fill="url(#waxGradient)" stroke="#404040" stroke-width="0.5"/>
+                                <circle cx="18" cy="17" r="10" fill="none" stroke="#404040" stroke-width="1.5" opacity="0.5"/>
+                                <circle cx="18" cy="17" r="7" fill="none" stroke="#404040" stroke-width="1" opacity="0.4"/>
+                                <text x="18" y="21" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="bold" font-family="Georgia, serif">602</text>
+                            </svg>
+                        </div>
+                        <div class="signature-name">A. Brom</div>
+                    </div>
+                    <div class="signature-details">
+                        Digitální podpis 12.&nbsp;12.&nbsp;2025&nbsp;12:00
+                    </div>
+                </div>
+
+                <div class="edit-signature">
+                    <a href="#">Upravit parafu</a> – např. přidat organizační složku
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <button class="btn btn-primary">Pokračovat bez parafy</button>
+                <a href="#" class="cancel-link" style="display: block; text-align: center; margin-top: 15px;">Zrušit podepisování</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let signaturePlaced = false;
+
+        document.getElementById('pdfOverlay').addEventListener('click', function(e) {
+            if (signaturePlaced) return;
+
+            // Získat pozici kliknutí relativně k document-page
+            const documentPage = document.querySelector('.document-page');
+            const rect = documentPage.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            // Vytvořit klon parafy
+            const signatureHTML = `
+                <div class="signature-in-document" style="left: ${x}px; top: ${y}px;">
+                    <div class="signature-top">
+                        <div class="signature-seal">
+                            <svg width="40" height="40" viewBox="0 0 36 36">
+                                <defs>
+                                    <radialGradient id="waxGradient2" cx="30%" cy="30%">
+                                        <stop offset="0%" stop-color="#9e9e9e"/>
+                                        <stop offset="50%" stop-color="#757575"/>
+                                        <stop offset="100%" stop-color="#545454"/>
+                                    </radialGradient>
+                                </defs>
+                                <path d="M18 2 C23 1 26 4 29 6 C32 9 33 13 33 18 C34 23 31 27 28 30 C24 33 20 34 16 33 C11 33 7 30 5 26 C2 22 2 17 3 13 C4 8 8 4 13 2 C15 1 17 2 18 2 Z"
+                                      fill="url(#waxGradient2)" stroke="#404040" stroke-width="0.5"/>
+                                <circle cx="18" cy="17" r="10" fill="none" stroke="#404040" stroke-width="1.5" opacity="0.5"/>
+                                <circle cx="18" cy="17" r="7" fill="none" stroke="#404040" stroke-width="1" opacity="0.4"/>
+                                <text x="18" y="21" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="bold" font-family="Georgia, serif">602</text>
+                            </svg>
+                        </div>
+                        <div class="signature-name">A. Brom</div>
+                    </div>
+                    <div class="signature-details">
+                        Digitální podpis 12.&nbsp;12.&nbsp;2025&nbsp;12:00
+                    </div>
+                </div>
+            `;
+
+            // Vložit parafu do dokumentu
+            documentPage.insertAdjacentHTML('beforeend', signatureHTML);
+
+            // Změnit text tlačítka
+            document.querySelector('.btn-primary').textContent = 'Pokračovat s parafou';
+
+            // Označit, že parafa byla vložena
+            signaturePlaced = true;
+
+            // Skrýt overlay
+            document.getElementById('pdfOverlay').style.display = 'none';
+        });
+
+        // Tlačítko vede na stránku document-signing
+        document.querySelector('.btn-primary').addEventListener('click', function() {
+            window.location.href = 'document-signing.html';
+        });
+    </script>
+</body>
+</html>
