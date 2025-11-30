@@ -424,11 +424,11 @@
                     <h3>✅ Finální: 3 kroky</h3>
                     <ol class="step-list">
                         <li><strong>Formulář</strong> Email, heslo, telefon, IČO (opt.)</li>
-                        <li><strong>Email link</strong> "Aktivujte účet" → SMS verifikace</li>
-                        <li><strong>SMS + auto-login</strong> 6místný kód → dashboard</li>
+                        <li><strong>SMS + auto-login</strong> 6místný kód → dashboard (omezený)</li>
+                        <li><strong>Email verification</strong> Potvrdit link pro plný přístup</li>
                     </ol>
                     <p style="margin-top: 20px; font-size: 14px; color: #388e3c;">
-                        <strong>Výsledek:</strong> Email i SMS verifikované, žádné re-authentication, 67% redukce kroků
+                        <strong>Výsledek:</strong> Okamžitý přístup po SMS, plná funkčnost po email verifikaci, 67% redukce kroků
                     </p>
                 </div>
             </div>
@@ -436,9 +436,9 @@
             <div class="success-box">
                 <h3>✅ Jak finální řešení funguje:</h3>
                 <p><strong>1. Registrace:</strong> User zadá email, heslo, telefon (IČO volitelné s ARES auto-fill)</p>
-                <p><strong>2. Email verification:</strong> "Aktivujte účet kliknutím" → link vede na SMS verifikační stránku</p>
-                <p><strong>3. SMS + auto-login:</strong> Po zadání SMS kódu je user okamžitě přihlášen do dashboardu</p>
-                <p><strong>Klíč:</strong> Email link nepotřebuje další klik na "Activate" - rovnou zobrazí SMS form. A po SMS není "klikni pro login" - je okamžitě přihlášen.</p>
+                <p><strong>2. SMS + auto-login:</strong> Po zadání SMS kódu je okamžitě přihlášen do dashboardu (s omezeným přístupem)</p>
+                <p><strong>3. Email verification (async):</strong> Email link poslán, ale neblokuje. User vidí banner "Potvrďte email pro plný přístup"</p>
+                <p><strong>Klíč:</strong> User je okamžitě "uvnitř" aplikace po SMS, vidí dashboard, ale nemůže podepisovat/posílat dokumenty dokud nepotvrdí email. Plná funkčnost po kliknutí na email link.</p>
             </div>
         </div>
 
@@ -446,21 +446,30 @@
             <h2>Proč toto řešení funguje</h2>
 
             <h3>Bezpečnost ✓</h3>
-            <p><strong>Email verification:</strong> Garantuje, že user vlastní email a může tam přijímat dokumenty</p>
-            <p><strong>SMS verification:</strong> Potvrzuje telefonní číslo (může být compliance requirement)</p>
-            <p><strong>Password recovery:</strong> Funguje správně, protože email je verifikovaný</p>
+            <p><strong>SMS verification první:</strong> Ověřuje telefon a umožňuje vstup do aplikace</p>
+            <p><strong>Email verification pro plný přístup:</strong> Garantuje, že user vlastní email pro kritické operace</p>
+            <p><strong>Omezený režim:</strong> User nemůže podepisovat/posílat dokumenty bez verifikovaného emailu</p>
+            <p><strong>Password recovery:</strong> Funguje správně, protože email musí být verifikován</p>
+            <p><strong>Žádný přístup k cizím emailům:</strong> Kritické akce vyžadují verifikaci</p>
 
             <h3>UX optimalizace ✓</h3>
+            <p><strong>Okamžitý vstup:</strong> Po SMS user vidí dashboard, necítí blokaci</p>
+            <p><strong>Asynchronní verifikace:</strong> Email probíhá na pozadí, neblokuje flow</p>
+            <p><strong>Jasná komunikace:</strong> Banner "Potvrďte email pro plný přístup" + disabled tlačítka</p>
             <p><strong>Žádné duplicity:</strong> Email 1x, heslo 1x (s show/hide toggle)</p>
-            <p><strong>Žádné redundantní kliky:</strong> Email link → SMS form (ne aktivační mezistránka)</p>
-            <p><strong>Auto-login:</strong> Po SMS verification okamžitý přístup k dashboardu</p>
             <p><strong>Progressive disclosure:</strong> IČO volitelné, ARES auto-fill pro business usery</p>
+
+            <h3>Pattern používaný úspěšnými aplikacemi ✓</h3>
+            <p><strong>Discord:</strong> Můžeš vidět server, ale ne posílat zprávy bez verifikace</p>
+            <p><strong>Slack:</strong> Přístup k workspace, ale omezené akce</p>
+            <p><strong>GitHub:</strong> Vidíš repos, ale nemůžeš pushovat</p>
 
             <h3>Měřitelný impact ✓</h3>
             <p><strong>9 kroků → 3 kroky:</strong> 67% redukce</p>
             <p><strong>11+ polí → 5 polí:</strong> 55% redukce</p>
-            <p><strong>Time to dashboard:</strong> 5-10 minut → <2 minuty (~75% rychlejší)</p>
+            <p><strong>Time to dashboard:</strong> 5-10 minut → <30 sekund (okamžitý vstup po SMS)</p>
             <p><strong>Re-authentication:</strong> Eliminováno</p>
+            <p><strong>Email verification:</strong> Neblokující, probíhá na pozadí</p>
         </div>
 
         <div class="section">
