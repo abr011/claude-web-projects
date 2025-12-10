@@ -1,0 +1,7 @@
+node_modules/
+.DS_Store
+*.pyc
+__pycache__/
+demo/node_modules/
+demo/package-lock.json
+demo/backup-*
