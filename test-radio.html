@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Radio</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 40px;
+            background-color: #fafafa;
+        }
+
+        .radio-container {
+            font-size: 16px;
+        }
+
+        .radio-container label {
+            display: inline-block;
+            margin-right: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h3>Kdo bude mít přístup k dokumentu</h3>
+
+    <div class="radio-container">
+        <label>
+            <input type="radio" name="access" value="signers" checked> ti, kteří ho podepsali
+        </label>
+        <label>
+            <input type="radio" name="access" value="all"> všichni
+        </label>
+        <label>
+            <input type="radio" name="access" value="custom"> nastavit podrobně
+        </label>
+    </div>
+</body>
+</html>

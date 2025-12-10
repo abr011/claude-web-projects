@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Study: Sofa SignPoint Registrace | Aleš Brom</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        .header {
+            margin-bottom: 80px;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .back-link:hover {
+            color: #1a1a1a;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin: 0 0 20px 0;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: #666;
+            margin: 0 0 30px 0;
+        }
+
+        .tldr {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 60px;
+            border-left: 4px solid #1a1a1a;
+        }
+
+        .tldr h2 {
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0 0 15px 0;
+            color: #666;
+        }
+
+        .tldr p {
+            margin: 0 0 15px 0;
+            font-size: 16px;
+        }
+
+        .tldr p:last-child {
+            margin: 0;
+        }
+
+        .section {
+            margin-bottom: 80px;
+        }
+
+        .section h2 {
+            font-size: 32px;
+            font-weight: 600;
+            margin: 0 0 30px 0;
+        }
+
+        .section h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 40px 0 20px 0;
+        }
+
+        .section p {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ff9800;
+            padding: 25px;
+            margin: 40px 0;
+            border-radius: 4px;
+        }
+
+        .warning-box h3 {
+            font-size: 20px;
+            margin: 0 0 15px 0;
+            color: #856404;
+        }
+
+        .warning-box p {
+            margin: 0 0 10px 0;
+            font-size: 15px;
+            color: #856404;
+        }
+
+        .warning-box p:last-child {
+            margin: 0;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 25px;
+            margin: 40px 0;
+            border-radius: 4px;
+        }
+
+        .success-box h3 {
+            font-size: 20px;
+            margin: 0 0 15px 0;
+            color: #155724;
+        }
+
+        .success-box p {
+            margin: 0 0 10px 0;
+            font-size: 15px;
+            color: #155724;
+        }
+
+        .success-box p:last-child {
+            margin: 0;
+        }
+
+        .flow-comparison {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .flow-column {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .flow-column h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0 0 20px 0;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .flow-column.current h3 {
+            color: #d32f2f;
+        }
+
+        .flow-column.first-attempt h3 {
+            color: #ff9800;
+        }
+
+        .flow-column.final h3 {
+            color: #388e3c;
+        }
+
+        .step-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            counter-reset: step-counter;
+        }
+
+        .step-list li {
+            padding: 15px 0 15px 35px;
+            border-bottom: 1px solid #f0f0f0;
+            position: relative;
+            font-size: 14px;
+            line-height: 1.5;
+            counter-increment: step-counter;
+        }
+
+        .step-list li:before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 15px;
+            width: 24px;
+            height: 24px;
+            background: #e0e0e0;
+            color: #666;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .step-list li:last-child {
+            border-bottom: none;
+        }
+
+        .step-list strong {
+            display: block;
+            margin-bottom: 4px;
+            color: #1a1a1a;
+        }
+
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .screenshot {
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .screenshot img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .screenshot-caption {
+            padding: 12px 15px;
+            font-size: 13px;
+            color: #666;
+            background: #fafafa;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .cta-box {
+            background: #1a1a1a;
+            color: #fafafa;
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        .cta-box h3 {
+            font-size: 24px;
+            margin: 0 0 20px 0;
+        }
+
+        .cta-link {
+            display: inline-block;
+            background: #fafafa;
+            color: #1a1a1a;
+            padding: 14px 32px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            margin: 10px;
+            transition: all 0.2s;
+        }
+
+        .cta-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 968px) {
+            .flow-comparison {
+                grid-template-columns: 1fr;
+            }
+
+            .screenshot-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="../" class="back-link">← Zpět na portfolio</a>
+            <h1>Redesign registrace pro Sofa SignPoint</h1>
+            <p class="subtitle">Jak jsem snížil friction z 9 kroků na 3 kroky (a proč ne na 2)</p>
+        </div>
+
+        <div class="tldr">
+            <h2>TL;DR</h2>
+            <p>Původní registrační flow měl 9 kroků a zabíjel konverzi. První pokus o redesign ho zredukoval na 2 kroky - ale měl <strong>bezpečnostní problém</strong>.</p>
+            <p><strong>Finální řešení:</strong> 3 kroky s email i SMS verifikací + auto-login = 67% redukce kroků, bezpečný proces, time to value &lt; 2 minuty.</p>
+            <p><em>Toto je case study o tom, jak balance mezi UX a bezpečností - a proč je důležité challengovat vlastní řešení.</em></p>
+        </div>
+
+        <div class="section">
+            <h2>Současný stav: 9 kroků frustrace</h2>
+            <p>Začněme tím, co uživatelé musí projít dnes. A je to long journey...</p>
+
+            <div class="screenshot-grid">
+                <div class="screenshot">
+                    <img src="pics/reg-1.png" alt="Krok 1: Kontaktní údaje">
+                    <div class="screenshot-caption">Krok 1/4: Kontaktní údaje - email 2x, heslo 2x (duplicity)</div>
+                </div>
+                <div class="screenshot">
+                    <img src="pics/reg-2.png" alt="Krok 2: Firemní údaje">
+                    <div class="screenshot-caption">Krok 2/4: Údaje o společnosti - celá stránka pro IČO a adresu</div>
+                </div>
+                <div class="screenshot">
+                    <img src="pics/reg-3.png" alt="Krok 3: SMS ověření">
+                    <div class="screenshot-caption">Krok 3/4: SMS ověření - zadání 6místného kódu</div>
+                </div>
+                <div class="screenshot">
+                    <img src="pics/aaa.png" alt="Krok 4: Email aktivace">
+                    <div class="screenshot-caption">Krok 4/4: Email - "Click to activate the account"</div>
+                </div>
+                <div class="screenshot">
+                    <img src="pics/aab.png" alt="Potvrzení aktivace">
+                    <div class="screenshot-caption">Krok 5: "Account activated. Click to go to login page"</div>
+                </div>
+                <div class="screenshot">
+                    <img src="pics/ab.png" alt="Onboarding modal">
+                    <div class="screenshot-caption">Krok 9: Po přihlášení onboarding video (který jsem později zrušil)</div>
+                </div>
+            </div>
+
+            <h3>Kompletní breakdown současného flow:</h3>
+            <ol class="step-list">
+                <li><strong>Formulář - Kontaktní údaje</strong> Jméno, email (2x), telefon, heslo (2x)</li>
+                <li><strong>Formulář - Firemní údaje</strong> IČO, název firmy, ulice, město, PSČ</li>
+                <li><strong>SMS verifikace</strong> Zadání 6místného kódu</li>
+                <li><strong>Kontrola emailu</strong> Otevřít schránku, najít email</li>
+                <li><strong>Klik na email link</strong> Přejít na aktivační stránku</li>
+                <li><strong>Klik "Activate account"</strong> Další klik na tlačítko</li>
+                <li><strong>Klik "Log in"</strong> Přejít na přihlášení</li>
+                <li><strong>Zadat email + heslo znovu</strong> Credentials, které jsem zadal před 5 minutami</li>
+                <li><strong>Zavřít onboarding</strong> Video tutorial s vysvětlením základů</li>
+            </ol>
+
+            <div class="warning-box">
+                <h3>⚠️ Klíčové problémy:</h3>
+                <p><strong>Duplicitní pole:</strong> Email 2x, heslo 2x - pattern z doby před show/hide tlačítky</p>
+                <p><strong>Double verification:</strong> SMS + email aktivace - proč obojí?</p>
+                <p><strong>Re-authentication absurdita:</strong> User zadal credentials, pak je musí zadat znovu</p>
+                <p><strong>Onboarding overhead:</strong> Tutorial před tím, než user cokoliv zkusí</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>První pokus: 2 kroky (ale s problémem)</h2>
+            <p>Můj první návrh byl agresivní: zredukovat na absolutní minimum.</p>
+
+            <h3>První návrh flow:</h3>
+            <ol class="step-list">
+                <li><strong>Formulář</strong> Jméno, email (1x), heslo (1x s show/hide), telefon, IČO (volitelné)</li>
+                <li><strong>SMS verifikace + auto-login</strong> 6místný kód → okamžitě přihlášen</li>
+            </ol>
+
+            <div class="warning-box">
+                <h3>🤔 Moment... je tohle bezpečné?</h3>
+                <p><strong>Problém:</strong> Email nikdy není verifikován. Co když user udělá překlep v emailu?</p>
+                <p><strong>Důsledky:</strong></p>
+                <p>❌ Nemůže si obnovit heslo (email neexistuje nebo patří někomu jinému)</p>
+                <p>❌ Nedostane důležité notifikace o dokumentech</p>
+                <p>❌ Pro e-signature platformu je email KRITICKÝ - tam se posílají podepsané dokumenty</p>
+                <p><strong>Verdict:</strong> SMS only verification není dostatečné pro platformu, kde email je primární komunikační kanál.</p>
+            </div>
+
+            <h3>Co jsem se naučil:</h3>
+            <p><strong>"Fastest isn't always best."</strong> Ano, 2 kroky jsou rychlejší než 9. Ale pokud ten rychlý proces vytvoří bezpečnostní nebo UX problém později (user si nemůže obnovit heslo), není to dobrý trade-off.</p>
+            <p><strong>Email verification má důvod.</strong> Není to jen legacy pattern - skutečně ověřuje, že email patří uživateli a že tam může přijímat důležitou komunikaci.</p>
+        </div>
+
+        <div class="section">
+            <h2>Finální řešení: 3 kroky s balance</h2>
+            <p>Po analýze bezpečnostních požadavků jsem našel optimal flow: zachovat email i SMS verifikaci, ale <strong>eliminovat redundanci a automatizovat přihlášení</strong>.</p>
+
+            <div class="flow-comparison">
+                <div class="flow-column current">
+                    <h3>❌ Současnost: 9 kroků</h3>
+                    <ol class="step-list">
+                        <li><strong>Formulář 1</strong> Kontakty (duplicity)</li>
+                        <li><strong>Formulář 2</strong> Firma</li>
+                        <li><strong>SMS</strong> Verifikace</li>
+                        <li><strong>Email</strong> Kontrola schránky</li>
+                        <li><strong>Klik email</strong> Link</li>
+                        <li><strong>Klik tlačítko</strong> Activate</li>
+                        <li><strong>Klik tlačítko</strong> Log in</li>
+                        <li><strong>Login form</strong> Credentials znovu</li>
+                        <li><strong>Onboarding</strong> Video tutorial</li>
+                    </ol>
+                </div>
+
+                <div class="flow-column first-attempt">
+                    <h3>⚠️ První pokus: 2 kroky</h3>
+                    <ol class="step-list">
+                        <li><strong>Formulář</strong> Všechna data najednou</li>
+                        <li><strong>SMS + auto-login</strong> Okamžitě přihlášen</li>
+                    </ol>
+                    <p style="margin-top: 20px; font-size: 14px; color: #ff9800;">
+                        <strong>Problém:</strong> Email nikdy verifikován → riziko pro recovery a komunikaci
+                    </p>
+                </div>
+
+                <div class="flow-column final">
+                    <h3>✅ Finální: 3 kroky</h3>
+                    <ol class="step-list">
+                        <li><strong>Formulář</strong> Email, heslo, telefon, IČO (opt.)</li>
+                        <li><strong>SMS + auto-login</strong> 6místný kód → dashboard (omezený)</li>
+                        <li><strong>Email verification</strong> Potvrdit link pro plný přístup</li>
+                    </ol>
+                    <p style="margin-top: 20px; font-size: 14px; color: #388e3c;">
+                        <strong>Výsledek:</strong> Okamžitý přístup po SMS, plná funkčnost po email verifikaci, 67% redukce kroků
+                    </p>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <h3>✅ Jak finální řešení funguje:</h3>
+                <p><strong>1. Registrace:</strong> User zadá email, heslo, telefon (IČO volitelné s ARES auto-fill)</p>
+                <p><strong>2. SMS + auto-login:</strong> Po zadání SMS kódu je okamžitě přihlášen do dashboardu (s omezeným přístupem)</p>
+                <p><strong>3. Email verification (async):</strong> Email link poslán, ale neblokuje. User vidí banner "Potvrďte email pro plný přístup"</p>
+                <p><strong>Klíč:</strong> User je okamžitě "uvnitř" aplikace po SMS, vidí dashboard, ale nemůže podepisovat/posílat dokumenty dokud nepotvrdí email. Plná funkčnost po kliknutí na email link.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Proč toto řešení funguje</h2>
+
+            <h3>Bezpečnost ✓</h3>
+            <p><strong>SMS verification první:</strong> Ověřuje telefon a umožňuje vstup do aplikace</p>
+            <p><strong>Email verification pro plný přístup:</strong> Garantuje, že user vlastní email pro kritické operace</p>
+            <p><strong>Omezený režim:</strong> User nemůže podepisovat/posílat dokumenty bez verifikovaného emailu</p>
+            <p><strong>Password recovery:</strong> Funguje správně, protože email musí být verifikován</p>
+            <p><strong>Žádný přístup k cizím emailům:</strong> Kritické akce vyžadují verifikaci</p>
+
+            <h3>UX optimalizace ✓</h3>
+            <p><strong>Okamžitý vstup:</strong> Po SMS user vidí dashboard, necítí blokaci</p>
+            <p><strong>Asynchronní verifikace:</strong> Email probíhá na pozadí, neblokuje flow</p>
+            <p><strong>Jasná komunikace:</strong> Banner "Potvrďte email pro plný přístup" + disabled tlačítka</p>
+            <p><strong>Žádné duplicity:</strong> Email 1x, heslo 1x (s show/hide toggle)</p>
+            <p><strong>Progressive disclosure:</strong> IČO volitelné, ARES auto-fill pro business usery</p>
+
+            <h3>Pattern používaný úspěšnými aplikacemi ✓</h3>
+            <p><strong>Discord:</strong> Můžeš vidět server, ale ne posílat zprávy bez verifikace</p>
+            <p><strong>Slack:</strong> Přístup k workspace, ale omezené akce</p>
+            <p><strong>GitHub:</strong> Vidíš repos, ale nemůžeš pushovat</p>
+
+            <h3>Měřitelný impact ✓</h3>
+            <p><strong>9 kroků → 3 kroky:</strong> 67% redukce</p>
+            <p><strong>11+ polí → 5 polí:</strong> 55% redukce</p>
+            <p><strong>Time to dashboard:</strong> 5-10 minut → <30 sekund (okamžitý vstup po SMS)</p>
+            <p><strong>Re-authentication:</strong> Eliminováno</p>
+            <p><strong>Email verification:</strong> Neblokující, probíhá na pozadí</p>
+        </div>
+
+        <div class="section">
+            <h2>Co jsem se naučil z této iterace</h2>
+
+            <h3>1. Challenge vlastní assumptions</h3>
+            <p>Můj první návrh vypadal skvěle na papíře - 2 kroky, super rychlý. Ale když jsem se zeptal "Co když user udělá překlep v emailu?", celé to spadlo. <strong>Vždy testuj edge cases a failure scenarios.</strong></p>
+
+            <h3>2. UX není jen o rychlosti</h3>
+            <p>Nejrychlejší cesta není vždy nejlepší. 2 kroky s neverifikovaným emailem by vytvořilo problémy později (password recovery fail, missed documents). 3 kroky s proper verification je lepší trade-off.</p>
+
+            <h3>3. Security a UX nejsou enemies</h3>
+            <p>Email + SMS verification sounds like "více kroků = horší UX". Ale když to navrhnete správně (email link → SMS form → auto-login), zachováte security BEZ zbytečného friction.</p>
+
+            <h3>4. Iterace je součást procesu</h3>
+            <p>První návrh nebyl perfektní. A to je OK. Důležité je identifikovat problémy, analyzovat je, a iterovat. <strong>Finální řešení je výsledek myšlení, ne první nápadu.</strong></p>
+        </div>
+
+        <div class="cta-box">
+            <h3>Chcete vidět implementaci?</h3>
+            <a href="../sofa-signpoint-ux/registrace-1.html" class="cta-link">Live demo registrace</a>
+            <a href="../sofa-signpoint-ux/prezentace.html" class="cta-link">Celá UX prezentace</a>
+        </div>
+    </div>
+</body>
+</html>

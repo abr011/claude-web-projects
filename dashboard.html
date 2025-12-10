@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Varianty</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #d0d0d0;
+            color: #1a1a1a;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            padding: 14px 30px;
+            border-radius: 8px;
+            font-size: 14px;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+        }
+
+        .toast a {
+            color: #1a1a1a;
+            text-decoration: underline;
+        }
+
+        /* Variant wrapper */
+        .variant-wrapper {
+            max-width: 1440px;
+            margin: 0 auto 60px auto;
+            background: #fff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .variant-wrapper:first-of-type {
+            margin-top: 80px;
+        }
+
+        /* Top navigation */
+        .top-nav {
+            background: #0066cc;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            height: 60px;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            margin-right: 40px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            flex: 1;
+        }
+
+        .nav-item {
+            color: #fff;
+            text-decoration: none;
+            font-size: 15px;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        .nav-item:hover {
+            border-bottom-color: #fff;
+        }
+
+        .nav-item.active {
+            border-bottom-color: #fff;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #fff;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #0066cc;
+        }
+
+        .user-name {
+            font-size: 15px;
+        }
+
+        .main-content {
+            background: #fafafa;
+            min-height: 600px;
+        }
+
+        .content-header {
+            background: #fff;
+            padding: 25px 40px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .content-body {
+            padding: 30px 40px;
+        }
+
+        /* Upload button */
+        .upload-fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #1a1a1a;
+            color: #fafafa;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.2s;
+            z-index: 100;
+        }
+
+        .upload-fab:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .upload-banner {
+            background: #fff;
+            border: 2px dashed #bbb;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 30px;
+        }
+
+        .upload-banner:hover {
+            border-color: #1a1a1a;
+            background: #fafafa;
+        }
+
+        .upload-banner-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin: 0 0 10px 0;
+            color: #1a1a1a;
+        }
+
+        .upload-banner-text {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Document lists */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .view-all {
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .view-all:hover {
+            color: #1a1a1a;
+        }
+
+        .doc-list {
+            background: transparent;
+            margin-bottom: 30px;
+        }
+
+        .doc-item {
+            padding: 18px 20px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .doc-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .doc-item:hover {
+            background: #f8f9fa;
+        }
+
+        .doc-item.urgent {
+            background: #fff;
+        }
+
+        .doc-item.urgent:hover {
+            background: #f8f9fa;
+        }
+
+        .doc-item.warning {
+            background: #fff;
+        }
+
+        .doc-main {
+            flex: 1;
+        }
+
+        .doc-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .doc-title a {
+            color: #1a1a1a;
+            text-decoration: none;
+        }
+
+        .doc-title a:hover {
+            text-decoration: underline;
+        }
+
+        .doc-meta {
+            font-size: 13px;
+            color: #666;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 6px;
+        }
+
+        .doc-meta:last-child {
+            margin-bottom: 0;
+        }
+
+        .doc-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-badge.urgent {
+            background: #1a1a1a;
+            color: #fafafa;
+        }
+
+        .status-badge.warning {
+            background: #666;
+            color: #fafafa;
+        }
+
+        .status-badge.waiting {
+            background: #e0e0e0;
+            color: #666;
+        }
+
+        .doc-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .doc-action-btn {
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .doc-action-btn:hover {
+            border-color: #1a1a1a;
+            color: #1a1a1a;
+        }
+
+        .doc-action-btn.primary {
+            background: transparent;
+            color: #1a1a1a;
+            border-color: #ccc;
+        }
+
+        .doc-action-btn.primary:hover {
+            border-color: #1a1a1a;
+            background: #f8f9fa;
+        }
+
+        /* Grid layouts */
+        .two-col-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .three-col-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        /* Stats cards */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .stat-number.urgent {
+            color: #1a1a1a;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Empty state */
+        .empty-state {
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .empty-state-text {
+            font-size: 15px;
+        }
+
+        /* Alert box */
+        .alert-box {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .alert-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+        }
+
+        .alert-text {
+            font-size: 14px;
+            margin: 0;
+            color: #666;
+        }
+
+        .alert-text a {
+            color: #1a1a1a;
+            text-decoration: underline;
+        }
+
+        /* Compact list */
+        .compact-list {
+            background: #fff;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .compact-item {
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            background: #fafafa;
+        }
+
+        .compact-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .compact-title {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .compact-meta {
+            font-size: 11px;
+            color: #888;
+        }
+
+        .count-badge {
+            display: inline-block;
+            background: #e0e0e0;
+            color: #666;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-left: 8px;
+        }
+
+        /* Three column sections */
+        .three-sections {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .section-column {
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            min-height: 250px;
+        }
+
+        .section-column .section-title {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Toast notification -->
+    <div class="toast">
+        Podepsáno, odesláno, uloženo do <a href="#">podepsaných dokumentů</a>
+    </div>
+
+    <!-- VARIANTA 1: Urgentní nahoře -->
+    <div class="variant-wrapper">
+        <div class="top-nav">
+            <div class="logo">UXTestFirma</div>
+            <div class="nav-menu">
+                <a href="#" class="nav-item active">Dashboard</a>
+                <a href="#" class="nav-item">Dokumenty</a>
+            </div>
+            <div class="user-menu">
+                <a href="#" class="nav-item">Nastavení</a>
+                <div class="user-avatar">AB</div>
+                <div class="user-name">Brom, Aleš</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="content-header">
+                <h1 class="page-title">Dashboard</h1>
+            </div>
+
+            <div class="content-body">
+                <!-- 3 SEKCE VEDLE SEBE -->
+                <div class="three-sections">
+                    <!-- 1. ČEKÁ NA VÁŠ PODPIS -->
+                    <div class="section-column">
+                        <h2 class="section-title">Čeká na Váš podpis<span class="count-badge">0</span></h2>
+                        <div class="empty-state">
+                            <div class="empty-state-text">Nečeká nic</div>
+                        </div>
+                    </div>
+
+                    <!-- 2. VYŽADUJE POZORNOST -->
+                    <div class="section-column">
+                        <h2 class="section-title">Vyžaduje pozornost<span class="count-badge">2</span></h2>
+                        <div class="doc-list">
+                            <div class="doc-item urgent">
+                                <div class="doc-main">
+                                    <div class="doc-meta">
+                                        <span class="status-badge urgent">Urgentní</span>
+                                    </div>
+                                    <div class="doc-title"><a href="#">Nájemní smlouva - Byt Vinohradská 123</a></div>
+                                    <div class="doc-meta">
+                                        <span>Deadline zítra 15:00</span>
+                                        <span>Protistrana: J. Nový, P. Svoboda</span>
+                                    </div>
+                                </div>
+                                <div class="doc-actions">
+                                    <button class="doc-action-btn primary">Připomenout</button>
+                                </div>
+                            </div>
+
+                            <div class="doc-item warning">
+                                <div class="doc-main">
+                                    <div class="doc-meta">
+                                        <span class="status-badge warning">Čeká dlouho</span>
+                                    </div>
+                                    <div class="doc-title"><a href="#">Smlouva o dílo - Redesign webu</a></div>
+                                    <div class="doc-meta">
+                                        <span>Od 19. 11.</span>
+                                        <span>Naše strana: F. Vomáčka</span>
+                                    </div>
+                                </div>
+                                <div class="doc-actions">
+                                    <button class="doc-action-btn primary">Stouchnout</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. ČEKÁ NA PODPIS OSTATNÍCH -->
+                    <div class="section-column">
+                        <h2 class="section-title">Čeká na ostatní<span class="count-badge">5</span></h2>
+                        <div class="doc-list">
+                            <div class="doc-item">
+                                <div class="doc-main">
+                                    <div class="doc-title"><a href="#">NDA - Acme Corp</a></div>
+                                    <div class="doc-meta">
+                                        <span>Protistrana: M. Smith (Acme Corp)</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="doc-item">
+                                <div class="doc-main">
+                                    <div class="doc-title"><a href="#">Pracovní smlouva - J. Nováková</a></div>
+                                    <div class="doc-meta">
+                                        <span>Naše strana: A. Brom, M. Svoboda a <a href="#" onclick="event.preventDefault(); alert('TODO: modal se seznamem');">2 další</a></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="doc-item">
+                                <div class="doc-main">
+                                    <div class="doc-title"><a href="#">Faktura 2025/0156</a></div>
+                                    <div class="doc-meta">
+                                        <span>Naše strana: M. Novotný (CFO)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- UPLOAD PŘES CELOU ŠÍŘKU -->
+                <div class="upload-banner">
+                    <div class="upload-banner-title">Nový dokument k podpisu</div>
+                    <div class="upload-banner-text">Přetáhněte soubor nebo klikněte pro výběr</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating upload button -->
+    <div class="upload-fab" title="Nahrát nový dokument">+</div>
+</body>
+</html>

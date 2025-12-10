@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfektní datum input</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background: #f8f9fa;
+        }
+        
+        .date-container {
+            position: relative;
+            width: 300px;
+            margin: 20px auto;
+        }
+        
+        .date-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+            cursor: text;
+            outline: none;
+        }
+        
+        .date-input:focus {
+            border-color: #0056b3;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+        }
+        
+        .calendar-popup {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            margin-top: 8px;
+            background: white;
+            border: 2px solid #007bff;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            padding: 20px;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .nav-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .nav-button:hover {
+            background: #0056b3;
+        }
+        
+        .month-year {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .calendar-table {
+            width: 100%;
+        }
+        
+        .calendar-table th {
+            padding: 8px;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            background: #f8f9fa;
+        }
+        
+        .calendar-table td {
+            padding: 8px;
+            text-align: center;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+        }
+        
+        .calendar-table td:hover {
+            background: #e3f2fd;
+            border-radius: 4px;
+        }
+        
+        .calendar-table td.today {
+            background: #007bff;
+            color: white;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+        
+        .calendar-table td.other-month {
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>📅 Perfektní datum input</h1>
+    
+    <div class="date-container">
+        <input type="text" 
+               id="dateInput" 
+               class="date-input" 
+               placeholder="dd.mm.rrrr" 
+               value="14.8.2025"
+               onfocus="showCalendar()"
+               onblur="hideCalendarDelayed()">
+        
+        <div id="calendar" class="calendar-popup">
+            <div class="calendar-header">
+                <button class="nav-button" onclick="changeMonth(-1)">‹</button>
+                <div class="month-year" id="monthDisplay">Srpen 2025</div>
+                <button class="nav-button" onclick="changeMonth(1)">›</button>
+            </div>
+            
+            <table class="calendar-table">
+                <tr>
+                    <th>Po</th>
+                    <th>Út</th>
+                    <th>St</th>
+                    <th>Čt</th>
+                    <th>Pá</th>
+                    <th>So</th>
+                    <th>Ne</th>
+                </tr>
+                <tbody id="calendarDays">
+                    <!-- Dny se vygenerují zde -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let year = 2025;
+        let month = 7; // srpna
+        const months = ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", 
+                       "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"];
+
+        function showCalendar() {
+            document.getElementById('calendar').style.display = 'block';
+            generateCalendar();
+        }
+
+        function hideCalendarDelayed() {
+            setTimeout(() => {
+                document.getElementById('calendar').style.display = 'none';
+            }, 200);
+        }
+
+        function generateCalendar() {
+            const today = new Date();
+            const firstDay = new Date(year, month, 1);
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            document.getElementById('monthDisplay').textContent = `${months[month]} ${year}`;
+            
+            let startDay = firstDay.getDay();
+            startDay = startDay === 0 ? 6 : startDay - 1; // Pondělí = 0
+            
+            const tbody = document.getElementById('calendarDays');
+            tbody.innerHTML = '';
+            
+            let date = 1;
+            for (let week = 0; week < 6; week++) {
+                const row = tbody.insertRow();
+                
+                for (let day = 0; day < 7; day++) {
+                    const cell = row.insertCell();
+                    
+                    if (week === 0 && day < startDay) {
+                        cell.textContent = '';
+                        cell.className = 'other-month';
+                    } else if (date > daysInMonth) {
+                        cell.textContent = '';
+                        cell.className = 'other-month';
+                    } else {
+                        cell.textContent = date;
+                        
+                        if (year === today.getFullYear() && 
+                            month === today.getMonth() && 
+                            date === today.getDate()) {
+                            cell.className = 'today';
+                        }
+                        
+                        cell.onclick = function() {
+                            const input = document.getElementById('dateInput');
+                            input.value = `${date}.${month + 1}.${year}`;
+                            document.getElementById('calendar').style.display = 'none';
+                        };
+                        
+                        date++;
+                    }
+                }
+                
+                if (date > daysInMonth) break;
+            }
+        }
+
+        function changeMonth(direction) {
+            month += direction;
+            if (month > 11) {
+                month = 0;
+                year++;
+            } else if (month < 0) {
+                month = 11;
+                year--;
+            }
+            generateCalendar();
+        }
+
+        // Zavři kalendář kliknutím mimo něj
+        document.addEventListener('click', function(e) {
+            const calendar = document.getElementById('calendar');
+            const input = document.getElementById('dateInput');
+            
+            if (!calendar.contains(e.target) && e.target !== input) {
+                calendar.style.display = 'none';
+            }
+        });
+
+        generateCalendar();
+    </script>
+</body>
+</html>

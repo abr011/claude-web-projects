@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test českých datumů</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-result { padding: 10px; margin: 10px 0; border: 1px solid #ddd; }
+        .result { font-weight: bold; color: #007bff; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test formátování českých datumů</h1>
+    
+    <div class="test-result">
+        <h3>Aktuální datum:</h3>
+        <p>Původní: <span id="original-date"></span></p>
+        <p>České formátování: <span id="czech-date" class="result"></span></p>
+    </div>
+    
+    <div class="test-result">
+        <h3>Testovací datum (2024-08-14):</h3>
+        <p>Původní: 2024-08-14</p>
+        <p>České formátování: <span id="test-date" class="result"></span></p>
+    </div>
+    
+    <div class="test-result">
+        <h3>Datum z localStorage faktur:</h3>
+        <div id="invoice-dates"></div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Test aktuálního data
+        const now = new Date();
+        document.getElementById('original-date').textContent = now.toISOString();
+        document.getElementById('czech-date').textContent = formatDate(now);
+        
+        // Test konkrétního data
+        const testDate = new Date('2024-08-14');
+        document.getElementById('test-date').textContent = formatDate(testDate);
+        
+        // Test dat z faktur
+        const invoiceData = localStorage.getItem('invoiceApp_data');
+        const invoiceDatesEl = document.getElementById('invoice-dates');
+        
+        if (invoiceData) {
+            try {
+                const invoices = JSON.parse(invoiceData);
+                invoices.forEach((invoice, index) => {
+                    const div = document.createElement('div');
+                    div.innerHTML = `
+                        <strong>Faktura ${invoice.number}:</strong><br>
+                        Vytvořeno: ${invoice.createdAt} → ${formatDate(invoice.createdAt)}<br>
+                        Splatnost: ${invoice.dueDate} → ${formatDate(invoice.dueDate)}<br>
+                        ${invoice.issueDate ? `Vystavení: ${invoice.issueDate} → ${formatDate(invoice.issueDate)}<br>` : ''}
+                    `;
+                    invoiceDatesEl.appendChild(div);
+                });
+            } catch (error) {
+                invoiceDatesEl.textContent = 'Chyba při načítání faktur: ' + error.message;
+            }
+        } else {
+            invoiceDatesEl.textContent = 'Žádné faktury v localStorage';
+        }
+    </script>
+</body>
+</html>

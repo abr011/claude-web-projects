@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UX návrh Sofa SignPoint - Software602</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin: 0 0 20px 0;
+            color: #1a1a1a;
+        }
+
+        h2 {
+            font-size: 32px;
+            font-weight: 600;
+            margin: 80px 0 30px 0;
+            color: #1a1a1a;
+        }
+
+        h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 40px 0 20px 0;
+            color: #1a1a1a;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: #666;
+            margin-bottom: 60px;
+        }
+
+        .intro-box {
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+
+        .intro-text {
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .task-list {
+            background: #f5f5f5;
+            padding: 30px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: flex-start;
+            margin: 20px 0;
+            padding: 15px;
+            background: #fff;
+            border-radius: 4px;
+        }
+
+        .task-item.skipped {
+            background: #fff9e6;
+            border-left: 4px solid #ffa500;
+        }
+
+        .task-number {
+            background: #1a1a1a;
+            color: #fff;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+            margin-right: 20px;
+        }
+
+        .task-item.skipped .task-number {
+            background: #ffa500;
+        }
+
+        .task-content {
+            flex: 1;
+        }
+
+        .task-content strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .task-note {
+            display: inline-block;
+            background: #ffa500;
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .problems-list {
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+
+        .problem-item {
+            margin-bottom: 30px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .problem-item::before {
+            content: "⚠";
+            position: absolute;
+            left: 0;
+            font-size: 20px;
+            color: #ff6b6b;
+        }
+
+        .problem-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+        }
+
+        .problem-description {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .solution-box {
+            background: #e8f4f8;
+            padding: 40px;
+            border-radius: 8px;
+            margin: 40px 0;
+        }
+
+        .solution-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .solution-description {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin: 40px 0;
+        }
+
+        .comparison-card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+        }
+
+        .comparison-card h4 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0 0 20px 0;
+        }
+
+        .comparison-card.current {
+            border: 2px solid #ff6b6b;
+        }
+
+        .comparison-card.proposed {
+            border: 2px solid #51cf66;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+        }
+
+        .tag.current {
+            background: #ffe0e0;
+            color: #c92a2a;
+        }
+
+        .tag.proposed {
+            background: #d3f9d8;
+            color: #2b8a3e;
+        }
+
+        .steps-flow {
+            display: flex;
+            gap: 15px;
+            margin: 40px 0;
+            padding-bottom: 20px;
+        }
+
+        .step-card {
+            flex: 1;
+            min-width: 0;
+            background: #fff;
+            padding: 20px 15px;
+            border-radius: 8px;
+            text-align: center;
+            position: relative;
+        }
+
+        .step-card::after {
+            content: "→";
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            color: #d0d0d0;
+        }
+
+        .step-card:last-child::after {
+            display: none;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: #007bff;
+            color: #fafafa;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px auto;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .step-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .step-description {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+        }
+
+        .feature-icon {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .feature-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+        }
+
+        .feature-description {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .highlight-box {
+            background: #f5f5f5;
+            padding: 30px;
+            border-radius: 8px;
+            margin: 30px 0;
+            border-left: 4px solid #007bff;
+        }
+
+        .funny-box {
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            margin: 40px 0;
+            border-left: 4px solid #ffa500;
+        }
+
+        .funny-box h3 {
+            margin-top: 0;
+            color: #ffa500;
+        }
+
+        .design-principles {
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            margin: 40px 0;
+        }
+
+        .principle-item {
+            margin-bottom: 25px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .principle-item::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            font-size: 20px;
+            color: #51cf66;
+            font-weight: bold;
+        }
+
+        .principle-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #1a1a1a;
+        }
+
+        .principle-description {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .demo-link {
+            display: inline-block;
+            background: #007bff;
+            color: #fafafa;
+            padding: 14px 32px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: background 0.2s;
+            margin-right: 15px;
+            margin-bottom: 10px;
+        }
+
+        .demo-link:hover {
+            background: #0056b3;
+        }
+
+        .demo-link.secondary {
+            background: #fff;
+            color: #007bff;
+            border: 2px solid #007bff;
+        }
+
+        .demo-link.secondary:hover {
+            background: #f5f8ff;
+        }
+
+        .code-example {
+            background: #1a1a1a;
+            color: #fafafa;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 13px;
+        }
+
+        ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>UX návrh pro Sofa SignPoint</h1>
+        <p class="subtitle">Zadání od Software602 - Registrace, Onboarding a Proces jednoduchého podpisu</p>
+
+        <!-- Úvod -->
+        <div class="intro-box">
+            <p class="intro-text">
+                Zadání obsahovalo tři úkoly zaměřené na zlepšení uživatelské zkušenosti aplikace Sofa SignPoint.
+                Cíl: udělat registraci jednodušší, navrhnout onboarding a zefektivnit proces podepisování dokumentů.
+            </p>
+
+            <div class="task-list">
+                <div class="task-item">
+                    <div class="task-number">1</div>
+                    <div class="task-content">
+                        <strong>Návrh registračního formuláře</strong>
+                        Analyzovat současný 4krokový proces registrace a navrhnout zlepšení
+                    </div>
+                </div>
+
+                <div class="task-item skipped">
+                    <div class="task-number">2</div>
+                    <div class="task-content">
+                        <strong>Návrh onboardingu <span class="task-note">Nesplněno</span></strong>
+                        Navrhnout onboarding proces pro uživatele po první registraci
+                    </div>
+                </div>
+
+                <div class="task-item">
+                    <div class="task-number">3</div>
+                    <div class="task-content">
+                        <strong>Návrh jednoduchého procesu podpisu</strong>
+                        Navrhnout UX pro jednoduché podepisování dokumentů s maximální ergonomií
+                    </div>
+                </div>
+            </div>
+
+            <p class="intro-text" style="margin-bottom: 0;">
+                Začnu registrací, pak vysvětlím proč jsem úkol č. 2 nesplnil, a nakonec ukážu proces podepisování.
+            </p>
+        </div>
+
+        <!-- ÚKOL 1: REGISTRACE -->
+        <h2>Úkol 1: Registrace</h2>
+
+        <div class="problems-list">
+            <h3 style="margin-top: 0;">Současný stav - co jsem našel</h3>
+
+            <div class="problem-item">
+                <div class="problem-title">1. Příliš mnoho kroků (4 kroky registrace + aktivace + přihlášení)</div>
+                <div class="problem-description">
+                    Uživatel musí projít registrací (4 kroky), pak kliknout na odkaz v emailu a aktivovat účet (2 kroky),
+                    poté se přihlásit (2 kroky). To je celkem 8-9 kroků k tomu, aby se dostal do aplikace.
+                </div>
+            </div>
+
+            <div class="problem-item">
+                <div class="problem-title">2. Duplicitní pole "pro kontrolu"</div>
+                <div class="problem-description">
+                    Email a heslo se musí zadat 2x. To je stará praxe z dob, kdy ještě nebyla běžná možnost "zobrazit heslo".
+                    Dnes už to většina aplikací nedělá - stačí jedno pole s možností zobrazit.
+                </div>
+            </div>
+
+            <div class="problem-item">
+                <div class="problem-title">3. Aktivace účtu přes email je zbytečný krok</div>
+                <div class="problem-description">
+                    Po registraci musí uživatel kliknout na link v emailu, pak znovu kliknout na "Aktivovat účet",
+                    a až pak se může přihlásit. Pokud není důvod (compliance, anti-spam), je to jen zbytečná frikce.
+                </div>
+            </div>
+
+            <div class="problem-item">
+                <div class="problem-title">4. Uživatel se musí přihlásit znovu hned po registraci</div>
+                <div class="problem-description">
+                    Když už právě zadal email a heslo při registraci, proč ho nutit přihlašovat se znovu?
+                    Moderní aplikace uživatele automaticky přihlásí a rovnou ho pustí dovnitř.
+                </div>
+            </div>
+        </div>
+
+        <div class="solution-box">
+            <div class="solution-title">Navrhované řešení</div>
+            <div class="solution-description">
+                Zjednodušený proces v 1-2 krocích s automatickým přihlášením a okamžitou použitelností.
+                Žádné duplicitní pole, žádná zbytečná aktivace, žádné opakované přihlášení.
+            </div>
+        </div>
+
+        <div class="comparison-grid">
+            <div class="comparison-card current">
+                <span class="tag current">Současný stav</span>
+                <h4>8-9 kroků k cíli</h4>
+                <ul>
+                    <li>4 kroky registrace</li>
+                    <li>Email a heslo 2x</li>
+                    <li>Aktivace přes email (2 kroky)</li>
+                    <li>Přihlášení znovu (2 kroky)</li>
+                    <li>Teprve pak dashboard</li>
+                </ul>
+            </div>
+
+            <div class="comparison-card proposed">
+                <span class="tag proposed">Navrhované řešení</span>
+                <h4>2 kroky k cíli</h4>
+                <ul>
+                    <li>1-2 stránky registrace</li>
+                    <li>Email a heslo 1x</li>
+                    <li>Automatické přihlášení</li>
+                    <li>Rovnou dashboard</li>
+                    <li>První dokument lze podepsat okamžitě</li>
+                </ul>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="registrace-1.html" class="demo-link">Registrace (2 kroky na 1 stránce)</a>
+            <a href="registrace-2.html" class="demo-link secondary">Krok 2: Potvrzení SMS (samostatně)</a>
+        </div>
+
+        <!-- Dashboard jako výchozí bod -->
+        <h3>Dashboard jako výchozí bod po registraci</h3>
+
+        <div class="comparison-grid">
+            <div class="comparison-card">
+                <h4>Dashboard Zero</h4>
+                <p style="color: #666; font-size: 14px; margin-bottom: 15px;">
+                    Úplně prázdný dashboard po registraci
+                </p>
+                <ul style="font-size: 14px;">
+                    <li>Všechny sekce prázdné (0)</li>
+                    <li>Velký banner "Nahrajte první dokument"</li>
+                    <li>Modal s potvrzením emailu (zavřít kliknutím mimo pro simulaci potvrzení)</li>
+                </ul>
+                <a href="dashboard-zero.html" class="demo-link secondary">Zobrazit demo</a>
+            </div>
+
+            <div class="comparison-card">
+                <h4>Dashboard One</h4>
+                <p style="color: #666; font-size: 14px; margin-bottom: 15px;">
+                    Dashboard s prvním odeslaným dokumentem
+                </p>
+                <ul style="font-size: 14px;">
+                    <li>Dokument v "Čeká na ostatní" (1)</li>
+                    <li>Dokument v "Znovu podepsat"</li>
+                    <li>Kontextové doporučení</li>
+                    <li>Toast "Dokument odeslán"</li>
+                </ul>
+                <a href="dashboard-one.html" class="demo-link secondary">Zobrazit demo</a>
+            </div>
+        </div>
+
+        <!-- ÚKOL 2: ONBOARDING -->
+        <h2>Úkol 2: Onboarding (nesplněno)</h2>
+
+        <div class="funny-box">
+            <h3>Proč jsem to neudělal</h3>
+            <p style="font-size: 16px; line-height: 1.8; margin-bottom: 20px;">
+                Tady musím být upřímný - úkol č. 2 jsem úmyslně nesplnil. Ne proto, že by mi to přišlo těžké
+                (navrhnout pár onboarding obrazovek by bylo snadné), ale proto, že bych tím vlastně zhoršil to,
+                co jsem se snažil vyřešit v úkolech 1 a 3.
+            </p>
+
+            <p style="font-size: 16px; line-height: 1.8; margin-bottom: 20px;">
+                <strong>Zkrátka:</strong> Pokud uživatel potřebuje onboarding k tomu, aby pochopil jak aplikace funguje,
+                problém není v chybějícím onboardingu - problém je v aplikaci.
+            </p>
+
+            <p style="font-size: 16px; line-height: 1.8; margin: 0;">
+                Sofa SignPoint má <strong>jeden jasný use case</strong>: podepsat dokument a odeslat ho protistraně.
+                Není to složitý CRM se stovkami funkcí. Proto místo onboardingu navrhuji design, který je natolik
+                intuitivní, že onboarding není potřeba.
+            </p>
+        </div>
+
+        <div class="comparison-grid">
+            <div class="comparison-card current">
+                <h4>S onboardingem</h4>
+                <ul>
+                    <li>Po registraci se zobrazí modal s videem</li>
+                    <li>Uživatel musí video sledovat (nebo rychle proklikne)</li>
+                    <li>Možná ještě průvodce nastavením</li>
+                    <li>Teprve pak může začít používat</li>
+                    <li>Většina info je zapomenuta než ji potřebuje</li>
+                </ul>
+                <p style="color: #999; font-size: 13px; margin-top: 15px;">Oddaluje okamžik, kdy uživatel dosáhne svého cíle</p>
+            </div>
+
+            <div class="comparison-card proposed">
+                <h4>Bez onboardingu (intuitivní design)</h4>
+                <ul>
+                    <li>Dashboard s jasnou výzvou "Nahrajte první dokument"</li>
+                    <li>Dvoustupňový proces s indikátory nahoře</li>
+                    <li>Placeholder text ve formulářích</li>
+                    <li>Milé chybové hlášky s příklady</li>
+                    <li>Kontextová nápověda když ji uživatel potřebuje</li>
+                </ul>
+                <p style="color: #999; font-size: 13px; margin-top: 15px;">Okamžitá hodnota, learn by doing</p>
+            </div>
+        </div>
+
+        <div class="design-principles">
+            <h3 style="margin-top: 0;">Jak jsme eliminovali potřebu onboardingu</h3>
+
+            <div class="principle-item">
+                <div class="principle-title">Jeden jasný cíl</div>
+                <div class="principle-description">
+                    Aplikace dělá jednu věc dobře. Není potřeba vysvětlovat desítky funkcí.
+                </div>
+            </div>
+
+            <div class="principle-item">
+                <div class="principle-title">Sebeobslužný design</div>
+                <div class="principle-description">
+                    Každý prvek má jasný účel. Tlačítka říkají, co udělají. Formuláře ukazují příklady.
+                </div>
+            </div>
+
+            <div class="principle-item">
+                <div class="principle-title">Empty states místo prázdných ploch</div>
+                <div class="principle-description">
+                    Prázdný dashboard není jen prázdná plocha - obsahuje jasnou výzvu k akci.
+                </div>
+            </div>
+
+            <div class="principle-item">
+                <div class="principle-title">Kontextová nápověda</div>
+                <div class="principle-description">
+                    Nápověda přichází v okamžiku, kdy ji uživatel potřebuje - ne 5 minut předtím ve videu.
+                </div>
+            </div>
+
+            <div class="principle-item">
+                <div class="principle-title">Milé chybové hlášky</div>
+                <div class="principle-description">
+                    "Zkontrolujte prosím @ a koncovku (např. jmeno@domena.cz)" místo "Chyba! Neplatný email".
+                </div>
+            </div>
+        </div>
+
+        <!-- ÚKOL 3: PROCES PODPISU -->
+        <h2>Úkol 3: Proces jednoduchého podpisu</h2>
+
+        <div class="highlight-box">
+            <p style="margin: 0; font-size: 15px;">
+                <strong>Ze zadání:</strong> "Proces jednoduchého podpisu je nejtutinnější úkol v aplikaci,
+                u toho bychom tedy chtěli cílit na co největší ergonomii a co nejkratší průchod procesem."
+            </p>
+        </div>
+
+        <div class="problems-list">
+            <h3 style="margin-top: 0;">Současný stav - co jsem našel</h3>
+
+            <div class="problem-item">
+                <div class="problem-title">1. Přílišná délka a složitost formuláře</div>
+                <div class="problem-description">
+                    Formulář obsahuje desítky polí v rozbalovacích sekcích (Zadavatel, Soubory k podepsání, Další přílohy,
+                    Interní přílohy, Údaje o dokumentu, Komentáře, Schvalování a podepisování, Nastavení notifikací).
+                    Pro běžný jednoduchý podpis je většina těchto polí nadbytečná.
+                </div>
+            </div>
+
+            <div class="problem-item">
+                <div class="problem-title">2. Nutný setup před prvním použitím</div>
+                <div class="problem-description">
+                    Uživatel nemůže poslat dokument k podpisu bez předchozího nastavení uživatelů v systému.
+                    To vytváří friction a prodlužuje čas do první hodnoty.
+                </div>
+            </div>
+
+            <div class="problem-item">
+                <div class="problem-title">3. Nejasná hierarchie informací</div>
+                <div class="problem-description">
+                    Není jasné, která pole jsou povinná a která volitelná. Uživatel musí procházet celý formulář
+                    a teprve postupně zjišťuje, co všechno musí vyplnit.
+                </div>
+            </div>
+        </div>
+
+        <div class="solution-box">
+            <div class="solution-title">Navrhované řešení</div>
+            <div class="solution-description">
+                Ano, původní aplikace již používá dvoustupňový proces. Jenže <strong>počet kroků není řešení</strong> - klíčové je, co se v nich odehrává a jak jsou navržené. Rozdíl mezi špatným a dobrým UX často nespočívá v tom, kolik obrazovek uživatel vidí, ale v tom, kolik rozhodnutí musí udělat a kolik nadbytečné práce odvést.
+            </div>
+            <div class="solution-description">
+                <strong>Při podpisu:</strong> Soustředění čistě na umístění parafy do dokumentu. Žádné zaškrtávací políčka, žádná povinná pole, žádné proklikávání nabídek. Kliknu do dokumentu, parafa je umístěná, pokračuji dál. Vše ostatní je buď automatické, nebo volitelné.
+            </div>
+            <div class="solution-description">
+                <strong>Na stránce s odesláním:</strong> Veškeré informace viditelné na jedné obrazovce bez posunu stránky. Je zřejmé, že lze vyplnit protistranu - ale není to povinné, pokud chci dokument pouze stáhnout. Lze přidat spolupodepisující, vytvořit skupiny, nastavit schvalovací proces - ale vše je volitelné. Základní scénář (podepsat a odeslat) lze dokončit během několika sekund, bez posunu stránky a bez nutnosti prozkoumávat rozhraní.
+            </div>
+            <div class="solution-description">
+                Pokročilé funkce jako kontrola 4 očí jsou přirozeně k dispozici, ale nejsou vtěsnané do primární cesty. Objeví se, až je budete potřebovat - což je přesně jak by měla progresivní komplexita fungovat.
+            </div>
+            <div class="solution-description" style="margin-bottom: 0;">
+                A pak přichází <strong>inteligentní dashboard po dokončení</strong>. V tento moment je uživatel vnímavý - právě splnil svůj úkol, je spokojený a otevřený dalším krokům. Právě teď, ne dříve, mu nabídneme lehkou analýzu toho, co se stalo, a kontextová doporučení pro rozšíření jeho možností. Timing je v UX stejně důležitý jako obsah.
+            </div>
+        </div>
+
+        <div class="steps-flow">
+            <div class="step-card">
+                <div class="step-number">0</div>
+                <div class="step-name">Dashboard</div>
+                <div class="step-description">Nahrání dokumentu přes drag & drop</div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <div class="step-name">Podepsání</div>
+                <div class="step-description">Interaktivní umístění parafy</div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <div class="step-name">Odeslání</div>
+                <div class="step-description">Zadání příjemců</div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">✓</div>
+                <div class="step-name">Dashboard</div>
+                <div class="step-description">Potvrzení a přehled</div>
+            </div>
+        </div>
+
+        <!-- Klíčové funkce -->
+        <h2>Klíčové funkce</h2>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <div class="feature-title">Inteligentní dashboard</div>
+                <div class="feature-description">
+                    Tři přehledné sekce (Čeká na váš podpis, Vyžaduje pozornost, Čeká na ostatní) poskytují
+                    okamžitý přehled o stavu všech dokumentů.
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">👥</div>
+                <div class="feature-title">Flexibilní nastavení příjemců</div>
+                <div class="feature-description">
+                    Možnost přidat protistranu, spolupodepisující nebo vytvořit skupinu.
+                    Systém si pamatuje často používané kontakty.
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">💾</div>
+                <div class="feature-title">Dva režimy: Odeslat vs. Uložit</div>
+                <div class="feature-description">
+                    <strong>Odeslat k podepsání</strong> - validuje email, objeví se v "Čeká na ostatní"<br>
+                    <strong>Uložit a stáhnout</strong> - bez validace, pouze v "Znovu podepsat"
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔔</div>
+                <div class="feature-title">Toast notifikace s akcemi</div>
+                <div class="feature-description">
+                    Modrá toast (8s) potvrzuje akci s možností "Zrušit odeslání".
+                    Feedback je okamžitý a uživatel má kontrolu.
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <div class="feature-title">Sekce "Znovu podepsat"</div>
+                <div class="feature-description">
+                    Nedávno zpracované dokumenty se objeví v této sekci pro rychlý opakovaný podpis.
+                    Ideální pro šablony.
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">💡</div>
+                <div class="feature-title">Kontextová doporučení</div>
+                <div class="feature-description">
+                    Po odeslání/uložení se zobrazí doporučení s tipy (např. "označte dokument jako šablonu").
+                </div>
+            </div>
+        </div>
+
+        <!-- Design systém -->
+        <h2>Design systém</h2>
+
+        <div class="design-principles">
+            <h3 style="margin-top: 0;">Klíčové principy</h3>
+
+            <div class="principle-item">
+                <div class="principle-title">Minimalistický design bez borderů</div>
+                <div class="principle-description">
+                    Žádné čáry mezi sekcemi - pracujeme s white space. Čistý, vzdušný layout.
+                </div>
+            </div>
+
+            <div class="principle-item">
+                <div class="principle-title">Konzistentní barevná paleta</div>
+                <div class="principle-description">
+                    Off-white <span class="code-example">#fafafa</span>,
+                    soft black <span class="code-example">#1a1a1a</span>,
+                    modrá <span class="code-example">#007bff</span>
+                </div>
+            </div>
+
+            <div class="principle-item">
+                <div class="principle-title">Přátelské chybové hlášky</div>
+                <div class="principle-description">
+                    Vždy zdvořilý tón s konkrétními příklady a řešením.
+                </div>
+            </div>
+
+            <div class="principle-item">
+                <div class="principle-title">Subtilní krokovací indikátory</div>
+                <div class="principle-description">
+                    Malé kroužky (20x20px) s čísly v jednom řádku. Aktivní černý, neaktivní šedý.
+                </div>
+            </div>
+
+            <div class="principle-item">
+                <div class="principle-title">Počty v závorce</div>
+                <div class="principle-description">
+                    U všech seznamů: "Čeká na váš podpis (5)". Uživatel okamžitě vidí, kolik má práce.
+                </div>
+            </div>
+
+            <div class="principle-item">
+                <div class="principle-title">Progresivní disclosure</div>
+                <div class="principle-description">
+                    Pokročilé funkce jsou skryté. Základní flow je jednoduchý, power users mají přístup k více.
+                </div>
+            </div>
+        </div>
+
+        <div class="highlight-box">
+            <p style="margin: 0; font-size: 16px; line-height: 1.8;">
+                <strong>Poznámka k design systému:</strong> Samozřejmě je lepší mít design system nakódovaný než ho mít jenom ve Figmě - konzistence se sama neudrží a komponenty v produkci se liší od těch ve Figmě rychleji, než dokážete říct "design debt". Ale tady je potřeba říct nahlas: <strong>problém aplikace Sofa není v design systému</strong>. Je v mindsetu a konceptu. Můžete mít sebevíc propracovaný design system, ale pokud s ním stavíte špatně navrženou aplikaci, máte akorát konzistentně špatnou aplikaci.
+            </p>
+        </div>
+
+        <!-- Porovnání -->
+        <h2>Porovnání přístupů</h2>
+
+        <div class="comparison-grid">
+            <div class="comparison-card current">
+                <span class="tag current">Současný stav</span>
+                <h4>Komplexní formulář</h4>
+                <ul>
+                    <li>Jeden dlouhý formulář se všemi možnostmi</li>
+                    <li>Vyžaduje předchozí setup uživatelů</li>
+                    <li>Zahlcující pro běžné použití</li>
+                    <li>Nejasná struktura informací</li>
+                    <li>Žádný vizuální feedback</li>
+                </ul>
+            </div>
+
+            <div class="comparison-card proposed">
+                <span class="tag proposed">Navrhované řešení</span>
+                <h4>Postupný průvodce</h4>
+                <ul>
+                    <li>Rozdělení do 2 logických kroků</li>
+                    <li>Žádný setup - okamžitá použitelnost</li>
+                    <li>Fokus na nejčastější use case</li>
+                    <li>Jasná vizuální hierarchie a guidance</li>
+                    <li>Okamžitý feedback přes toast a dashboard</li>
+                </ul>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 40px 0;">
+            <a href="document-sign.html" class="demo-link">Krok 1: Umístění podpisu</a>
+            <a href="document-signing.html" class="demo-link">Krok 2: Odeslání protistraně</a>
+            <a href="dashboard.html" class="demo-link secondary">Dashboard (plný)</a>
+        </div>
+
+        <!-- Demo linky -->
+        <div style="margin: 80px 0 60px 0;">
+            <h2 style="margin-bottom: 30px; text-align: center;">Interaktivní prototypy</h2>
+
+            <div style="text-align: center; margin-bottom: 40px;">
+                <h3 style="font-size: 18px; color: #666; font-weight: 500;">Registrace (2 kroky → automatické přihlášení)</h3>
+                <a href="registrace-1.html" class="demo-link">Registrace (2 kroky na 1 stránce)</a>
+                <a href="registrace-2.html" class="demo-link secondary">Krok 2: Potvrzení SMS (samostatně)</a>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 40px;">
+                <h3 style="font-size: 18px; color: #666; font-weight: 500;">Dashboardy (výchozí body)</h3>
+                <a href="dashboard-zero.html" class="demo-link secondary">Dashboard Zero (po registraci)</a>
+                <a href="dashboard-one.html" class="demo-link secondary">Dashboard One (první dokument)</a>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 40px;">
+                <h3 style="font-size: 18px; color: #666; font-weight: 500;">Proces podpisu (začíná nahráním na dashboardu)</h3>
+                <a href="document-sign.html" class="demo-link">Krok 1: Umístění podpisu</a>
+                <a href="document-signing.html" class="demo-link">Krok 2: Odeslání protistraně</a>
+            </div>
+
+            <div style="text-align: center;">
+                <h3 style="font-size: 18px; color: #666; font-weight: 500;">Zajímavosti</h3>
+                <a href="upload-variants.html" class="demo-link secondary">Varianty upload bloku</a>
+            </div>
+        </div>
+
+        <!-- Závěr -->
+        <div class="solution-box">
+            <div class="solution-title">Shrnutí</div>
+            <div class="solution-description">
+                <strong>Úkol 1 (Registrace):</strong> Zjednodušení z 8-9 kroků na 2 kroky s automatickým přihlášením.
+            </div>
+            <div class="solution-description">
+                <strong>Úkol 2 (Onboarding):</strong> Nesplněno úmyslně - místo toho navržen intuitivní design,
+                který onboarding nepotřebuje.
+            </div>
+            <div class="solution-description">
+                <strong>Úkol 3 (Proces podpisu):</strong> Z komplexního formuláře na 2krokový průvodce začínající
+                na dashboardu. Time to value: jednotky sekund.
+            </div>
+            <div class="solution-description" style="margin-bottom: 0;">
+                <strong>Bonus:</strong> Místo frustrace z nastavování účtů a hledání správných políček pocit dobře odvedené práce a čistá hlava. Protože nejlepší UX je ten, na který si uživatel nevzpomene - prostě to fungovalo.
+            </div>
+        </div>
+
+        <!-- Video prezentace -->
+        <div style="text-align: center; margin-top: 60px; padding: 40px; background: #fff; border-radius: 8px;">
+            <h2 style="font-size: 24px; font-weight: 600; margin: 0 0 20px 0;">Video prezentace</h2>
+            <p style="font-size: 16px; color: #666; margin: 0 0 25px 0; line-height: 1.6; max-width: 600px; margin-left: auto; margin-right: auto;">
+                Komentář k procesu podepisování, k pečeti jako nosnému prvku brand identity služby a k dashboardu.
+            </p>
+            <a href="https://youtu.be/BlOY64cbzR4" target="_blank" style="display: inline-block; padding: 14px 32px; background: #1a1a1a; color: #fafafa; text-decoration: none; border-radius: 6px; font-size: 16px; font-weight: 500; transition: background 0.2s;">Přehrát video na YouTube</a>
+        </div>
+
+    </div>
+</body>
+</html>

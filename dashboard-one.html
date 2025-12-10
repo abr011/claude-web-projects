@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sofa SignPoint</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+            color: #1a1a1a;
+        }
+
+        .top-nav {
+            background: #fff;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            height: 60px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-right: 40px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            flex: 1;
+        }
+
+        .nav-item {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-size: 15px;
+            padding: 8px 0;
+        }
+
+        .nav-item:hover {
+            color: #666;
+        }
+
+        .nav-item.active {
+            font-weight: 500;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #1a1a1a;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background: #1a1a1a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #fafafa;
+        }
+
+        .user-name {
+            font-size: 15px;
+        }
+
+        .main-content {
+            padding: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .header-row {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            margin-bottom: 40px;
+        }
+
+        .header-row .page-title {
+            flex-shrink: 0;
+        }
+
+        .three-sections {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .section {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            min-height: 300px;
+        }
+
+        .section-header {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .count-badge {
+            background: #e0e0e0;
+            color: #666;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-left: 8px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-state-text {
+            font-size: 15px;
+            color: #999;
+        }
+
+        .doc-list {
+            background: transparent;
+        }
+
+        .doc-item {
+            padding: 18px 20px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .doc-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .doc-item:hover {
+            background: #f8f9fa;
+        }
+
+        .doc-main {
+            flex: 1;
+        }
+
+        .doc-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .doc-title a {
+            color: #1a1a1a;
+            text-decoration: none;
+        }
+
+        .doc-title a:hover {
+            text-decoration: underline;
+        }
+
+        .doc-meta {
+            font-size: 13px;
+            color: #666;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .doc-meta a {
+            color: #666;
+            text-decoration: none;
+            border-bottom: 1px solid #666;
+        }
+
+        .doc-meta a:hover {
+            color: #007bff;
+            border-bottom-color: #007bff;
+        }
+
+        .upload-banner {
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .upload-banner-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0 0 30px 0;
+        }
+
+        .upload-banner-text {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .upload-dropzone {
+            border: 2px dashed #d0d0d0;
+            border-radius: 4px;
+            padding: 40px;
+            transition: all 0.2s;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .upload-dropzone:hover {
+            border-color: #007bff;
+        }
+
+        .upload-dropzone-text {
+            font-size: 15px;
+            color: #666;
+        }
+
+        .upload-or {
+            font-size: 13px;
+            color: #999;
+        }
+
+        .btn {
+            padding: 12px 32px;
+            font-size: 15px;
+            font-weight: 500;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: #1a1a1a;
+            color: #fafafa;
+        }
+
+        .btn-primary:hover {
+            background: #333;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.hidden {
+            display: none;
+        }
+
+        .modal {
+            background: #fff;
+            border-radius: 8px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0 0 20px 0;
+        }
+
+        .modal-text {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .modal-button {
+            width: 100%;
+        }
+
+        .email-display {
+            background: #f5f5f5;
+            padding: 15px 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .email-address {
+            font-size: 16px;
+            font-weight: 500;
+            color: #1a1a1a;
+        }
+
+        .change-email {
+            color: #666;
+            font-size: 14px;
+            text-decoration: underline;
+            cursor: pointer;
+            margin-top: 15px;
+            display: inline-block;
+        }
+
+        .change-email:hover {
+            color: #1a1a1a;
+        }
+
+        .recommendation-block {
+            background: #f5f5f5;
+            padding: 20px 30px;
+            border-radius: 8px;
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+            flex: 1;
+            display: none;
+        }
+
+        .recommendation-block.show {
+            display: block;
+        }
+
+        .bottom-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .processed-section {
+            display: none;
+        }
+
+        .processed-section.show {
+            display: block;
+        }
+
+        .processed-section .section {
+            min-height: auto;
+        }
+
+        .processed-section .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0 0 25px 0;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #007bff;
+            color: #fff;
+            padding: 14px 30px;
+            border-radius: 8px;
+            font-size: 14px;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+
+        .toast.show {
+            display: block;
+        }
+
+        .toast a {
+            color: #fff;
+            text-decoration: underline;
+            margin-left: 15px;
+        }
+
+        .toast a:hover {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Toast notification -->
+    <div class="toast" id="toast"></div>
+
+    <div class="top-nav">
+        <div class="logo">UXTestFirma</div>
+        <div class="nav-menu">
+            <a href="#" class="nav-item active">Dashboard</a>
+            <a href="#" class="nav-item">Dokumenty</a>
+        </div>
+        <div class="user-menu">
+            <div class="user-name">Aleš Brom</div>
+            <div class="user-avatar">AB</div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header-row">
+            <h1 class="page-title">Dashboard</h1>
+            <div class="recommendation-block" id="recommendationBlock">
+                Sem můžeme napsat doporučení co dělat v závislosti co se dělo při podpisu nebo ukládání, např. označte dokument jako šablonu pro rychlejší výběr a podepsání
+            </div>
+        </div>
+
+        <div class="three-sections">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Čeká na váš podpis <span class="count-badge">0</span></h2>
+                </div>
+                <div class="empty-state">
+                    <div class="empty-state-text">Žádné dokumenty</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Vyžaduje pozornost <span class="count-badge">0</span></h2>
+                </div>
+                <div class="empty-state">
+                    <div class="empty-state-text">Žádné dokumenty</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Čeká na ostatní <span class="count-badge" id="waitingCountBadge">0</span></h2>
+                </div>
+                <div id="waitingContent">
+                    <div class="empty-state">
+                        <div class="empty-state-text">Žádné dokumenty</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-row">
+            <div class="upload-banner">
+                <h3 class="upload-banner-title">Nový dokument</h3>
+                <div class="upload-dropzone">
+                    <p class="upload-dropzone-text">Přetáhněte soubor sem</p>
+                    <span class="upload-or">nebo</span>
+                    <button class="btn btn-primary">Vybrat soubor z počítače</button>
+                </div>
+            </div>
+
+            <div class="processed-section" id="processedSection">
+                <div class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Znovu podepsat</h2>
+                    </div>
+                    <div class="doc-list" id="processedDocList">
+                        <div class="doc-item">
+                            <div class="doc-main">
+                                <div class="doc-title"><a href="#">Zadání_UX UI_Software602</a></div>
+                                <div class="doc-meta">
+                                    <span>Protistrana: A. Smith</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay hidden" id="welcomeModal">
+        <div class="modal">
+            <h2 class="modal-title">Děkujeme za registraci</h2>
+            <p class="modal-text">Poslali jsme vám email s odkazem pro dokončení registrace. Zkontrolujte prosím schránku a klikněte na odkaz v emailu.</p>
+
+            <div class="email-display">
+                <div class="email-address">jan.novak@email.cz</div>
+            </div>
+
+            <p class="modal-text" style="font-size: 14px; color: #999; margin-bottom: 0;">Pokud email nevidíte, zkontrolujte složku spam nebo hromadné.</p>
+
+            <a href="#" class="change-email" style="text-align: center; display: block; margin-top: 20px;">Změnit email</a>
+        </div>
+    </div>
+
+    <script>
+        // Load document data from localStorage and update UI
+        window.addEventListener('DOMContentLoaded', function() {
+            const lastDocData = localStorage.getItem('lastDocument');
+
+            // If no data in localStorage, use demo data
+            let data;
+            if (lastDocData) {
+                data = JSON.parse(lastDocData);
+            } else {
+                // Demo data for presentation purposes
+                data = {
+                    title: 'Zadání_UX UI_Software602',
+                    recipient: 'A. Smith',
+                    recipientType: 'counterparty',
+                    action: 'sent',
+                    timestamp: Date.now()
+                };
+            }
+
+            if (data) {
+
+                // Show processed section
+                const processedSection = document.getElementById('processedSection');
+                if (processedSection) {
+                    processedSection.classList.add('show');
+                }
+
+                // Determine recipient prefix
+                let prefix = 'Protistrana: ';
+                if (data.recipientType === 'colleagues') {
+                    prefix = 'Naše strana: ';
+                } else if (data.recipientType === 'group') {
+                    prefix = 'Skupina: ';
+                }
+
+                // Update document recipient in the processed list
+                const docMeta = document.querySelector('#processedDocList .doc-meta span');
+                if (docMeta && data.recipient) {
+                    docMeta.textContent = prefix + data.recipient;
+                }
+
+                // If document was sent (not just saved), also add to "Čeká na ostatní"
+                if (data.action === 'sent') {
+                    const waitingContent = document.getElementById('waitingContent');
+                    const waitingCountBadge = document.getElementById('waitingCountBadge');
+
+                    if (waitingContent) {
+                        waitingContent.innerHTML = `
+                            <div class="doc-list">
+                                <div class="doc-item">
+                                    <div class="doc-main">
+                                        <div class="doc-title"><a href="#">${data.title}</a></div>
+                                        <div class="doc-meta">
+                                            <span>${prefix}${data.recipient}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+
+                    if (waitingCountBadge) {
+                        waitingCountBadge.textContent = '1';
+                    }
+                }
+
+                // Show recommendation block
+                const recommendationBlock = document.getElementById('recommendationBlock');
+                if (recommendationBlock) {
+                    recommendationBlock.classList.add('show');
+                }
+
+                // Show toast notification
+                const toast = document.getElementById('toast');
+                if (toast) {
+                    const toastMessage = data.action === 'sent'
+                        ? 'Dokument odeslán k podepsání'
+                        : 'Dokument uložen';
+
+                    // Only add "Zrušit odeslání" link if document was sent (not saved)
+                    if (data.action === 'sent') {
+                        toast.innerHTML = toastMessage + ' <a href="#" onclick="event.preventDefault(); undoSending();">Zrušit odeslání</a>';
+                    } else {
+                        toast.textContent = toastMessage;
+                    }
+
+                    toast.classList.add('show');
+
+                    // Hide toast after 8 seconds
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                        // Clear localStorage after showing
+                        localStorage.removeItem('lastDocument');
+                    }, 8000);
+                }
+            }
+        });
+
+        function undoSending() {
+            const toast = document.getElementById('toast');
+            toast.innerHTML = 'Odeslání zrušeno';
+
+            // Hide processed section
+            const processedSection = document.getElementById('processedSection');
+            if (processedSection) {
+                processedSection.classList.remove('show');
+            }
+
+            // Clear "Čeká na ostatní" section
+            const waitingContent = document.getElementById('waitingContent');
+            const waitingCountBadge = document.getElementById('waitingCountBadge');
+            if (waitingContent) {
+                waitingContent.innerHTML = '<div class="empty-state"><div class="empty-state-text">Žádné dokumenty</div></div>';
+            }
+            if (waitingCountBadge) {
+                waitingCountBadge.textContent = '0';
+            }
+
+            // Hide recommendation block
+            const recommendationBlock = document.getElementById('recommendationBlock');
+            if (recommendationBlock) {
+                recommendationBlock.classList.remove('show');
+            }
+
+            // Hide toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Zavřít modal kliknutím mimo něj (simuluje kliknutí na odkaz v emailu)
+        document.getElementById('welcomeModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.add('hidden');
+            }
+        });
+
+        // Tlačítko "Nahrát dokument" vede na stránku s umístěním parafy
+        document.querySelector('.upload-banner .btn-primary').addEventListener('click', function() {
+            window.location.href = 'document-sign.html';
+        });
+    </script>
+</body>
+</html>

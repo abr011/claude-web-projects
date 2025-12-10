@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrace - Sofa SignPoint</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+            color: #1a1a1a;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 80px auto;
+            padding: 40px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo-text {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin: 0 0 10px 0;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 15px;
+            margin-bottom: 40px;
+        }
+
+        .form-box {
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 15px;
+            background: #fafafa;
+            border: none;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        input:focus {
+            outline: 2px solid #1a1a1a;
+            outline-offset: -2px;
+            background: #fff;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .show-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 13px;
+            padding: 4px 8px;
+        }
+
+        .show-password:hover {
+            color: #1a1a1a;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            font-size: 15px;
+            font-weight: 500;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: #1a1a1a;
+            color: #fafafa;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            background: #333;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #1a1a1a;
+            padding: 12px 16px;
+        }
+
+        .btn-secondary:hover {
+            background: #f0f0f0;
+        }
+
+        .ares-section {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .ares-data {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #666;
+        }
+
+        .ares-data strong {
+            color: #1a1a1a;
+            display: inline-block;
+            width: 100px;
+        }
+
+        .edit-link {
+            color: #1a1a1a;
+            text-decoration: underline;
+            font-size: 13px;
+            cursor: pointer;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        .edit-link:hover {
+            text-decoration: none;
+        }
+
+        .help-text {
+            font-size: 13px;
+            color: #666;
+            margin-top: 6px;
+        }
+
+        .divider {
+            margin: 40px 0 0 0;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .login-link a {
+            color: #1a1a1a;
+            text-decoration: underline;
+        }
+
+        .login-link a:hover {
+            text-decoration: none;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #999;
+        }
+
+        .step.active {
+            color: #1a1a1a;
+            font-weight: 500;
+        }
+
+        .step-number {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            color: #999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .step.active .step-number {
+            background: #1a1a1a;
+            color: #fafafa;
+        }
+
+        .ares-info {
+            margin-bottom: 30px;
+        }
+
+        .company-name {
+            font-size: 15px;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 6px;
+        }
+
+        .company-address {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .small-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+        }
+
+        .large-label {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .code-input {
+            text-align: center;
+            font-size: 24px;
+            letter-spacing: 8px;
+            font-weight: 500;
+        }
+
+        .resend-section {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .resend-link {
+            color: #1a1a1a;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .resend-link:hover {
+            text-decoration: none;
+        }
+
+        .resend-link.disabled {
+            color: #999;
+            cursor: not-allowed;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <div class="logo-text">Sofa SignPoint</div>
+        </div>
+
+        <h1>Registrace</h1>
+        <p class="subtitle">Vytvořte si účet a začněte podepisovat dokumenty</p>
+
+        <div class="form-box">
+            <div class="step-indicator">
+                <div class="step active" id="step1Indicator">
+                    <div class="step-number">1</div>
+                    <div class="step-text">Základní údaje</div>
+                </div>
+                <div class="step" id="step2Indicator">
+                    <div class="step-number">2</div>
+                    <div class="step-text">Potvrzení SMS</div>
+                </div>
+            </div>
+
+            <form id="registrationForm">
+                <div class="form-group">
+                    <label for="name">Jméno a příjmení</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" required>
+                    <div class="help-text">Na tento email budou chodit notifikace o dokumentech</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Heslo</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="password" name="password" required>
+                        <button type="button" class="show-password" onclick="togglePassword()">Zobrazit</button>
+                    </div>
+                    <div class="help-text">Čím delší, tím lepší</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Telefon</label>
+                    <input type="tel" id="phone" name="phone" placeholder="+420" required>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="form-group">
+                    <label for="ico">IČ</label>
+                    <input type="text" id="ico" name="ico">
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 30px;" id="step1Button">Pokračovat</button>
+
+                <div class="login-link">
+                    Už máte účet? <a href="#" id="loginLink">Přihlásit se</a>
+                </div>
+            </form>
+
+            <div id="step2" class="hidden">
+                <div class="small-label">Registrujete účet pro firmu</div>
+
+                <div class="ares-info">
+                    <div class="company-name">UXTestFirma s.r.o.</div>
+                    <div class="company-address">Vinohradská 123, Praha 3, 130 00</div>
+                </div>
+
+                <div class="form-group">
+                    <div class="large-label">Kód z SMS</div>
+                    <input type="text" id="smsCode" name="smsCode" class="code-input" maxlength="6" placeholder="000000">
+                    <div class="help-text">Zadejte 6-místný kód, který jsme vám zaslali na +420 *** *** 775</div>
+                </div>
+
+                <div class="resend-section">
+                    <span id="resendText">Kód můžete znovu zaslat za <strong id="countdown">60</strong> sekund</span>
+                    <a id="resendLink" class="resend-link disabled">Zaslat znovu</a>
+                </div>
+
+                <button type="button" class="btn btn-primary" style="width: 100%; margin-top: 30px;" onclick="completeRegistration()">Dokončit registraci</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let countdownInterval;
+        let timeLeft = 60;
+
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const button = event.target;
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                button.textContent = 'Skrýt';
+            } else {
+                passwordInput.type = 'password';
+                button.textContent = 'Zobrazit';
+            }
+        }
+
+        function startCountdown() {
+            timeLeft = 60;
+            document.getElementById('countdown').textContent = timeLeft;
+            document.getElementById('resendLink').classList.add('disabled');
+            document.getElementById('resendText').style.display = 'inline';
+
+            countdownInterval = setInterval(function() {
+                timeLeft--;
+                document.getElementById('countdown').textContent = timeLeft;
+
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    document.getElementById('resendLink').classList.remove('disabled');
+                    document.getElementById('resendText').style.display = 'none';
+                }
+            }, 1000);
+        }
+
+        document.getElementById('resendLink').addEventListener('click', function() {
+            if (!this.classList.contains('disabled')) {
+                alert('SMS kód byl znovu odeslán');
+                startCountdown();
+            }
+        });
+
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Skrýt krok 1, zobrazit krok 2
+            document.getElementById('registrationForm').classList.add('hidden');
+            document.getElementById('step2').classList.remove('hidden');
+
+            // Přepnout aktivní krok
+            document.getElementById('step1Indicator').classList.remove('active');
+            document.getElementById('step2Indicator').classList.add('active');
+
+            // Spustit odpočítávání
+            startCountdown();
+        });
+
+        document.getElementById('loginLink').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            // Skrýt krok 1, zobrazit krok 2
+            document.getElementById('registrationForm').classList.add('hidden');
+            document.getElementById('step2').classList.remove('hidden');
+
+            // Přepnout aktivní krok
+            document.getElementById('step1Indicator').classList.remove('active');
+            document.getElementById('step2Indicator').classList.add('active');
+
+            // Spustit odpočítávání
+            startCountdown();
+        });
+
+        function completeRegistration() {
+            window.location.href = 'dashboard-zero.html';
+        }
+    </script>
+</body>
+</html>
