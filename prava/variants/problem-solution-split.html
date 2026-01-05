@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Transformation: Before & After</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #fafafa;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 80px 20px 60px;
+            background: white;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .hero .tagline {
+            font-size: 24px;
+            color: #666;
+        }
+
+        .split-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 100vh;
+        }
+
+        .side {
+            padding: 60px 40px;
+        }
+
+        .side-left {
+            background: #ffebee;
+            border-right: 3px solid #c62828;
+        }
+
+        .side-right {
+            background: #e8f5e9;
+        }
+
+        .side h2 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .side-left h2 {
+            color: #c62828;
+        }
+
+        .side-right h2 {
+            color: #2e7d32;
+        }
+
+        .side h3 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        .side p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            max-width: 500px;
+        }
+
+        .image-box {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin: 30px 0;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .image-box img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 4px;
+        }
+
+        .problem-list {
+            list-style: none;
+            margin: 30px 0;
+        }
+
+        .problem-list li {
+            padding: 15px 0;
+            padding-left: 35px;
+            position: relative;
+            font-size: 16px;
+        }
+
+        .problem-list li::before {
+            content: "✗";
+            position: absolute;
+            left: 0;
+            color: #c62828;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .solution-list {
+            list-style: none;
+            margin: 30px 0;
+        }
+
+        .solution-list li {
+            padding: 15px 0;
+            padding-left: 35px;
+            position: relative;
+            font-size: 16px;
+        }
+
+        .solution-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #2e7d32;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .demo-large {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 30px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .demo-large img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .how-section {
+            background: white;
+            padding: 80px 40px;
+            text-align: center;
+        }
+
+        .how-section h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        .how-section p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: #555;
+        }
+
+        .sketch-hint {
+            display: inline-block;
+            background: #fafafa;
+            padding: 20px 40px;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #666;
+        }
+
+        footer {
+            background: #1a1a1a;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        footer .tagline {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        footer .subtitle {
+            font-size: 16px;
+            color: #999;
+        }
+
+        @media (max-width: 968px) {
+            .split-container {
+                grid-template-columns: 1fr;
+            }
+
+            .side-left {
+                border-right: none;
+                border-bottom: 3px solid #c62828;
+            }
+
+            .hero h1 { font-size: 40px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>The Transformation</h1>
+        <p class="tagline">Stop Managing Permissions · Start Sharing With People</p>
+    </div>
+
+    <div class="split-container">
+        <!-- LEFT: Problem -->
+        <div class="side side-left">
+            <h2>Before</h2>
+            <h3>The Assignment</h3>
+            <p>Email client needed file sharing with "proper" access control. The spec called for technical permission management.</p>
+
+            <div class="image-box">
+                <img src="../icewarp-zadani.png" alt="Original requirements">
+            </div>
+
+            <h3 style="margin-top: 40px;">What Was Wrong</h3>
+            <ul class="problem-list">
+                <li>Technical jargon (A, R, W, M, D permissions)</li>
+                <li>Complex checkboxes and matrices</li>
+                <li>Focused on "rights management"</li>
+                <li>Required understanding access control</li>
+                <li>Didn't match user mental model</li>
+                <li>Made simple task feel complicated</li>
+            </ul>
+
+            <p style="margin-top: 40px; font-style: italic; color: #666;">Users don't want to "manage permissions". They want to share with Anna.</p>
+        </div>
+
+        <!-- RIGHT: Solution -->
+        <div class="side side-right">
+            <h2>After</h2>
+            <h3>The Solution</h3>
+            <p>Years of iteration led to this: Type a name, click, share. No permission matrices. No technical jargon.</p>
+
+            <div class="demo-large">
+                <img src="../demo/share-form-demo-captioned.gif" alt="Final solution">
+            </div>
+
+            <h3 style="margin-top: 40px;">What Changed</h3>
+            <ul class="solution-list">
+                <li>Search finds people instantly</li>
+                <li>Cards show recommended contacts</li>
+                <li>Pills display selections clearly</li>
+                <li>Human language ("Who can edit?")</li>
+                <li>Smart defaults (most common case)</li>
+                <li>Progressive disclosure (advanced hidden)</li>
+            </ul>
+
+            <p style="margin-top: 40px; font-weight: 600; color: #2e7d32;">Result: People get to their goal without thinking about "permissions".</p>
+        </div>
+    </div>
+
+    <!-- How We Got Here -->
+    <div class="how-section">
+        <h3>How Did We Get Here?</h3>
+        <p>Over the years, dozens of paper sketches explored different approaches. Each iteration moved closer to matching the user's mental model: thinking in terms of people, not permissions.</p>
+        <div class="sketch-hint">
+            Hand-drawn iterations · Card layouts · Search patterns · Permission translations
+        </div>
+    </div>
+
+    <footer>
+        <div class="tagline">We removed the complexity</div>
+        <div class="subtitle">You're welcome.</div>
+        <p style="margin-top: 30px; color: #666;">Aleš Brom · UX Designer</p>
+    </footer>
+</body>
+</html>

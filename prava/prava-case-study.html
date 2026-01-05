@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Study: Sharing Without Complexity</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #fafafa;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        section {
+            margin-bottom: 120px;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+
+        h2 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: #1a1a1a;
+        }
+
+        h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 80px 0;
+        }
+
+        .hero .tagline {
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .hero .subtitle {
+            font-size: 24px;
+            color: #666;
+        }
+
+        .problem-box {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        .problem-box img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 30px 0;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .insight {
+            background: #0078d4;
+            color: white;
+            padding: 40px;
+            border-radius: 8px;
+            font-size: 24px;
+            font-weight: 500;
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .translation {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 30px;
+            align-items: center;
+            margin: 40px 0;
+        }
+
+        .translation .from,
+        .translation .to {
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .translation .from {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .translation .to {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .translation .arrow {
+            font-size: 32px;
+            color: #666;
+        }
+
+        .translation .term {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .translation .explanation {
+            font-size: 14px;
+            color: inherit;
+            opacity: 0.8;
+        }
+
+        .demo {
+            text-align: center;
+            margin: 60px 0;
+        }
+
+        .demo img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        .result-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .result-list li {
+            font-size: 20px;
+            padding: 15px 0;
+            padding-left: 40px;
+            position: relative;
+        }
+
+        .result-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #2e7d32;
+            font-weight: 700;
+            font-size: 24px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px 0;
+            color: #999;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 36px; }
+            .hero .tagline { font-size: 40px; }
+            .translation { grid-template-columns: 1fr; }
+            .translation .arrow { transform: rotate(90deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Hero -->
+        <section class="hero">
+            <div class="tagline">We removed the complexity</div>
+            <div class="subtitle">You're welcome.</div>
+        </section>
+
+        <!-- The Wrong Problem -->
+        <section>
+            <h3>The Assignment</h3>
+            <h2>Build a Rights Management System</h2>
+            <p>The original request: Create an interface for managing document permissions. Users need to control who can Read, Write, and Delete files.</p>
+
+            <div class="problem-box">
+                <img src="icewarp-zadani.png" alt="Original assignment">
+                <p style="text-align: center; color: #999; font-size: 14px;">Initial requirements from IceWarp</p>
+            </div>
+
+            <div class="problem-box">
+                <img src="dialog-prav-na-slozku.png" alt="Complex rights dialog">
+                <p style="text-align: center; color: #999; font-size: 14px;">Traditional folder permissions dialog - complex and intimidating</p>
+            </div>
+        </section>
+
+        <!-- The Real Problem -->
+        <section>
+            <h3>Finding the Real Problem</h3>
+            <h2>It's Not About Managing Rights</h2>
+            <p>Through observation and questioning, the real problem emerged:</p>
+
+            <div class="insight">
+                "I just want to quickly share this document with Anna and Petr. Why is this so hard?"
+            </div>
+
+            <p>Users don't think in terms of "permissions" or "access control lists". They think about people and actions.</p>
+        </section>
+
+        <!-- Translation -->
+        <section>
+            <h3>Translation</h3>
+            <h2>From Technical Jargon to Human Language</h2>
+
+            <div class="translation">
+                <div class="from">
+                    <div class="term">RWD Permissions</div>
+                    <div class="explanation">Read, Write, Delete access control</div>
+                </div>
+                <div class="arrow">→</div>
+                <div class="to">
+                    <div class="term">Who can edit?</div>
+                    <div class="explanation">Who can add someone else?</div>
+                </div>
+            </div>
+
+            <p>Instead of managing rights, we focused on answering two simple questions:</p>
+            <ul class="result-list">
+                <li>Who are the people I want to share with?</li>
+                <li>What can they do?</li>
+            </ul>
+        </section>
+
+        <!-- Solution -->
+        <section>
+            <h3>The Solution</h3>
+            <h2>Sharing Without Complexity</h2>
+            <p>We removed everything that stood between the user and their goal: quickly finding and sharing with the right people.</p>
+
+            <div class="demo">
+                <img src="demo/share-form-demo-captioned.gif" alt="Final solution demo">
+            </div>
+
+            <p style="text-align: center; color: #666; margin-top: 20px;">Type a name, click, share. That's it.</p>
+        </section>
+
+        <!-- Results -->
+        <section>
+            <h3>What We Did</h3>
+            <h2>Removed, Not Added</h2>
+            <ul class="result-list">
+                <li>Removed the concept of "permissions management"</li>
+                <li>Removed technical jargon (RWD → edit/add)</li>
+                <li>Removed complex dialogs and checkboxes</li>
+                <li>Removed the need to understand access control</li>
+                <li>Added search and autocomplete</li>
+                <li>Added visual feedback (pills, highlights)</li>
+                <li>Added smart defaults</li>
+            </ul>
+
+            <div class="insight" style="margin-top: 60px;">
+                Finding what to remove is more valuable than deciding what to add.
+            </div>
+        </section>
+
+        <footer>
+            <p>UX Case Study · Aleš Brom · 2025</p>
+            <p>Experienced UX designer · Solving the right problem the right way</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Aleš Brom - Hero Simplified Variant</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #fafafa;
+            padding: 60px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .variant {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .variant h3 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #666;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .original h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .original .lead {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .improved h1 {
+            font-size: 56px;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+
+        .improved .tagline {
+            font-size: 24px;
+            color: #666;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .improved .value-prop {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            line-height: 1.4;
+            color: #1a1a1a;
+        }
+
+        .improved .metrics {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .metric {
+            flex: 1;
+        }
+
+        .metric-number {
+            font-size: 48px;
+            font-weight: 700;
+            color: #007bff;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .cta {
+            display: inline-block;
+            padding: 16px 40px;
+            background: #1a1a1a;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .cta:hover {
+            background: #333;
+        }
+
+        .secondary-cta {
+            display: inline-block;
+            padding: 16px 40px;
+            color: #1a1a1a;
+            text-decoration: none;
+            font-size: 18px;
+            margin-left: 20px;
+        }
+
+        .notes {
+            background: #fffbf0;
+            padding: 30px;
+            border-radius: 8px;
+            border-left: 4px solid #ffa500;
+        }
+
+        .notes h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+
+        .notes ul {
+            margin-left: 20px;
+        }
+
+        .notes li {
+            margin-bottom: 12px;
+            color: #555;
+        }
+
+        .notes strong {
+            color: #1a1a1a;
+        }
+
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+
+            .improved .metrics {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="comparison">
+            <!-- ORIGINAL -->
+            <div class="variant original">
+                <h3>🔴 Původní verze</h3>
+
+                <h1>Aleš Brom</h1>
+
+                <p class="lead">
+                    <strong>I thoughtfully solve</strong> key business issues with regards to customer needs.<br>
+                    <strong>I reframe the initial brief</strong> by asking where the money is.<br>
+                    <strong>I help you</strong> the most in the beginning when things are not clear, and the concept is only emerging.<br>
+                    <strong>I do</strong> UX, Product, Service Design, and Business Analysis.
+                </p>
+            </div>
+
+            <!-- IMPROVED -->
+            <div class="variant improved">
+                <h3>🟢 Zjednodušená verze</h3>
+
+                <h1>Aleš Brom</h1>
+                <p class="tagline">UX Designer & Business Analyst</p>
+
+                <p class="value-prop">
+                    I reframe the initial brief by asking:<br>
+                    "Where's the money?"
+                </p>
+
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="metric-number">100+</div>
+                        <div class="metric-label">Man-days saved</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-number">80%</div>
+                        <div class="metric-label">More satisfied users</div>
+                    </div>
+                </div>
+
+                <a href="mailto:ales.brom@gmail.com" class="cta">Let's challenge your brief</a>
+                <a href="#work" class="secondary-cta">See my work →</a>
+            </div>
+        </div>
+
+        <!-- NOTES -->
+        <div class="notes">
+            <h2>📝 Co se změnilo a proč</h2>
+            <ul>
+                <li><strong>Jedna primární value prop:</strong> Místo 4 různých statements → jeden silný: "Where's the money?"</li>
+                <li><strong>Metrics up front:</strong> 100+ MD, 80% improvement jsou teď viditelné okamžitě</li>
+                <li><strong>Clear CTA:</strong> "Let's challenge your brief" = akční, relevantní k positioning</li>
+                <li><strong>Simplified role:</strong> "UX Designer & Business Analyst" = jasné, ne dlouhý seznam</li>
+                <li><strong>Visual hierarchy:</strong> Největší → value prop, pak metriky, pak CTA</li>
+                <li><strong>Reduction over addition:</strong> Méně slov = silnější message</li>
+            </ul>
+
+            <h2 style="margin-top: 30px;">💡 UX Princip</h2>
+            <p style="margin-left: 20px; color: #555; font-style: italic;">
+                "Visitors don't read, they scan. One strong claim beats four diluted ones."
+            </p>
+        </div>
+    </div>
+</body>
+</html>

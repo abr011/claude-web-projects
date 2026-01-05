@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Aleš Brom - Case Study Structure Variant</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #fafafa;
+            padding: 60px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .variant {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+
+        h3 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        /* ORIGINAL STYLE */
+        .original h5 {
+            font-size: 14px;
+            font-weight: 600;
+            margin: 20px 0 10px 0;
+            color: #333;
+        }
+
+        .original p {
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .original .pill {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #f0f0f0;
+            border-radius: 12px;
+            font-size: 12px;
+            margin: 4px;
+            color: #666;
+        }
+
+        .original .description {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 20px;
+        }
+
+        /* IMPROVED STYLE */
+        .improved .case-study {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .improved .section {
+            padding: 24px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .improved .section:last-child {
+            border-bottom: none;
+        }
+
+        .improved .section-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .improved .section-content {
+            font-size: 16px;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+
+        .improved .impact {
+            background: #f0f9ff;
+            border-left: 4px solid #007bff;
+        }
+
+        .improved .impact-number {
+            font-size: 42px;
+            font-weight: 700;
+            color: #007bff;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .improved .impact-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .improved .tags {
+            padding: 16px 24px;
+            background: #fafafa;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .improved .tag {
+            padding: 6px 14px;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 16px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .notes {
+            background: #fffbf0;
+            padding: 30px;
+            border-radius: 8px;
+            border-left: 4px solid #ffa500;
+        }
+
+        .notes h4 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #1a1a1a;
+        }
+
+        .notes ul {
+            margin-left: 20px;
+        }
+
+        .notes li {
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .notes strong {
+            color: #1a1a1a;
+        }
+
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="comparison">
+            <!-- ORIGINAL -->
+            <div class="variant original">
+                <h3>🔴 Původní struktura</h3>
+                <h2>I heard it through the dashboard</h2>
+
+                <h5>Initial brief</h5>
+                <p>I want more newly registered users to finish the main flow.</p>
+
+                <h5>Key issue</h5>
+                <p>The system is not reliable, it doesn't provide the key information to existing customers. Once the service is reliable, bringing in more customers by improving the registration process, makes sense.</p>
+
+                <p>👉 A common designer would only improve the registration process.</p>
+
+                <div class="description">
+                    <p>The service is all about e-signing the contract.</p>
+                    <ol>
+                        <li>The proposer creates the contract</li>
+                        <li>Signs and sends it to the counterparts</li>
+                        <li>Waits for their signatures</li>
+                    </ol>
+                    <div>
+                        <span class="pill">B2C web app</span>
+                        <span class="pill">Key business issue</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- IMPROVED -->
+            <div class="variant improved">
+                <h3>🟢 Unified struktura</h3>
+
+                <div class="case-study">
+                    <div class="section">
+                        <div class="section-label">Project</div>
+                        <h2 style="margin: 0;">I heard it through the dashboard</h2>
+                        <p style="margin: 8px 0 0 0; color: #666;">E-signing service for contract management</p>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-label">Problem</div>
+                        <div class="section-content">
+                            <strong>Client wanted:</strong> More newly registered users finishing the main flow<br>
+                            <strong>Real problem:</strong> System isn't reliable for existing customers
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-label">Insight</div>
+                        <div class="section-content">
+                            Emails with contracts don't reach counterparts because the system doesn't recognize wrong email addresses and pretends everything is ok → 😡
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-label">Solution</div>
+                        <div class="section-content">
+                            Created dashboard that shows email delivery status in real-time, validates email addresses, and alerts users to failures <em>before</em> it's too late
+                        </div>
+                    </div>
+
+                    <div class="section impact">
+                        <div class="section-label">Impact</div>
+                        <div class="impact-number">-67%</div>
+                        <div class="impact-label">Customer support tickets related to failed deliveries</div>
+                    </div>
+
+                    <div class="tags">
+                        <span class="tag">B2C web app</span>
+                        <span class="tag">Key business issue</span>
+                        <span class="tag">Dashboard design</span>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px; padding: 16px; background: #f5f5f5; border-radius: 6px; border-left: 3px solid #1a1a1a;">
+                    <strong>Common approach:</strong> Improve registration flow<br>
+                    <strong>My approach:</strong> Fix core reliability first
+                </div>
+            </div>
+        </div>
+
+        <!-- NOTES -->
+        <div class="notes">
+            <h4>📝 Co se změnilo a proč</h4>
+            <ul>
+                <li><strong>Unified struktura:</strong> Problem → Insight → Solution → Impact (konzistentní pro všechny případky)</li>
+                <li><strong>Metrics prominent:</strong> "-67% support tickets" je teď hlavní vizuální element, ne schovaný v pill</li>
+                <li><strong>Scannable:</strong> Labels (PROBLEM, INSIGHT, etc.) umožňují rychlý scan</li>
+                <li><strong>"Common vs Me" separated:</strong> Vyčleněný callout box místo jen emoji v textu</li>
+                <li><strong>Visual hierarchy:</strong> Impact section má jiné pozadí → vyniká</li>
+                <li><strong>Progressive disclosure:</strong> Vše viditelné na první pohled, "How we got there" collapse je optional</li>
+            </ul>
+
+            <h4 style="margin-top: 25px;">💡 UX Princip</h4>
+            <p style="margin-left: 20px; color: #555; font-style: italic;">
+                "Consistency creates familiarity. Familiarity reduces cognitive load. Less cognitive load = more conversions."
+            </p>
+
+            <h4 style="margin-top: 25px;">🎯 Aplikace na všechny případky</h4>
+            <p style="margin-left: 20px; color: #555;">
+                Tato struktura funguje pro VŠECHNY case studies na webu:<br>
+                • CSOB: Problem (single payment) → Insight (users upload lists) → Solution (smart import) → Impact (80% satisfied)<br>
+                • TACR: Problem (messy docs) → Insight (no structure) → Solution (building blocks) → Impact (100 MD saved)<br>
+                • Scrolling: Problem (horizontal scroll) → Insight (wasted space) → Solution (vertical + hierarchy) → Impact (faster scanning)
+            </p>
+        </div>
+    </div>
+</body>
+</html>

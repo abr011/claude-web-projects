@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Aleš Brom - Common vs Me Callout Variant</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #fafafa;
+            padding: 60px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .variant {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        h3 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        /* ORIGINAL - just text with emoji */
+        .original .common-note {
+            margin-top: 20px;
+            font-size: 15px;
+        }
+
+        /* IMPROVED - Visual callouts */
+        .improved .vs-box {
+            margin-top: 30px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+        }
+
+        .improved .vs-row {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+        }
+
+        .improved .approach {
+            padding: 24px;
+        }
+
+        .improved .common {
+            background: #fff5f5;
+            border-left: 4px solid #dc3545;
+        }
+
+        .improved .my {
+            background: #f0f9ff;
+            border-right: 4px solid #007bff;
+        }
+
+        .improved .vs-divider {
+            padding: 24px 16px;
+            background: #f8f8f8;
+            font-weight: 700;
+            font-size: 14px;
+            color: #999;
+        }
+
+        .improved .approach-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .improved .approach-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            line-height: 1.4;
+        }
+
+        /* Alternative: Side by side cards */
+        .improved .cards-layout {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .improved .card {
+            padding: 24px;
+            border-radius: 8px;
+            border: 2px solid;
+        }
+
+        .improved .card-common {
+            border-color: #dc3545;
+            background: #fff5f5;
+        }
+
+        .improved .card-my {
+            border-color: #007bff;
+            background: #f0f9ff;
+        }
+
+        .improved .card-icon {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .improved .card-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .improved .card-common .card-label {
+            color: #dc3545;
+        }
+
+        .improved .card-my .card-label {
+            color: #007bff;
+        }
+
+        .improved .card-text {
+            font-size: 15px;
+            color: #1a1a1a;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        /* Alternative: Horizontal bar */
+        .improved .bar-layout {
+            margin-top: 30px;
+            border-left: 4px solid #1a1a1a;
+            padding-left: 20px;
+            background: #f5f5f5;
+            padding: 20px 20px 20px 24px;
+            border-radius: 6px;
+        }
+
+        .improved .bar-row {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .improved .bar-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .improved .bar-label {
+            font-weight: 700;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .improved .bar-text {
+            font-size: 14px;
+            color: #1a1a1a;
+        }
+
+        .notes {
+            background: #fffbf0;
+            padding: 30px;
+            border-radius: 8px;
+            border-left: 4px solid #ffa500;
+        }
+
+        .notes h4 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #1a1a1a;
+        }
+
+        .notes ul {
+            margin-left: 20px;
+        }
+
+        .notes li {
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .notes strong {
+            color: #1a1a1a;
+        }
+
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+
+            .improved .vs-row,
+            .improved .cards-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .improved .vs-divider {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 style="margin-bottom: 40px; font-size: 32px;">3 varianty "Common vs Me" differentiation</h2>
+
+        <div class="comparison">
+            <!-- ORIGINAL -->
+            <div class="variant original">
+                <h3>🔴 Původní verze</h3>
+
+                <p>
+                    The system is not reliable, it doesn't provide the key information to existing customers.
+                    Once the service is reliable, bringing in more customers by improving the registration process, makes sense.
+                </p>
+
+                <p class="common-note">
+                    👉 A common designer would only improve the registration process.
+                </p>
+            </div>
+
+            <!-- IMPROVED - Variant 1: VS Box -->
+            <div class="variant improved">
+                <h3>🟢 Varianta 1: VS Box</h3>
+
+                <p>
+                    The system is not reliable, it doesn't provide the key information to existing customers.
+                    Once the service is reliable, bringing in more customers makes sense.
+                </p>
+
+                <div class="vs-box">
+                    <div class="vs-row">
+                        <div class="approach common">
+                            <div class="approach-label">Common approach</div>
+                            <div class="approach-text">Improve registration process</div>
+                        </div>
+                        <div class="vs-divider">VS</div>
+                        <div class="approach my">
+                            <div class="approach-label">My approach</div>
+                            <div class="approach-text">Fix core reliability first</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VARIANT 2: Cards -->
+        <div class="variant improved" style="margin-bottom: 40px;">
+            <h3>🟢 Varianta 2: Side-by-side Cards</h3>
+
+            <p>
+                The system is not reliable, it doesn't provide the key information to existing customers.
+                Once the service is reliable, bringing in more customers makes sense.
+            </p>
+
+            <div class="cards-layout">
+                <div class="card card-common">
+                    <div class="card-icon">🎨</div>
+                    <div class="card-label">Common designer</div>
+                    <div class="card-text">
+                        Would improve the registration flow, add better CTAs, prettify the forms
+                    </div>
+                </div>
+                <div class="card card-my">
+                    <div class="card-icon">🎯</div>
+                    <div class="card-label">My approach</div>
+                    <div class="card-text">
+                        Found the real issue: unreliable email delivery. Fixed core reliability first
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VARIANT 3: Horizontal Bar -->
+        <div class="variant improved" style="margin-bottom: 40px;">
+            <h3>🟢 Varianta 3: Horizontal Bar</h3>
+
+            <p>
+                The system is not reliable, it doesn't provide the key information to existing customers.
+                Once the service is reliable, bringing in more customers makes sense.
+            </p>
+
+            <div class="bar-layout">
+                <div class="bar-row">
+                    <div class="bar-label">Common approach:</div>
+                    <div class="bar-text">Improve registration flow</div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">My approach:</div>
+                    <div class="bar-text">Fix core reliability (email delivery) first</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NOTES -->
+        <div class="notes">
+            <h4>📝 Porovnání variant</h4>
+            <ul>
+                <li><strong>Varianta 1 (VS Box):</strong> Nejvíce vizuální, "battle" feel, jasný kontrast. Best pro dramatic differentiation.</li>
+                <li><strong>Varianta 2 (Cards):</strong> Více prostoru pro detail, ikony přidávají personality. Best pro komplexnější vysvětlení.</li>
+                <li><strong>Varianta 3 (Bar):</strong> Nejkompaktnější, minimal style. Best pro čistý minimalistický design.</li>
+            </ul>
+
+            <h4 style="margin-top: 25px;">💡 Proč to funguje</h4>
+            <ul>
+                <li><strong>Visual separation:</strong> Odlišné pozadí/border = mozek automaticky rozpozná kontrast</li>
+                <li><strong>Parallel structure:</strong> "Common approach:" vs "My approach:" = snadné porovnání</li>
+                <li><strong>Prominent placement:</strong> Ne schované v textu, ale dedicated section</li>
+                <li><strong>Color psychology:</strong> Červená (common) = stop/warning, Modrá (my) = trust/action</li>
+            </ul>
+
+            <h4 style="margin-top: 25px;">🎯 Doporučení</h4>
+            <p style="margin-left: 20px; color: #555;">
+                Pro tvůj minimalistický styl bych šel s <strong>Varianta 3 (Horizontal Bar)</strong>:<br>
+                • Čistá, není křiklavá<br>
+                • Zabere minimum místa<br>
+                • Jasná struktura<br>
+                • Zachovává profesionální tón<br><br>
+                Varianta 1 (VS Box) je dobrá pokud chceš dramatičtější impact.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

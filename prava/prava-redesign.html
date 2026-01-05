@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Přístupová práva - Redesign</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 40px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .before, .after {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .before {
+            border-top: 4px solid #e53935;
+        }
+
+        .after {
+            border-top: 4px solid #4caf50;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #1a1a1a;
+        }
+
+        h2 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .before h2 {
+            color: #c62828;
+        }
+
+        .after h2 {
+            color: #2e7d32;
+        }
+
+        .problem-list {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .problem-list li {
+            padding: 12px;
+            margin-bottom: 8px;
+            background: #ffebee;
+            border-left: 3px solid #e53935;
+            font-size: 14px;
+        }
+
+        .solution-list {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .solution-list li {
+            padding: 12px;
+            margin-bottom: 8px;
+            background: #e8f5e9;
+            border-left: 3px solid #4caf50;
+            font-size: 14px;
+        }
+
+        .dialog {
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            max-width: 600px;
+            margin: 40px auto;
+        }
+
+        .dialog-header {
+            background: linear-gradient(180deg, #f5f5f5 0%, #e0e0e0 100%);
+            padding: 12px 16px;
+            border-bottom: 1px solid #ccc;
+            border-radius: 8px 8px 0 0;
+            font-weight: 600;
+            font-size: 14px;
+            color: #1a1a1a;
+        }
+
+        .dialog-body {
+            padding: 24px;
+        }
+
+        .user-section {
+            margin-bottom: 24px;
+        }
+
+        .user-row {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #f9f9f9;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #007bff;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+            margin-right: 12px;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .user-email {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .permission-section {
+            margin-bottom: 20px;
+        }
+
+        .permission-section h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1a1a1a;
+        }
+
+        .permission-option {
+            padding: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .permission-option:hover {
+            border-color: #007bff;
+            background: #f8f9ff;
+        }
+
+        .permission-option.selected {
+            border-color: #007bff;
+            background: #e3f2fd;
+        }
+
+        .permission-option input[type="radio"] {
+            margin-right: 12px;
+        }
+
+        .permission-title {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 4px;
+            color: #1a1a1a;
+        }
+
+        .permission-desc {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .advanced-toggle {
+            color: #007bff;
+            font-size: 13px;
+            cursor: pointer;
+            margin: 16px 0;
+            text-decoration: none;
+        }
+
+        .advanced-toggle:hover {
+            text-decoration: underline;
+        }
+
+        .advanced-permissions {
+            display: none;
+            background: #f9f9f9;
+            padding: 16px;
+            border-radius: 6px;
+            margin-top: 12px;
+        }
+
+        .advanced-permissions.visible {
+            display: block;
+        }
+
+        .checkbox-group {
+            margin-bottom: 8px;
+        }
+
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 8px 0;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        .dialog-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 16px 24px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #1a1a1a;
+        }
+
+        .btn-secondary:hover {
+            background: #ccc;
+        }
+
+        .principles {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            margin-top: 40px;
+        }
+
+        .principles h2 {
+            font-size: 20px;
+            margin-bottom: 24px;
+            color: #1a1a1a;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        .principle {
+            margin-bottom: 24px;
+        }
+
+        .principle h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #007bff;
+        }
+
+        .principle p {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Přístupová práva ke složce - Redesign</h1>
+
+        <div class="comparison">
+            <div class="before">
+                <h2>❌ Problémy původního dialogu</h2>
+                <ul class="problem-list">
+                    <li><strong>Matice bez vysvětlení:</strong> Co znamenají kolonky A, R, W, H, D?</li>
+                    <li><strong>Dvojí checkbox:</strong> Proč je "Číst" v obou sekcích (Položky/Složka)?</li>
+                    <li><strong>Žádný kontext:</strong> Co se stane když zaškrtnu "Psát"?</li>
+                    <li><strong>Přetížená UI:</strong> 10+ checkboxů, není jasné co je důležité</li>
+                    <li><strong>Žádné předvolby:</strong> Musím vše nastavovat ručně od začátku</li>
+                    <li><strong>Nejasná rozdíl:</strong> Co je "Položky" vs. "Složka"?</li>
+                </ul>
+            </div>
+
+            <div class="after">
+                <h2>✓ Řešení v novém designu</h2>
+                <ul class="solution-list">
+                    <li><strong>3 jasné role:</strong> Čtení / Úpravy / Správa s vysvětlením</li>
+                    <li><strong>Explicitní vysvětlení:</strong> Co konkrétně každá role umožní</li>
+                    <li><strong>Progressive disclosure:</strong> Pokročilé pouze když je potřeba</li>
+                    <li><strong>Předvolby:</strong> Většinu času stačí kliknout na jednu z rolí</li>
+                    <li><strong>Vizuální feedback:</strong> Vybraná role jasně zvýrazněná</li>
+                    <li><strong>Unified:</strong> Práva spojená, ne rozdělená na 2 sekce</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="dialog">
+            <div class="dialog-header">
+                Sdílení složky: Soubory/Test
+            </div>
+            <div class="dialog-body">
+                <div class="user-section">
+                    <div class="user-row">
+                        <div class="user-avatar">T</div>
+                        <div class="user-info">
+                            <div class="user-name">Test</div>
+                            <div class="user-email">test@dev.klab.cz</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="permission-section">
+                    <h3>Vyberte úroveň přístupu:</h3>
+
+                    <label class="permission-option selected">
+                        <input type="radio" name="permission" value="read" checked>
+                        <div>
+                            <div class="permission-title">👁 Může číst</div>
+                            <div class="permission-desc">
+                                Vidí obsah složky a může otevírat a číst zprávy. Nemůže nic měnit ani mazat.
+                            </div>
+                        </div>
+                    </label>
+
+                    <label class="permission-option">
+                        <input type="radio" name="permission" value="edit">
+                        <div>
+                            <div class="permission-title">✏️ Může upravovat</div>
+                            <div class="permission-desc">
+                                Vidí obsah, může číst, přidávat nové zprávy a měnit existující. Nemůže mazat.
+                            </div>
+                        </div>
+                    </label>
+
+                    <label class="permission-option">
+                        <input type="radio" name="permission" value="manage">
+                        <div>
+                            <div class="permission-title">⚙️ Může spravovat</div>
+                            <div class="permission-desc">
+                                Plná kontrola: číst, upravovat, mazat zprávy a nastavovat práva dalším uživatelům.
+                            </div>
+                        </div>
+                    </label>
+
+                    <a href="#" class="advanced-toggle" onclick="document.getElementById('advanced').classList.toggle('visible'); return false;">
+                        → Pokročilé nastavení oprávnění
+                    </a>
+
+                    <div id="advanced" class="advanced-permissions">
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" checked disabled>
+                                Číst zprávy
+                            </label>
+                        </div>
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox">
+                                Psát nové zprávy
+                            </label>
+                        </div>
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox">
+                                Měnit existující zprávy
+                            </label>
+                        </div>
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox">
+                                Mazat zprávy
+                            </label>
+                        </div>
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox">
+                                Spravovat oprávnění
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dialog-footer">
+                <button class="btn btn-secondary">Zrušit</button>
+                <button class="btn btn-primary">Uložit</button>
+            </div>
+        </div>
+
+        <div class="principles">
+            <h2>Design principles aplikované</h2>
+
+            <div class="principle">
+                <h3>Reduction over addition</h3>
+                <p>
+                    Původní dialog měl 10+ checkboxů rozdělených do 2 sekcí. Nový design má 3 jasné předvolby
+                    které pokryjí 95% use cases. Pokročilé nastavení skryté, dostupné jen když je potřeba.
+                </p>
+            </div>
+
+            <div class="principle">
+                <h3>Self-evident design</h3>
+                <p>
+                    Místo neoznačených checkboxů a záhadných kolonek (A, R, W, H, D) má každá role jasný
+                    název, emoji ikonu a vysvětlení CO KONKRÉTNĚ uživatel s daným oprávněním může/nemůže dělat.
+                </p>
+            </div>
+
+            <div class="principle">
+                <h3>Progressive disclosure</h3>
+                <p>
+                    Většina uživatelů chce prostě "sdílet ke čtení" nebo "sdílet k úpravám". Power users
+                    kteří potřebují granulární kontrolu najdou pokročilé nastavení pod linkem. Nenutíme
+                    všechny uživatele řešit komplexitu.
+                </p>
+            </div>
+
+            <div class="principle">
+                <h3>Impossible to fuck up</h3>
+                <p>
+                    Jasná vysvětlení u každé role eliminují riziko omylem udělit příliš mnoho oprávnění
+                    nebo naopak příliš málo. Uživatel vidí PŘED uložením co přesně druhá strana bude moct dělat.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

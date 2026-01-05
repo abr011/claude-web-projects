@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transformace: Předtím a potom</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #fafafa;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 80px 20px 60px;
+            background: white;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .hero .tagline {
+            font-size: 24px;
+            color: #666;
+        }
+
+        .split-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 100vh;
+        }
+
+        .side {
+            padding: 60px 40px;
+        }
+
+        .side-left {
+            background: #ffebee;
+            border-right: 3px solid #c62828;
+        }
+
+        .side-right {
+            background: #e8f5e9;
+        }
+
+        .side h2 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .side-left h2 {
+            color: #c62828;
+        }
+
+        .side-right h2 {
+            color: #2e7d32;
+        }
+
+        .side h3 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        .side p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            max-width: 500px;
+        }
+
+        .image-box {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin: 30px 0;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .image-box img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 4px;
+        }
+
+        .problem-list {
+            list-style: none;
+            margin: 30px 0;
+        }
+
+        .problem-list li {
+            padding: 15px 0;
+            padding-left: 35px;
+            position: relative;
+            font-size: 16px;
+        }
+
+        .problem-list li::before {
+            content: "✗";
+            position: absolute;
+            left: 0;
+            color: #c62828;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .solution-list {
+            list-style: none;
+            margin: 30px 0;
+        }
+
+        .solution-list li {
+            padding: 15px 0;
+            padding-left: 35px;
+            position: relative;
+            font-size: 16px;
+        }
+
+        .solution-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #2e7d32;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .demo-large {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 30px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .demo-large img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .how-section {
+            background: white;
+            padding: 80px 40px;
+            text-align: center;
+        }
+
+        .how-section h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        .how-section p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: #555;
+        }
+
+        .sketch-hint {
+            display: inline-block;
+            background: #fafafa;
+            padding: 20px 40px;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #666;
+        }
+
+        footer {
+            background: #1a1a1a;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        footer .tagline {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        footer .subtitle {
+            font-size: 16px;
+            color: #999;
+        }
+
+        @media (max-width: 968px) {
+            .split-container {
+                grid-template-columns: 1fr;
+            }
+
+            .side-left {
+                border-right: none;
+                border-bottom: 3px solid #c62828;
+            }
+
+            .hero h1 { font-size: 40px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>Transformace</h1>
+        <p class="tagline">Přestaňte nastavovat oprávnění · Sdílejte dokumenty s lidmi</p>
+    </div>
+
+    <div class="split-container">
+        <!-- LEFT: Problem -->
+        <div class="side side-left">
+            <h2>Předtím</h2>
+            <h3>Zadání</h3>
+            <p>Emailový klient potřeboval sdílení souborů s "řádnou" správou přístupů. Specifikace vyžadovala technickou správu oprávnění.</p>
+
+            <div class="image-box">
+                <img src="../icewarp-zadani.png" alt="Původní zadání">
+            </div>
+
+            <h3 style="margin-top: 40px;">Co bylo špatně</h3>
+            <ul class="problem-list">
+                <li>Technický žargon (A, R, W, M, D oprávnění)</li>
+                <li>Složité checkboxy a matice</li>
+                <li>Zaměření na "správu práv"</li>
+                <li>Vyžadovalo pochopení access control</li>
+                <li>Neodpovídalo myšlenkovému modelu uživatele</li>
+                <li>Jednoduchý úkol působil komplikovaně</li>
+            </ul>
+
+            <p style="margin-top: 40px; font-style: italic; color: #666;">Uživatelé nechtějí "spravovat oprávnění". Chtějí sdílet s Annou.</p>
+        </div>
+
+        <!-- RIGHT: Solution -->
+        <div class="side side-right">
+            <h2>Potom</h2>
+            <h3>Řešení</h3>
+            <p>Roky iterací vedly k tomuto: Napište jméno, klikněte, sdílejte. Žádné matice oprávnění. Žádný technický žargon.</p>
+
+            <div class="demo-large">
+                <img src="../demo/share-form-demo-captioned.gif" alt="Finální řešení">
+            </div>
+
+            <h3 style="margin-top: 40px;">Co se změnilo</h3>
+            <ul class="solution-list">
+                <li>Vyhledávání najde lidi okamžitě</li>
+                <li>Karty zobrazují doporučené kontakty</li>
+                <li>Pills jasně zobrazují výběr</li>
+                <li>Lidský jazyk ("Kdo může upravovat?")</li>
+                <li>Chytré výchozí hodnoty (nejčastější případ)</li>
+                <li>Progresivní odhalování (pokročilé skryté)</li>
+            </ul>
+
+            <p style="margin-top: 40px; font-weight: 600; color: #2e7d32;">Výsledek: Lidé se dostanou k cíli bez přemýšlení o "oprávněních".</p>
+        </div>
+    </div>
+
+    <!-- How We Got Here -->
+    <div class="how-section">
+        <h3>Jak jsme se sem dostali?</h3>
+        <p>Desítky papírových skic zkoumaly různé přístupy. Každá iterace se přiblížila k myšlenkovému modelu uživatele: přemýšlet v kategoriích lidí, ne oprávnění.</p>
+        <div class="sketch-hint">
+            Ručně kreslené iterace · Rozvržení karet · Vzory vyhledávání · Překlady oprávnění
+        </div>
+    </div>
+
+    <footer>
+        <div class="tagline">Odstranili jsme složitost</div>
+        <div class="subtitle">Není zač.</div>
+        <p style="margin-top: 30px; color: #666;">Aleš Brom · UX Designer</p>
+    </footer>
+</body>
+</html>

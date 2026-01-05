@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Design Process - Sketching Iterations</title>
+    <script src="https://cdn.jsdelivr.net/npm/roughjs@4.5.2/bundled/rough.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: #e8e8e8;
+            padding: 40px;
+            font-family: 'Comic Sans MS', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        #sketch-canvas {
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="sketch-canvas" width="650" height="450"></canvas>
+    <script>
+        const canvas = document.getElementById('sketch-canvas');
+        const ctx = canvas.getContext('2d');
+        const rc = rough.canvas(canvas);
+
+        const orange = '#ff6b35';
+        const gray = '#999';
+        const options = {
+            stroke: orange,
+            strokeWidth: 2,
+            roughness: 3,
+            bowing: 2.5
+        };
+
+        // Table background
+        ctx.fillStyle = '#d5d5d5';
+        ctx.fillRect(0, 0, 650, 450);
+
+        // Helper function
+        function drawPaper(x, y, w, h, rotation) {
+            ctx.save();
+            ctx.translate(x + w/2, y + h/2);
+            ctx.rotate(rotation * Math.PI / 180);
+            // Shadow
+            ctx.fillStyle = 'rgba(0,0,0,0.15)';
+            ctx.fillRect(-w/2 + 3, -h/2 + 3, w, h);
+            // Paper
+            ctx.fillStyle = '#fefefe';
+            ctx.fillRect(-w/2, -h/2, w, h);
+            ctx.strokeStyle = '#e0e0e0';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(-w/2, -h/2, w, h);
+            ctx.restore();
+        }
+
+        // === PAPER 1 (280x230) - Bottom left, -4° ===
+        const p1 = {x: 40, y: 180, w: 280, h: 230, rot: -4};
+        drawPaper(p1.x, p1.y, p1.w, p1.h, p1.rot);
+
+        ctx.save();
+        ctx.translate(p1.x + p1.w/2, p1.y + p1.h/2);
+        ctx.rotate(p1.rot * Math.PI / 180);
+
+        rc.rectangle(-131, -106, 185, 21, options);
+        rc.rectangle(-51, -106, 56, 21, options);
+        ctx.font = '8px "Comic Sans MS", sans-serif';
+        ctx.fillStyle = orange;
+        ctx.fillText('ON/OFF', -37, -92);
+        ctx.font = '9px "Comic Sans MS", sans-serif';
+        ctx.fillText('Doporučené', -131, -71);
+        rc.rectangle(-42, -81, 23, 12, options);
+        ctx.font = '7px "Comic Sans MS", sans-serif';
+        ctx.fillText('Vše', -36, -73);
+        rc.rectangle(-10, -81, 28, 12, options);
+        ctx.fillText('Hledat', -3, -73);
+
+        // Card grid 3x3
+        for(let r=0; r<3; r++) {
+            for(let c=0; c<3; c++) {
+                rc.rectangle(-131 + c*86, -56 + r*58, 79, 51, options);
+            }
+        }
+        ctx.restore();
+
+        // === PAPER 2 (300x255) - Middle, +3° ===
+        const p2 = {x: 220, y: 110, w: 300, h: 255, rot: 3};
+        drawPaper(p2.x, p2.y, p2.w, p2.h, p2.rot);
+
+        ctx.save();
+        ctx.translate(p2.x + p2.w/2, p2.y + p2.h/2);
+        ctx.rotate(p2.rot * Math.PI / 180);
+
+        rc.rectangle(-141, -117, 70, 21, options);
+        rc.rectangle(-66, -117, 112, 21, options);
+        ctx.font = '8px "Comic Sans MS", sans-serif';
+        ctx.fillStyle = orange;
+        ctx.fillText('Jméno', -138, -105);
+        rc.rectangle(54, -117, 47, 21, options);
+        ctx.fillText('ON/OFF', 66, -105);
+        ctx.strokeStyle = gray;
+        ctx.lineWidth = 1;
+        ctx.strokeRect(110, -117, 37, 21);
+        ctx.fillStyle = gray;
+        ctx.fillText('Sdílet', 117, -105);
+
+        ctx.fillStyle = orange;
+        ctx.font = '9px "Comic Sans MS", sans-serif';
+        ctx.fillText('Doporučené', -141, -85);
+        rc.rectangle(-52, -96, 23, 12, options);
+        ctx.font = '7px "Comic Sans MS", sans-serif';
+        ctx.fillText('Vše', -46, -88);
+        rc.rectangle(-20, -96, 28, 12, options);
+        ctx.fillText('Hledat', -13, -88);
+
+        // Card grid with highlight
+        for(let r=0; r<3; r++) {
+            for(let c=0; c<3; c++) {
+                const cx = -141 + c*93;
+                const cy = -69 + r*65;
+                if(r===1 && c===0) {
+                    ctx.strokeStyle = gray;
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(cx, cy, 84, 56);
+                } else {
+                    rc.rectangle(cx, cy, 84, 56, options);
+                }
+            }
+        }
+        ctx.restore();
+
+        // === PAPER 3 (280x210) - Top right, -5° ===
+        const p3 = {x: 350, y: 50, w: 280, h: 210, rot: -5};
+        drawPaper(p3.x, p3.y, p3.w, p3.h, p3.rot);
+
+        ctx.save();
+        ctx.translate(p3.x + p3.w/2, p3.y + p3.h/2);
+        ctx.rotate(p3.rot * Math.PI / 180);
+
+        rc.rectangle(-131, -96, 70, 21, options);
+        rc.rectangle(-56, -96, 112, 21, options);
+        ctx.font = '8px "Comic Sans MS", sans-serif';
+        ctx.fillStyle = orange;
+        ctx.fillText('Jméno', -128, -84);
+        ctx.fillText('I', -51, -84);
+        rc.rectangle(64, -96, 47, 21, options);
+        ctx.fillText('ON/OFF', 76, -84);
+        ctx.strokeStyle = gray;
+        ctx.lineWidth = 1;
+        ctx.strokeRect(120, -96, 37, 21);
+        ctx.fillStyle = gray;
+        ctx.fillText('Sdílet', 127, -84);
+
+        // Contact list
+        const names = ['JAN', 'FRANTA', 'TONDA', 'KAREL'];
+        ctx.fillStyle = orange;
+        ctx.font = '9px "Comic Sans MS", sans-serif';
+        names.forEach((name, i) => {
+            const cy = -63 + i*33;
+            rc.rectangle(-131, cy, 261, 28, options);
+            ctx.fillText(name, -122, cy + 19);
+        });
+
+        ctx.restore();
+
+        // Label
+        ctx.font = '11px "Comic Sans MS", sans-serif';
+        ctx.fillStyle = '#888';
+        ctx.fillText('Design iterations', 20, 435);
+    </script>
+</body>
+</html>

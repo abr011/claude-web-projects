@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fluent UI Web Components - Demo</title>
+
+    <!-- Fluent UI Web Components CDN -->
+    <script type="module" src="https://unpkg.com/@fluentui/web-components"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #fafafa;
+            padding: 60px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 42px;
+            margin-bottom: 12px;
+            color: #1a1a1a;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 60px;
+        }
+
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section h2 {
+            font-size: 28px;
+            margin-bottom: 24px;
+            color: #1a1a1a;
+        }
+
+        .demo-group {
+            background: white;
+            padding: 32px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+
+        .demo-group h3 {
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+        }
+
+        .component-row {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        fluent-card {
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+
+        fluent-text-field,
+        fluent-text-area,
+        fluent-select,
+        fluent-number-field {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fluent UI Web Components</h1>
+        <p class="subtitle">Ukázka komponent v čistém HTML bez frameworku</p>
+
+        <!-- Buttons Section -->
+        <div class="section">
+            <h2>Tlačítka</h2>
+            <div class="demo-group">
+                <h3>Různé varianty tlačítek</h3>
+                <div class="component-row">
+                    <fluent-button appearance="accent">Accent Button</fluent-button>
+                    <fluent-button appearance="neutral">Neutral Button</fluent-button>
+                    <fluent-button appearance="outline">Outline Button</fluent-button>
+                    <fluent-button appearance="stealth">Stealth Button</fluent-button>
+                    <fluent-button disabled>Disabled Button</fluent-button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Inputs Section -->
+        <div class="section">
+            <h2>Formulářové prvky</h2>
+            <div class="demo-group">
+                <h3>Textová pole a další vstupy</h3>
+
+                <div class="form-group">
+                    <label>Textové pole</label>
+                    <fluent-text-field placeholder="Zadejte text" appearance="outline"></fluent-text-field>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <fluent-text-field
+                        type="email"
+                        placeholder="vas@email.cz"
+                        appearance="outline">
+                    </fluent-text-field>
+                </div>
+
+                <div class="form-group">
+                    <label>Číslo</label>
+                    <fluent-number-field
+                        placeholder="Zadejte číslo"
+                        appearance="outline">
+                    </fluent-number-field>
+                </div>
+
+                <div class="form-group">
+                    <label>Textarea</label>
+                    <fluent-text-area
+                        placeholder="Delší text..."
+                        rows="4"
+                        appearance="outline">
+                    </fluent-text-area>
+                </div>
+            </div>
+        </div>
+
+        <!-- Checkboxes & Radio Section -->
+        <div class="section">
+            <h2>Výběrové prvky</h2>
+            <div class="demo-group">
+                <h3>Checkboxy</h3>
+                <div class="component-row">
+                    <fluent-checkbox checked>Zaškrtnuto</fluent-checkbox>
+                    <fluent-checkbox>Nezaškrtnuto</fluent-checkbox>
+                    <fluent-checkbox disabled>Disabled</fluent-checkbox>
+                </div>
+
+                <h3 style="margin-top: 24px;">Radio buttony</h3>
+                <fluent-radio-group>
+                    <fluent-radio value="1" checked>Možnost 1</fluent-radio>
+                    <fluent-radio value="2">Možnost 2</fluent-radio>
+                    <fluent-radio value="3">Možnost 3</fluent-radio>
+                </fluent-radio-group>
+            </div>
+        </div>
+
+        <!-- Switch Section -->
+        <div class="section">
+            <h2>Switch</h2>
+            <div class="demo-group">
+                <div class="component-row">
+                    <fluent-switch checked>Zapnuto</fluent-switch>
+                    <fluent-switch>Vypnuto</fluent-switch>
+                    <fluent-switch disabled>Disabled</fluent-switch>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cards Section -->
+        <div class="section">
+            <h2>Karty</h2>
+            <div class="card-grid">
+                <fluent-card>
+                    <h3 style="margin-bottom: 12px;">Karta 1</h3>
+                    <p style="color: #666; margin-bottom: 16px;">
+                        Toto je ukázka fluent-card komponenty s obsahem.
+                    </p>
+                    <fluent-button appearance="accent">Akce</fluent-button>
+                </fluent-card>
+
+                <fluent-card>
+                    <h3 style="margin-bottom: 12px;">Karta 2</h3>
+                    <p style="color: #666; margin-bottom: 16px;">
+                        Karty můžete použít pro organizaci obsahu.
+                    </p>
+                    <fluent-button appearance="outline">Více info</fluent-button>
+                </fluent-card>
+
+                <fluent-card>
+                    <h3 style="margin-bottom: 12px;">Karta 3</h3>
+                    <p style="color: #666; margin-bottom: 16px;">
+                        Responsive grid layout s fluent kartami.
+                    </p>
+                    <fluent-button appearance="neutral">Zobrazit</fluent-button>
+                </fluent-card>
+            </div>
+        </div>
+
+        <!-- Progress Section -->
+        <div class="section">
+            <h2>Progress indikátory</h2>
+            <div class="demo-group">
+                <h3>Progress bar</h3>
+                <fluent-progress min="0" max="100" value="60"></fluent-progress>
+
+                <h3 style="margin-top: 24px;">Progress ring</h3>
+                <div class="component-row">
+                    <fluent-progress-ring></fluent-progress-ring>
+                    <fluent-progress-ring value="50"></fluent-progress-ring>
+                    <fluent-progress-ring value="75"></fluent-progress-ring>
+                </div>
+            </div>
+        </div>
+
+        <!-- Divider Section -->
+        <div class="section">
+            <h2>Oddělovače</h2>
+            <div class="demo-group">
+                <p>Text před oddělovačem</p>
+                <fluent-divider></fluent-divider>
+                <p>Text po oddělovači</p>
+            </div>
+        </div>
+
+        <!-- Dialog/Modal Section -->
+        <div class="section">
+            <h2>Dialog</h2>
+            <div class="demo-group">
+                <fluent-button id="show-dialog" appearance="accent">Otevřít dialog</fluent-button>
+
+                <fluent-dialog id="demo-dialog" modal>
+                    <h3 style="margin-bottom: 16px;">Dialog nadpis</h3>
+                    <p style="margin-bottom: 20px; color: #666;">
+                        Toto je ukázka dialogového okna s Fluent UI.
+                    </p>
+                    <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                        <fluent-button id="cancel-dialog" appearance="neutral">Zrušit</fluent-button>
+                        <fluent-button id="confirm-dialog" appearance="accent">Potvrdit</fluent-button>
+                    </div>
+                </fluent-dialog>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dialog funkce
+        const showDialogBtn = document.getElementById('show-dialog');
+        const dialog = document.getElementById('demo-dialog');
+        const cancelBtn = document.getElementById('cancel-dialog');
+        const confirmBtn = document.getElementById('confirm-dialog');
+
+        showDialogBtn?.addEventListener('click', () => {
+            dialog.hidden = false;
+        });
+
+        cancelBtn?.addEventListener('click', () => {
+            dialog.hidden = true;
+        });
+
+        confirmBtn?.addEventListener('click', () => {
+            alert('Dialog potvrzen!');
+            dialog.hidden = true;
+        });
+    </script>
+</body>
+</html>

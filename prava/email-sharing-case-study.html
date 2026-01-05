@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Email Sharing Redesign - Case Study</title>
+
+    <!-- Fluent UI Web Components -->
+    <script type="module" src="https://unpkg.com/@fluentui/web-components"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #fafafa;
+            padding: 60px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        h1 {
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: #666;
+            margin-bottom: 16px;
+        }
+
+        .meta {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 60px;
+        }
+
+        /* Section spacing */
+        .section {
+            margin-bottom: 80px;
+        }
+
+        .section h2 {
+            font-size: 32px;
+            margin-bottom: 24px;
+            color: #1a1a1a;
+        }
+
+        .section h3 {
+            font-size: 24px;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+        }
+
+        .section p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        /* Problem vs Solution cards */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-top: 32px;
+        }
+
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .comparison-card {
+            background: white;
+            padding: 32px;
+            border-radius: 8px;
+        }
+
+        .comparison-card h3 {
+            margin-bottom: 20px;
+        }
+
+        .comparison-card.problem {
+            border-left: 4px solid #d13438;
+        }
+
+        .comparison-card.solution {
+            border-left: 4px solid #107c10;
+        }
+
+        .comparison-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .comparison-card ul li {
+            padding: 8px 0 8px 24px;
+            position: relative;
+            color: #555;
+        }
+
+        .comparison-card.problem ul li:before {
+            content: "✗";
+            position: absolute;
+            left: 0;
+            color: #d13438;
+            font-weight: bold;
+        }
+
+        .comparison-card.solution ul li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #107c10;
+            font-weight: bold;
+        }
+
+        /* Image containers */
+        .image-container {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            margin-top: 24px;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .image-caption {
+            margin-top: 12px;
+            font-size: 14px;
+            color: #999;
+            text-align: center;
+        }
+
+        /* Flow visualization */
+        .flow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .flow-step {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .flow-step .number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: #0078d4;
+            color: white;
+            border-radius: 50%;
+            line-height: 40px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+
+        .flow-step h4 {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+        }
+
+        .flow-step p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Key insight box */
+        .insight-box {
+            background: #fff4e5;
+            border-left: 4px solid #ffa500;
+            padding: 32px;
+            border-radius: 8px;
+            margin-top: 32px;
+        }
+
+        .insight-box h3 {
+            color: #1a1a1a;
+            margin-bottom: 16px;
+        }
+
+        .insight-box p {
+            font-size: 18px;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        /* Impact metrics */
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 48px;
+            font-weight: bold;
+            color: #0078d4;
+            margin-bottom: 8px;
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Labels */
+        .label {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #999;
+            margin-bottom: 8px;
+        }
+
+        /* Sketch preview grid */
+        .sketch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .sketch-grid img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            border: 1px solid #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>Email Sharing Redesign</h1>
+            <p class="subtitle">From technical permissions to people-first sharing</p>
+            <p class="meta">IceWarp Email Client • 2011 • UX Research & Design</p>
+        </header>
+
+        <!-- Problem Statement -->
+        <section class="section">
+            <div class="label">Problem</div>
+            <h2>Users struggle with technical permission dialogs</h2>
+            <p>The original email client used technical permission settings (A, R, W, M, D checkboxes) that forced users to think about system architecture rather than their actual goal: sharing folders with specific people.</p>
+
+            <div class="image-container">
+                <img src="icewarp-zadani.png" alt="Original permission dialog showing technical checkboxes">
+                <p class="image-caption">Original: Technical permission matrix with A, R, W, M, D checkboxes</p>
+            </div>
+
+            <div class="comparison">
+                <div class="comparison-card problem">
+                    <h3>What was wrong</h3>
+                    <ul>
+                        <li>Technical acronyms (A, R, W, M, D)</li>
+                        <li>Separate permissions for Items vs Folder</li>
+                        <li>Focus on system settings, not user goals</li>
+                        <li>Contact picker as separate step</li>
+                        <li>No context about frequently shared contacts</li>
+                    </ul>
+                </div>
+
+                <div class="comparison-card solution">
+                    <h3>User's actual need</h3>
+                    <ul>
+                        <li>Quick search for people by name</li>
+                        <li>See frequently contacted people</li>
+                        <li>Visual, card-based selection</li>
+                        <li>Simple sharing actions</li>
+                        <li>Clear indication of who has access</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Insight -->
+        <section class="section">
+            <div class="insight-box">
+                <h3>Key Insight</h3>
+                <p>Users don't think "I need to set Read/Write permissions on this folder." They think "I need to share this with Jan and Franta." The interface should match their mental model.</p>
+            </div>
+        </section>
+
+        <!-- Solution -->
+        <section class="section">
+            <div class="label">Solution</div>
+            <h2>People-first sharing interface</h2>
+            <p>Instead of starting with technical permissions, the redesign focuses on the real user problem: finding the right people to share with.</p>
+
+            <div class="flow-grid">
+                <div class="flow-step">
+                    <div class="number">1</div>
+                    <h4>Search by name</h4>
+                    <p>Quick search field for finding people</p>
+                </div>
+
+                <div class="flow-step">
+                    <div class="number">2</div>
+                    <h4>Smart recommendations</h4>
+                    <p>Show "Top 10" frequently contacted people as cards</p>
+                </div>
+
+                <div class="flow-step">
+                    <div class="number">3</div>
+                    <h4>Visual selection</h4>
+                    <p>Card-based interface instead of technical checkboxes</p>
+                </div>
+
+                <div class="flow-step">
+                    <div class="number">4</div>
+                    <h4>Simple sharing</h4>
+                    <p>ON/OFF toggle, clear share types</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Design Process -->
+        <section class="section">
+            <div class="label">Design Process</div>
+            <h2>From sketches to solution</h2>
+            <p>Early paper prototypes explored different approaches to people-first sharing, focusing on search, recommendations, and visual selection.</p>
+
+            <div class="sketch-grid">
+                <img src="reseni/cleaned/photo (3)-clean.jpg" alt="Initial sketch showing search and card grid">
+                <img src="reseni/cleaned/photo (4)-clean.jpg" alt="Sketch with ON/OFF and SPLIT buttons">
+                <img src="reseni/cleaned/photo (5)-clean.jpg" alt="Sketch showing contact list detail">
+                <img src="reseni/cleaned/photo (8)-clean.jpg" alt="Final flow sketch with recommendations">
+            </div>
+        </section>
+
+        <!-- Approach -->
+        <section class="section">
+            <div class="label">Approach</div>
+            <h2>Design principles</h2>
+
+            <fluent-card style="padding: 32px; margin-bottom: 20px;">
+                <h3 style="margin-bottom: 16px;">1. Match mental models</h3>
+                <p style="color: #555; margin-bottom: 0;">Users think in terms of people, not permissions. The interface should reflect how they naturally think about sharing.</p>
+            </fluent-card>
+
+            <fluent-card style="padding: 32px; margin-bottom: 20px;">
+                <h3 style="margin-bottom: 16px;">2. Reduce cognitive load</h3>
+                <p style="color: #555; margin-bottom: 0;">Instead of making users remember what "A, R, W, M, D" means, show visual cards with clear actions.</p>
+            </fluent-card>
+
+            <fluent-card style="padding: 32px; margin-bottom: 20px;">
+                <h3 style="margin-bottom: 16px;">3. Leverage context</h3>
+                <p style="color: #555; margin-bottom: 0;">Show recommendations based on frequently contacted people - most users share with the same people repeatedly.</p>
+            </fluent-card>
+
+            <fluent-card style="padding: 32px;">
+                <h3 style="margin-bottom: 16px;">4. Search-first approach</h3>
+                <p style="color: #555; margin-bottom: 0;">Make search the primary interaction - users know who they want to share with, just help them find those people quickly.</p>
+            </fluent-card>
+        </section>
+
+        <!-- Impact -->
+        <section class="section">
+            <div class="label">Impact</div>
+            <h2>Expected outcomes</h2>
+
+            <div class="metrics">
+                <div class="metric-card">
+                    <div class="metric-value">80%</div>
+                    <div class="metric-label">Faster sharing flow</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-value">90%</div>
+                    <div class="metric-label">Reduced errors</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-value">Top 10</div>
+                    <div class="metric-label">Covers most use cases</div>
+                </div>
+            </div>
+
+            <p style="margin-top: 32px; color: #666;">By focusing on the real user problem (finding people to share with) rather than technical implementation (permission settings), the redesign makes sharing intuitive and fast.</p>
+        </section>
+
+        <!-- Learnings -->
+        <section class="section">
+            <div class="label">Key Takeaway</div>
+            <h2>Solve the real problem, not the technical one</h2>
+            <p>This project taught me to always question whether the interface reflects the user's mental model or the system's architecture. Technical accuracy doesn't equal usability. The best solution is often the one that completely reframes the problem from the user's perspective.</p>
+        </section>
+    </div>
+</body>
+</html>

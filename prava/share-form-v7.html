@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sdílení dokumentu - V7</title>
+
+    <!-- Fluent UI Web Components -->
+    <script type="module" src="https://unpkg.com/@fluentui/web-components"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Krub:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', -apple-system, sans-serif;
+            line-height: 1.5;
+            color: #1a1a1a;
+            background: #fafafa;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 160px;
+            gap: 12px;
+        }
+
+        h1, h2, .section-title {
+            font-family: 'Krub', 'Segoe UI', sans-serif;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 32px;
+            color: #1a1a1a;
+            grid-column: 1 / -1;
+        }
+
+        /* Input label */
+        .input-label {
+            font-family: 'Krub', 'Segoe UI', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        /* Heroic custom search field with inline button */
+        .hero-search {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: subgrid;
+            margin-bottom: 4px;
+            align-items: flex-end;
+        }
+
+        .hero-search-wrapper {
+            position: relative;
+            grid-column: 1;
+        }
+
+        .inline-share-button {
+            grid-column: 2;
+        }
+
+        .hero-search-input {
+            width: 100%;
+            padding: 14px 18px;
+            font-size: 16px;
+            font-weight: 500;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            background: white;
+            color: #1a1a1a;
+            transition: all 0.2s;
+            height: 52px;
+        }
+
+        .hero-search-input:hover {
+            border-color: #c0c0c0;
+        }
+
+        .hero-search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 10%, transparent);
+        }
+
+        /* Color variants - add to :root for easy theming */
+        :root {
+            --primary: #0078d4;
+            --primary-hover: #106ebe;
+            --primary-light: #e6f2ff;
+        }
+
+        /* Alternative color schemes (uncomment to use) */
+        /* Green theme */
+        /*
+        :root {
+            --primary: #107c10;
+            --primary-hover: #0e6b0e;
+            --primary-light: #e6f4e6;
+        }
+        */
+
+        /* Purple theme */
+        /*
+        :root {
+            --primary: #8764b8;
+            --primary-hover: #744da9;
+            --primary-light: #f4f0fa;
+        }
+        */
+
+        /* Orange theme */
+        /*
+        :root {
+            --primary: #d83b01;
+            --primary-hover: #c43501;
+            --primary-light: #fde7e0;
+        }
+        */
+
+        .inline-share-button {
+            height: 52px;
+        }
+
+        /* Autocomplete dropdown */
+        .autocomplete-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            margin-top: 8px;
+            max-height: 280px;
+            overflow-y: auto;
+            display: none;
+            z-index: 10;
+        }
+
+        .autocomplete-dropdown.active {
+            display: block;
+        }
+
+        .autocomplete-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid #f5f5f5;
+            transition: background 0.15s;
+        }
+
+        .autocomplete-item:hover {
+            background: #f5f5f5;
+        }
+
+        .autocomplete-item:last-child {
+            border-bottom: none;
+        }
+
+        .autocomplete-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+        }
+
+        .autocomplete-email {
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* Pills for selected people - match cards */
+        .selected-pills {
+            grid-column: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+            min-height: 0;
+        }
+
+        .selected-pills:empty {
+            margin-bottom: 0;
+        }
+
+        .pill {
+            background: var(--primary);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pill-name {
+            font-weight: 500;
+        }
+
+        .pill-remove {
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 1;
+            padding: 0;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .pill-remove:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Global permissions - compact under input */
+        .global-permissions {
+            grid-column: 1;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+            padding: 0;
+        }
+
+        .permission-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .permission-row input[type="checkbox"] {
+            width: 14px;
+            height: 14px;
+            cursor: pointer;
+            margin: 0;
+        }
+
+        .permission-row label {
+            font-size: 11px;
+            color: #666;
+            cursor: pointer;
+            user-select: none;
+            font-weight: 400;
+        }
+
+        .individual-permissions-link {
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: 400;
+            cursor: pointer;
+            text-decoration: underline;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .individual-permissions-link:hover {
+            color: var(--primary-hover);
+        }
+
+        .individual-permissions-link[disabled] {
+            color: #999;
+            cursor: not-allowed;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        /* Fluent button styling - stand out */
+        .inline-share-button::part(control) {
+            padding: 14px 20px;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: 'Krub', 'Segoe UI', sans-serif;
+            border: 2px solid var(--primary);
+            border-radius: 6px;
+            background: var(--primary);
+            transition: all 0.2s;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 120, 212, 0.25);
+        }
+
+        .inline-share-button:hover::part(control) {
+            background: var(--primary-hover);
+            border-color: var(--primary-hover);
+            box-shadow: 0 4px 12px rgba(0, 120, 212, 0.35);
+            transform: translateY(-1px);
+        }
+
+        .inline-share-button[disabled]::part(control) {
+            background: #f3f2f1;
+            border-color: #d2d0ce;
+            color: #a19f9d;
+            cursor: not-allowed;
+            opacity: 1;
+        }
+
+        /* Available people cards - only under input field */
+        .available-section {
+            grid-column: 1;
+            margin-top: 0;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .count {
+            color: #999;
+            font-weight: 400;
+        }
+
+        .people-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-search {
+                grid-template-columns: 1fr;
+            }
+
+            .inline-share-button {
+                grid-column: 1;
+                width: 100%;
+            }
+
+            .people-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .person-card {
+            background: white;
+            padding: 10px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .person-card:hover {
+            background: #f5f5f5;
+        }
+
+        .person-card.selected {
+            background: #e6f2ff;
+            border-color: #0078d4;
+        }
+
+        .person-card.hidden {
+            display: none;
+        }
+
+        .card-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-email {
+            font-size: 11px;
+            color: #666;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 80vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            font-family: 'Krub', 'Segoe UI', sans-serif;
+            color: #1a1a1a;
+        }
+
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .modal-person {
+            background: #fafafa;
+            padding: 12px 14px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .modal-person:last-child {
+            margin-bottom: 0;
+        }
+
+        .modal-person-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .modal-person-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+        }
+
+        .modal-person-email {
+            font-size: 11px;
+            color: #666;
+        }
+
+        .modal-permissions {
+            display: flex;
+            gap: 16px;
+            flex-wrap: nowrap;
+            flex-shrink: 0;
+        }
+
+        .modal-permission-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .modal-permission-item input[type="checkbox"] {
+            width: 14px;
+            height: 14px;
+            cursor: pointer;
+            margin: 0;
+        }
+
+        .modal-permission-item label {
+            font-size: 11px;
+            color: #666;
+            cursor: pointer;
+            user-select: none;
+            font-weight: 400;
+        }
+
+        .modal-permission-item span {
+            font-size: 11px;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .modal-footer fluent-button {
+            width: auto;
+            min-width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sdílet dokument</h1>
+
+        <!-- Heroic search field with inline button -->
+        <div class="hero-search">
+            <div class="hero-search-wrapper">
+                <label for="searchField" class="input-label">Přidat osoby</label>
+                <input
+                    type="text"
+                    id="searchField"
+                    class="hero-search-input"
+                    autocomplete="off">
+                <div class="autocomplete-dropdown" id="autocompleteDropdown"></div>
+            </div>
+            <fluent-button
+                appearance="accent"
+                id="shareButton"
+                class="inline-share-button"
+                disabled>
+                Sdílet dokument
+            </fluent-button>
+        </div>
+
+        <!-- Global permissions - all in one row -->
+        <div class="global-permissions">
+            <div class="permission-row">
+                <input type="checkbox" id="globalEdit" disabled>
+                <label for="globalEdit">Všichni můžou editovat</label>
+            </div>
+            <div class="permission-row">
+                <input type="checkbox" id="globalShare" disabled checked>
+                <label for="globalShare">Všichni můžou přidat osobu</label>
+            </div>
+            <a href="#" class="individual-permissions-link" id="openModalBtn">
+                Upravit individuální oprávnění
+            </a>
+        </div>
+
+        <!-- Selected people as pills -->
+        <div class="selected-pills" id="selectedPills"></div>
+
+        <!-- Available people cards -->
+        <div class="available-section">
+            <h2 class="section-title">Doporučené <span class="count" id="availableCount">(10)</span></h2>
+            <div class="people-cards" id="peopleCards"></div>
+        </div>
+    </div>
+
+    <!-- Modal for individual permissions -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Individuální oprávnění</h2>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Populated by JS -->
+            </div>
+            <div class="modal-footer">
+                <fluent-button appearance="neutral" id="closeModalBtn">
+                    Zavřít
+                </fluent-button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const people = [
+            { id: 1, name: 'Jan Novák', email: 'jan.novak@example.cz' },
+            { id: 2, name: 'Anna Svobodová', email: 'anna.svobodova@example.cz' },
+            { id: 3, name: 'Petr Dvořák', email: 'petr.dvorak@example.cz' },
+            { id: 4, name: 'Marie Procházková', email: 'marie.prochazkova@example.cz' },
+            { id: 5, name: 'Tomáš Novotný', email: 'tomas.novotny@example.cz' },
+            { id: 6, name: 'Eva Černá', email: 'eva.cerna@example.cz' },
+            { id: 7, name: 'Martin Veselý', email: 'martin.vesely@example.cz' },
+            { id: 8, name: 'Lucie Horáková', email: 'lucie.horakova@example.cz' },
+            { id: 9, name: 'Jakub Kučera', email: 'jakub.kucera@example.cz' }
+        ];
+
+        const selectedPeople = new Map();
+        const searchField = document.getElementById('searchField');
+        const dropdown = document.getElementById('autocompleteDropdown');
+
+        // Autocomplete
+        searchField.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+
+            renderPeopleCards(query);
+
+            if (query.length === 0) {
+                dropdown.classList.remove('active');
+                return;
+            }
+
+            const filtered = people.filter(p =>
+                !selectedPeople.has(p.id) && (
+                    p.name.toLowerCase().includes(query) ||
+                    p.email.toLowerCase().includes(query)
+                )
+            );
+
+            if (filtered.length === 0) {
+                dropdown.classList.remove('active');
+                return;
+            }
+
+            dropdown.innerHTML = filtered.slice(0, 5).map(person => `
+                <div class="autocomplete-item" data-id="${person.id}">
+                    <div class="autocomplete-name">${person.name}</div>
+                    <div class="autocomplete-email">${person.email}</div>
+                </div>
+            `).join('');
+
+            dropdown.classList.add('active');
+
+            dropdown.querySelectorAll('.autocomplete-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    addPerson(parseInt(item.dataset.id));
+                    searchField.value = '';
+                    dropdown.classList.remove('active');
+                    renderPeopleCards('');
+                });
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!searchField.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        // Add person
+        function addPerson(id) {
+            const person = people.find(p => p.id === id);
+            if (!person || selectedPeople.has(id)) return;
+
+            selectedPeople.set(id, {
+                person,
+                canEdit: document.getElementById('globalEdit').checked,
+                canShare: document.getElementById('globalShare').checked
+            });
+
+            renderAll();
+        }
+
+        // Remove person
+        function removePerson(id) {
+            selectedPeople.delete(id);
+            renderAll();
+        }
+
+        // Render pills
+        function renderPills() {
+            const container = document.getElementById('selectedPills');
+
+            if (selectedPeople.size === 0) {
+                container.innerHTML = '';
+                return;
+            }
+
+            container.innerHTML = Array.from(selectedPeople.values()).map(data => `
+                <div class="pill">
+                    <span class="pill-name">${data.person.name}</span>
+                    <button class="pill-remove" data-id="${data.person.id}">×</button>
+                </div>
+            `).join('');
+
+            container.querySelectorAll('.pill-remove').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    removePerson(parseInt(btn.dataset.id));
+                });
+            });
+        }
+
+        // Render cards
+        function renderPeopleCards(filter = '') {
+            const cards = document.getElementById('peopleCards');
+            const availableCount = document.getElementById('availableCount');
+
+            // Always show all cards - filtering only affects dropdown
+            cards.innerHTML = people.map(person => {
+                return `
+                    <div class="person-card ${selectedPeople.has(person.id) ? 'selected' : ''}"
+                         data-id="${person.id}">
+                        <div class="card-name">${person.name}</div>
+                        <div class="card-email">${person.email}</div>
+                    </div>
+                `;
+            }).join('');
+
+            availableCount.textContent = `(${people.length})`;
+
+            cards.querySelectorAll('.person-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const id = parseInt(card.dataset.id);
+                    if (selectedPeople.has(id)) {
+                        removePerson(id);
+                    } else {
+                        addPerson(id);
+                    }
+                });
+            });
+        }
+
+        // Update controls
+        function updateControls() {
+            const hasSelection = selectedPeople.size > 0;
+            const link = document.getElementById('openModalBtn');
+
+            document.getElementById('globalEdit').disabled = !hasSelection;
+            document.getElementById('globalShare').disabled = !hasSelection;
+            document.getElementById('shareButton').disabled = !hasSelection;
+
+            if (hasSelection) {
+                link.removeAttribute('disabled');
+            } else {
+                link.setAttribute('disabled', 'disabled');
+            }
+        }
+
+        // Global permissions
+        document.getElementById('globalEdit').addEventListener('change', (e) => {
+            selectedPeople.forEach((data, id) => {
+                data.canEdit = e.target.checked;
+                selectedPeople.set(id, data);
+            });
+        });
+
+        document.getElementById('globalShare').addEventListener('change', (e) => {
+            selectedPeople.forEach((data, id) => {
+                data.canShare = e.target.checked;
+                selectedPeople.set(id, data);
+            });
+        });
+
+        // Modal
+        document.getElementById('openModalBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            if (selectedPeople.size === 0) return;
+            renderModal();
+            document.getElementById('modalOverlay').classList.add('active');
+        });
+
+        document.getElementById('closeModalBtn').addEventListener('click', () => {
+            document.getElementById('modalOverlay').classList.remove('active');
+        });
+
+        document.getElementById('modalOverlay').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                document.getElementById('modalOverlay').classList.remove('active');
+            }
+        });
+
+        function renderModal() {
+            const body = document.getElementById('modalBody');
+
+            body.innerHTML = Array.from(selectedPeople.entries()).map(([id, data]) => `
+                <div class="modal-person">
+                    <div class="modal-person-info">
+                        <div class="modal-person-name">${data.person.name}</div>
+                        <div class="modal-person-email">${data.person.email}</div>
+                    </div>
+                    <div class="modal-permissions">
+                        <label class="modal-permission-item">
+                            <input
+                                type="checkbox"
+                                ${data.canEdit ? 'checked' : ''}
+                                data-id="${id}"
+                                data-permission="edit">
+                            <span>Může upravovat</span>
+                        </label>
+                        <label class="modal-permission-item">
+                            <input
+                                type="checkbox"
+                                ${data.canShare ? 'checked' : ''}
+                                data-id="${id}"
+                                data-permission="share">
+                            <span>Může přidat osobu</span>
+                        </label>
+                    </div>
+                </div>
+            `).join('');
+
+            body.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', (e) => {
+                    const id = parseInt(e.target.dataset.id);
+                    const permission = e.target.dataset.permission;
+                    const data = selectedPeople.get(id);
+
+                    if (permission === 'edit') {
+                        data.canEdit = e.target.checked;
+                    } else if (permission === 'share') {
+                        data.canShare = e.target.checked;
+                    }
+
+                    selectedPeople.set(id, data);
+                });
+            });
+        }
+
+        // Share button
+        document.getElementById('shareButton').addEventListener('click', () => {
+            if (selectedPeople.size === 0) return;
+
+            const sharingData = Array.from(selectedPeople.values()).map(data => ({
+                name: data.person.name,
+                email: data.person.email,
+                canEdit: data.canEdit,
+                canShare: data.canShare
+            }));
+
+            console.log('Sharing with:', sharingData);
+            alert(`Dokument bude sdílen s ${selectedPeople.size} ${selectedPeople.size === 1 ? 'osobou' : 'osobami'}`);
+        });
+
+        // Render all
+        function renderAll() {
+            renderPills();
+            renderPeopleCards(searchField.value);
+            updateControls();
+        }
+
+        // Initial render
+        renderAll();
+    </script>
+</body>
+</html>

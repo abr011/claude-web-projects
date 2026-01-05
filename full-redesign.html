@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Aleš Brom - Full Redesign Variant</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #fafafa;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        /* HERO */
+        .hero {
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .hero .tagline {
+            font-size: 20px;
+            color: #666;
+            margin-bottom: 50px;
+        }
+
+        .hero .value-prop {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 50px;
+            line-height: 1.4;
+        }
+
+        .hero .metrics {
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            margin-bottom: 50px;
+        }
+
+        .metric-number {
+            font-size: 56px;
+            font-weight: 700;
+            color: #007bff;
+            line-height: 1;
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 8px;
+        }
+
+        .cta {
+            display: inline-block;
+            padding: 18px 48px;
+            background: #1a1a1a;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .cta:hover {
+            background: #333;
+        }
+
+        .secondary-cta {
+            display: inline-block;
+            padding: 18px 48px;
+            color: #1a1a1a;
+            text-decoration: none;
+            font-size: 18px;
+            margin-left: 20px;
+        }
+
+        /* WORK SECTION */
+        .work {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: 36px;
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        .case-study {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .case-header {
+            padding: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .case-header h3 {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        .case-header p {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+
+        .case-content {
+            padding: 0;
+        }
+
+        .case-section {
+            padding: 32px 40px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .case-section:last-child {
+            border-bottom: none;
+        }
+
+        .case-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .case-text {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.7;
+        }
+
+        .case-text strong {
+            color: #1a1a1a;
+        }
+
+        .impact-section {
+            background: #f0f9ff;
+            border-left: 4px solid #007bff;
+        }
+
+        .impact-number {
+            font-size: 48px;
+            font-weight: 700;
+            color: #007bff;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .impact-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .vs-bar {
+            background: #f5f5f5;
+            padding: 24px 40px;
+            border-left: 4px solid #1a1a1a;
+        }
+
+        .vs-row {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 16px;
+            margin-bottom: 10px;
+        }
+
+        .vs-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .vs-label {
+            font-weight: 700;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .vs-text {
+            font-size: 14px;
+            color: #1a1a1a;
+        }
+
+        .case-tags {
+            padding: 20px 40px;
+            background: #fafafa;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 6px 14px;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 16px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* CONTACT */
+        .contact {
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .contact p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .contact a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .hero .value-prop {
+                font-size: 24px;
+            }
+
+            .hero .metrics {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .case-header,
+            .case-section,
+            .case-tags {
+                padding: 24px;
+            }
+
+            .vs-bar {
+                padding: 20px 24px;
+            }
+
+            .vs-row {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HERO -->
+    <div class="hero">
+        <div class="container">
+            <h1>Aleš Brom</h1>
+            <p class="tagline">UX Designer & Business Analyst</p>
+
+            <p class="value-prop">
+                I reframe the initial brief by asking:<br>
+                "Where's the money?"
+            </p>
+
+            <div class="metrics">
+                <div>
+                    <div class="metric-number">100+</div>
+                    <div class="metric-label">Man-days saved</div>
+                </div>
+                <div>
+                    <div class="metric-number">80%</div>
+                    <div class="metric-label">More satisfied users</div>
+                </div>
+            </div>
+
+            <a href="mailto:ales.brom@gmail.com" class="cta">Let's challenge your brief</a>
+            <a href="#work" class="secondary-cta">See my work →</a>
+        </div>
+    </div>
+
+    <!-- WORK -->
+    <div class="work" id="work">
+        <div class="container">
+            <h2 class="section-title">Selected Work</h2>
+
+            <!-- CASE STUDY 1 -->
+            <div class="case-study">
+                <div class="case-header">
+                    <h3>I heard it through the dashboard</h3>
+                    <p>E-signing service for contract management</p>
+                </div>
+
+                <div class="case-content">
+                    <div class="case-section">
+                        <div class="case-label">Problem</div>
+                        <div class="case-text">
+                            <strong>Client wanted:</strong> More newly registered users finishing the main flow<br>
+                            <strong>Real problem:</strong> System isn't reliable for existing customers
+                        </div>
+                    </div>
+
+                    <div class="case-section">
+                        <div class="case-label">Insight</div>
+                        <div class="case-text">
+                            Emails with contracts don't reach counterparts because the system doesn't recognize wrong email addresses and pretends everything is ok → angry customers
+                        </div>
+                    </div>
+
+                    <div class="case-section">
+                        <div class="case-label">Solution</div>
+                        <div class="case-text">
+                            Created dashboard showing email delivery status in real-time, validates addresses, and alerts users to failures <em>before</em> it's too late
+                        </div>
+                    </div>
+
+                    <div class="case-section impact-section">
+                        <div class="case-label">Impact</div>
+                        <div class="impact-number">-67%</div>
+                        <div class="impact-label">Support tickets related to failed deliveries</div>
+                    </div>
+
+                    <div class="vs-bar">
+                        <div class="vs-row">
+                            <div class="vs-label">Common approach:</div>
+                            <div class="vs-text">Improve registration flow</div>
+                        </div>
+                        <div class="vs-row">
+                            <div class="vs-label">My approach:</div>
+                            <div class="vs-text">Fix core reliability first</div>
+                        </div>
+                    </div>
+
+                    <div class="case-tags">
+                        <span class="tag">B2C web app</span>
+                        <span class="tag">Key business issue</span>
+                        <span class="tag">Dashboard design</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CASE STUDY 2 -->
+            <div class="case-study">
+                <div class="case-header" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <h3>Have you ever seen the customer</h3>
+                    <p>E-banking for corporate clients</p>
+                </div>
+
+                <div class="case-content">
+                    <div class="case-section">
+                        <div class="case-label">Problem</div>
+                        <div class="case-text">
+                            <strong>Client wanted:</strong> Optimize single payment order form<br>
+                            <strong>Real problem:</strong> Even SME users upload payment lists, not single forms
+                        </div>
+                    </div>
+
+                    <div class="case-section">
+                        <div class="case-label">Insight</div>
+                        <div class="case-text">
+                            There's no money in optimizing a form nobody uses. Focus on the import wizard instead.
+                        </div>
+                    </div>
+
+                    <div class="case-section">
+                        <div class="case-label">Solution</div>
+                        <div class="case-text">
+                            Smart file import that recognizes format automatically (4 main ERP providers) without forcing users to tell us
+                        </div>
+                    </div>
+
+                    <div class="case-section impact-section">
+                        <div class="case-label">Impact</div>
+                        <div class="impact-number">80%</div>
+                        <div class="impact-label">More satisfied customers with import flow</div>
+                    </div>
+
+                    <div class="vs-bar">
+                        <div class="vs-row">
+                            <div class="vs-label">Common approach:</div>
+                            <div class="vs-text">Prettify the single payment form</div>
+                        </div>
+                        <div class="vs-row">
+                            <div class="vs-label">My approach:</div>
+                            <div class="vs-text">Focus on import wizard (where users actually are)</div>
+                        </div>
+                    </div>
+
+                    <div class="case-tags">
+                        <span class="tag">B2B banking</span>
+                        <span class="tag">Key issue</span>
+                        <span class="tag">File import</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CASE STUDY 3 -->
+            <div class="case-study">
+                <div class="case-header" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <h3>Run through the docs</h3>
+                    <p>Government agency supporting research projects</p>
+                </div>
+
+                <div class="case-content">
+                    <div class="case-section">
+                        <div class="case-label">Problem</div>
+                        <div class="case-text">
+                            <strong>Before:</strong> Mess in written communication toward customers<br>
+                            <strong>Pain:</strong> Inconsistent documents, employee "creativity", confused clients
+                        </div>
+                    </div>
+
+                    <div class="case-section">
+                        <div class="case-label">Insight</div>
+                        <div class="case-text">
+                            No structure means every employee creates docs differently. Need a system, not just templates.
+                        </div>
+                    </div>
+
+                    <div class="case-section">
+                        <div class="case-label">Solution</div>
+                        <div class="case-text">
+                            Defined structure: when/why docs are sent → Building blocks (time, place, subject) → Templates built from blocks
+                        </div>
+                    </div>
+
+                    <div class="case-section impact-section">
+                        <div class="case-label">Impact</div>
+                        <div class="impact-number">~100 MD</div>
+                        <div class="impact-label">Saved per year in document preparation time</div>
+                    </div>
+
+                    <div class="vs-bar">
+                        <div class="vs-row">
+                            <div class="vs-label">Common approach:</div>
+                            <div class="vs-text">Design nice templates</div>
+                        </div>
+                        <div class="vs-row">
+                            <div class="vs-label">My approach:</div>
+                            <div class="vs-text">Create system for building templates from blocks</div>
+                        </div>
+                    </div>
+
+                    <div class="case-tags">
+                        <span class="tag">Communication</span>
+                        <span class="tag">Document system</span>
+                        <span class="tag">Key issue</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTACT -->
+    <div class="contact">
+        <div class="container">
+            <h2>Let's talk</h2>
+            <p>Ready to challenge your brief?</p>
+            <p>
+                ✉️ <a href="mailto:ales.brom@gmail.com">ales.brom@gmail.com</a><br>
+                📱 <a href="tel:+420602655775">602 655 775</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- FIXED JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
