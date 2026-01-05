@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Aleš Brom · UX Designer</title>
-    <meta name="description" content="Přeformulovávám zadání, abych našel skutečnou hodnotu. Portfolio UX designéra.">
+    <meta name="description" content="Přeformulovávám zadání, abych našel skutečnou hodnotu. UX Designer se zaměřením na řešení správného problému.">
 
     <style>
         * {
@@ -20,101 +20,177 @@
             background: #fafafa;
         }
 
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 0 40px;
         }
 
-        /* LANGUAGE SWITCH */
-        .lang-switch {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            font-size: 13px;
+        /* HEADER */
+        header {
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            background: #fafafa;
+            z-index: 100;
         }
 
-        .lang-switch a {
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        nav {
+            display: flex;
+            gap: 32px;
+        }
+
+        nav a {
+            font-size: 14px;
+            color: #666;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: #1a1a1a;
+        }
+
+        .lang-switch {
+            font-size: 13px;
             color: #999;
-            text-decoration: none;
-            padding: 6px 12px;
+            margin-left: 32px;
+            padding: 4px 10px;
             border-radius: 4px;
             transition: all 0.2s;
         }
 
-        .lang-switch a:hover {
+        .lang-switch:hover {
             background: white;
             color: #1a1a1a;
         }
 
         /* HERO */
         .hero {
-            padding: 120px 0 80px;
-            text-align: center;
+            padding: 80px 0 100px;
         }
 
         .hero h1 {
-            font-size: 56px;
-            margin-bottom: 12px;
+            font-size: 42px;
             font-weight: 700;
+            margin-bottom: 24px;
+            line-height: 1.2;
         }
 
         .hero .tagline {
-            font-size: 18px;
-            color: #666;
+            font-size: 22px;
+            color: #444;
             margin-bottom: 40px;
+            max-width: 600px;
         }
 
-        .hero .value-prop {
-            font-size: 28px;
-            font-weight: 600;
-            margin-bottom: 50px;
-            line-height: 1.4;
-        }
-
-        .cta {
+        .btn {
             display: inline-block;
-            padding: 16px 40px;
-            background: #1a1a1a;
-            color: white;
-            text-decoration: none;
+            padding: 14px 32px;
+            background: #f5a623;
+            color: #1a1a1a;
             border-radius: 6px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             transition: background 0.2s;
         }
 
-        .cta:hover {
-            background: #333;
+        .btn:hover {
+            background: #e6960f;
         }
 
-        /* WORK SECTION */
-        .work {
+        /* VALUE PROPS */
+        .value-props {
             padding: 60px 0;
+            border-top: 1px solid #e8e8e8;
         }
 
-        .section-title {
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 48px;
+        }
+
+        .value-item h3 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #f5a623;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .value-item p {
+            font-size: 15px;
+            color: #444;
+            line-height: 1.7;
+        }
+
+        /* SKILLS SECTION */
+        .skills {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .skills h2 {
+            font-size: 32px;
+            margin-bottom: 48px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+
+        .skill-item h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .skill-item p {
+            font-size: 15px;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        /* CASE STUDY */
+        .case-study-section {
+            padding: 80px 0;
+        }
+
+        .case-study-section h2 {
             font-size: 32px;
             margin-bottom: 40px;
         }
 
-        .case-study {
+        .case-card {
+            display: block;
             background: white;
             border-radius: 12px;
             overflow: hidden;
-            margin-bottom: 40px;
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .case-study:hover {
+        .case-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-        }
-
-        .case-study a {
-            display: block;
-            text-decoration: none;
-            color: inherit;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
         }
 
         .case-header {
@@ -138,60 +214,92 @@
         }
 
         .case-content p {
-            color: #666;
+            color: #555;
             font-size: 15px;
             line-height: 1.7;
-        }
-
-        .case-link {
-            display: inline-block;
-            margin-top: 16px;
-            font-size: 14px;
-            font-weight: 600;
-            color: #007bff;
-        }
-
-        /* CONTACT */
-        .contact {
-            padding: 80px 0;
-            text-align: center;
-        }
-
-        .contact h2 {
-            font-size: 32px;
             margin-bottom: 16px;
         }
 
-        .contact p {
-            font-size: 16px;
-            color: #666;
+        .case-link {
+            font-size: 14px;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        /* CTA SECTION */
+        .cta-section {
+            padding: 80px 0;
+            background: #f5a623;
+            text-align: center;
+        }
+
+        .cta-section p {
+            font-size: 22px;
             margin-bottom: 8px;
-        }
-
-        .contact a {
             color: #1a1a1a;
-            text-decoration: none;
         }
 
-        .contact a:hover {
-            text-decoration: underline;
+        .cta-section .small {
+            font-size: 16px;
+            color: #5a4510;
+            margin-bottom: 32px;
         }
 
+        .btn-dark {
+            background: #1a1a1a;
+            color: white;
+        }
+
+        .btn-dark:hover {
+            background: #333;
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            font-size: 14px;
+            color: #999;
+        }
+
+        footer a {
+            color: #666;
+        }
+
+        footer a:hover {
+            color: #1a1a1a;
+        }
+
+        /* RESPONSIVE */
         @media (max-width: 768px) {
             .container {
                 padding: 0 20px;
             }
 
-            .hero {
-                padding: 80px 0 60px;
+            header .container {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            nav {
+                gap: 20px;
             }
 
             .hero h1 {
-                font-size: 42px;
+                font-size: 32px;
             }
 
-            .hero .value-prop {
-                font-size: 22px;
+            .hero .tagline {
+                font-size: 18px;
+            }
+
+            .value-grid {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
             }
 
             .case-header,
@@ -202,52 +310,103 @@
     </style>
 </head>
 <body>
-    <div class="lang-switch">
-        <a href="/">EN</a>
-    </div>
-
-    <!-- HERO -->
-    <div class="hero">
+    <header>
         <div class="container">
-            <h1>Aleš Brom</h1>
-            <p class="tagline">UX Designer</p>
-
-            <p class="value-prop">
-                Přeformulovávám zadání otázkou:<br>
-                "Kde jsou peníze?"
-            </p>
-
-            <a href="mailto:ales.brom@gmail.com" class="cta">Pojďme rozebrat vaše zadání</a>
+            <a href="/" class="logo">Aleš Brom</a>
+            <nav>
+                <a href="#skills">Co dělám</a>
+                <a href="#work">Práce</a>
+                <a href="#contact">Kontakt</a>
+                <a href="/" class="lang-switch">EN</a>
+            </nav>
         </div>
-    </div>
+    </header>
 
-    <!-- WORK -->
-    <div class="work">
+    <section class="hero">
         <div class="container">
-            <h2 class="section-title">Vybraná práce</h2>
+            <h1>UX Designer, který se ptá<br>„Kde jsou peníze?"</h1>
+            <p class="tagline">
+                Přeformulovávám zadání, abych našel skutečný problém.
+                Protože řešit správný problém je lepší než dokonale vyřešit ten špatný.
+            </p>
+            <a href="#work" class="btn">Podívejte se na mou práci</a>
+        </div>
+    </section>
 
-            <div class="case-study">
-                <a href="prava/case-study-final-cs.html">
-                    <div class="case-header">
-                        <h3>Odstranili jsme složitost</h3>
-                        <p>Redesign sdílení dokumentů</p>
-                    </div>
-                    <div class="case-content">
-                        <p>Jak jsme technický systém oprávnění proměnili v jednoduché sdílení s lidmi. Klient chtěl RWD checkboxy - dodali jsme vyhledávací pole.</p>
-                        <span class="case-link">Číst case study →</span>
-                    </div>
-                </a>
+    <section class="value-props">
+        <div class="container">
+            <div class="value-grid">
+                <div class="value-item">
+                    <h3>Zkušenosti</h3>
+                    <p>Roky práce na složitých B2B produktech. Vím, co funguje a co ne.</p>
+                </div>
+                <div class="value-item">
+                    <h3>Bez keců</h3>
+                    <p>Nesnáším práci pro práci. Žádné 50stránkové reporty. Jen jasná doporučení, podle kterých můžete jednat.</p>
+                </div>
+                <div class="value-item">
+                    <h3>Byznys focus</h3>
+                    <p>Hezké pixely neplatí účty. Soustředím se na výsledky, které posouvají věci dopředu.</p>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- CONTACT -->
-    <div class="contact">
+    <section class="skills" id="skills">
         <div class="container">
-            <h2>Pojďme si promluvit</h2>
-            <p><a href="mailto:ales.brom@gmail.com">ales.brom@gmail.com</a></p>
-            <p><a href="tel:+420602655775">602 655 775</a></p>
+            <h2>V čem jsem dobrý</h2>
+            <div class="skills-grid">
+                <div class="skill-item">
+                    <h3>Přerámování problémů</h3>
+                    <p>Klienti často přicházejí s řešeními, ne s problémy. Jdu hlouběji, abych našel, co skutečně potřebuje vyřešit. Někdy je nejlepší funkce žádná funkce.</p>
+                </div>
+                <div class="skill-item">
+                    <h3>UX analýzy a audity</h3>
+                    <p>Jasná zpětná vazba, co je rozbité a proč. Žádný žargon, jen použitelné poznatky. Řeknu vám, co opravit jako první a proč na tom záleží.</p>
+                </div>
+                <div class="skill-item">
+                    <h3>Wireframy a prototypy</h3>
+                    <p>Od náčrtků na ubrousku po interaktivní prototypy. Pracuji rychle a iteruji na základě skutečné zpětné vazby, ne předpokladů.</p>
+                </div>
+                <div class="skill-item">
+                    <h3>Produktová strategie</h3>
+                    <p>Pomáhám týmům soustředit se na to podstatné. Ořezávám scope, nemilosrdně prioritizuji a dodávám věci, které se skutečně používají.</p>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <section class="case-study-section" id="work">
+        <div class="container">
+            <h2>Vybraná práce</h2>
+            <a href="prava/case-study-final-cs.html" class="case-card">
+                <div class="case-header">
+                    <h3>Odstranili jsme složitost</h3>
+                    <p>Redesign sdílení dokumentů</p>
+                </div>
+                <div class="case-content">
+                    <p>Klient chtěl matici oprávnění s RWD checkboxy. Dodal jsem vyhledávací pole. Protože uživatelé nechtějí „spravovat oprávnění" — chtějí sdílet s Annou.</p>
+                    <span class="case-link">Číst case study →</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <section class="cta-section" id="contact">
+        <div class="container">
+            <p>Máte zadání, které potřebuje zpochybnit?</p>
+            <p class="small">Pojďme najít, kde je skutečná hodnota.</p>
+            <a href="mailto:ales.brom@gmail.com" class="btn btn-dark">ales.brom@gmail.com</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>
+                <a href="mailto:ales.brom@gmail.com">ales.brom@gmail.com</a> ·
+                <a href="tel:+420602655775">602 655 775</a>
+            </p>
+        </div>
+    </footer>
 </body>
 </html>
