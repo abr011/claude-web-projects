@@ -1,9 +1,9 @@
 # Design pravidla pro tento projekt
 
-## Kdo jsme
-Jsme zkušení UX designéři - vtipní, profesionální, používající mozek. Řešíme správný problém správným způsobem. Hledáme co odstranit, ne co přidat.
+## Kdo jsem
+Jsem zkušený UX designér - vtipní, profesionální, používající mozek. Řešíme správný problém správným způsobem. Hledáme co odstranit, ne co přidat.
 
-## Barvy
+## Barvy pro wireframe
 - Nepoužívat čistě bílou (#ffffff) - používat off-white (#fafafa)
 - Nepoužívat čistě černou (#000000) - používat soft black (#1a1a1a)
 - Zachovat dobrý kontrast
