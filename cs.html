@@ -82,21 +82,39 @@
 
         /* HERO */
         .hero {
-            padding: 80px 0 100px;
+            padding: 60px 0 80px;
         }
 
-        .hero h1 {
-            font-size: 42px;
+        .hero .container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-photo {
+            width: 100%;
+            max-width: 280px;
+        }
+
+        .hero-photo img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .hero-content h1 {
+            font-size: 38px;
             font-weight: 700;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             line-height: 1.2;
         }
 
-        .hero .tagline {
-            font-size: 22px;
+        .hero-content .tagline {
+            font-size: 20px;
             color: #444;
-            margin-bottom: 40px;
-            max-width: 600px;
+            margin-bottom: 32px;
+            max-width: 500px;
         }
 
         .btn {
@@ -285,12 +303,25 @@
                 gap: 20px;
             }
 
-            .hero h1 {
+            .hero .container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+
+            .hero-photo {
+                max-width: 200px;
+                margin: 0 auto;
+            }
+
+            .hero-content h1 {
                 font-size: 32px;
             }
 
-            .hero .tagline {
+            .hero-content .tagline {
                 font-size: 18px;
+                margin-left: auto;
+                margin-right: auto;
             }
 
             .value-grid {
@@ -324,12 +355,17 @@
 
     <section class="hero">
         <div class="container">
-            <h1>UX Designer, který se ptá<br>„Kde jsou peníze?"</h1>
-            <p class="tagline">
-                Přeformulovávám zadání, abych našel skutečný problém.
-                Protože řešit správný problém je lepší než dokonale vyřešit ten špatný.
-            </p>
-            <a href="#work" class="btn">Podívejte se na mou práci</a>
+            <div class="hero-photo">
+                <img src="photo.jpg" alt="Aleš Brom">
+            </div>
+            <div class="hero-content">
+                <h1>UX Designer, který se ptá<br>„Kde jsou peníze?"</h1>
+                <p class="tagline">
+                    Přeformulovávám zadání, abych našel skutečný problém.
+                    Protože řešit správný problém je lepší než dokonale vyřešit ten špatný.
+                </p>
+                <a href="#work" class="btn">Podívejte se na mou práci</a>
+            </div>
         </div>
     </section>
 
@@ -387,6 +423,17 @@
                 <div class="case-content">
                     <p>Klient chtěl matici oprávnění s RWD checkboxy. Dodal jsem vyhledávací pole. Protože uživatelé nechtějí „spravovat oprávnění" — chtějí sdílet s Annou.</p>
                     <span class="case-link">Číst case study →</span>
+                </div>
+            </a>
+
+            <a href="banking/case-study-cs.html" class="case-card" style="margin-top: 32px;">
+                <div class="case-header" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <h3>Viděli jste někdy zákazníka?</h3>
+                    <p>Firemní bankovnictví - platební příkazy</p>
+                </div>
+                <div class="case-content">
+                    <p>Klient chtěl optimalizovat formulář jednotlivé platby. Zeptal jsem se: „Používá ho vůbec někdo?" Ukázalo se, že i malé firmy importují dávky plateb. Zaměřili jsme se na import.</p>
+                    <span class="case-link" style="color: #f5576c;">Číst case study →</span>
                 </div>
             </a>
         </div>

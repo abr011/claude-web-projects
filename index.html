@@ -82,21 +82,39 @@
 
         /* HERO */
         .hero {
-            padding: 80px 0 100px;
+            padding: 60px 0 80px;
         }
 
-        .hero h1 {
-            font-size: 42px;
+        .hero .container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-photo {
+            width: 100%;
+            max-width: 280px;
+        }
+
+        .hero-photo img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .hero-content h1 {
+            font-size: 38px;
             font-weight: 700;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             line-height: 1.2;
         }
 
-        .hero .tagline {
-            font-size: 22px;
+        .hero-content .tagline {
+            font-size: 20px;
             color: #444;
-            margin-bottom: 40px;
-            max-width: 600px;
+            margin-bottom: 32px;
+            max-width: 500px;
         }
 
         .btn {
@@ -285,12 +303,25 @@
                 gap: 20px;
             }
 
-            .hero h1 {
+            .hero .container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+
+            .hero-photo {
+                max-width: 200px;
+                margin: 0 auto;
+            }
+
+            .hero-content h1 {
                 font-size: 32px;
             }
 
-            .hero .tagline {
+            .hero-content .tagline {
                 font-size: 18px;
+                margin-left: auto;
+                margin-right: auto;
             }
 
             .value-grid {
@@ -324,12 +355,17 @@
 
     <section class="hero">
         <div class="container">
-            <h1>UX Designer who asks<br>"Where's the money?"</h1>
-            <p class="tagline">
-                I reframe the initial brief to find the real problem.
-                Because solving the right problem beats perfecting the wrong one.
-            </p>
-            <a href="#work" class="btn">See my work</a>
+            <div class="hero-photo">
+                <img src="photo.jpg" alt="Aleš Brom">
+            </div>
+            <div class="hero-content">
+                <h1>UX Designer who asks<br>"Where's the money?"</h1>
+                <p class="tagline">
+                    I reframe the initial brief to find the real problem.
+                    Because solving the right problem beats perfecting the wrong one.
+                </p>
+                <a href="#work" class="btn">See my work</a>
+            </div>
         </div>
     </section>
 
@@ -387,6 +423,17 @@
                 <div class="case-content">
                     <p>Client asked for a permissions matrix with RWD checkboxes. I delivered a search box. Because users don't want to "manage permissions" — they want to share with Anna.</p>
                     <span class="case-link">Read case study →</span>
+                </div>
+            </a>
+
+            <a href="banking/case-study-en.html" class="case-card" style="margin-top: 32px;">
+                <div class="case-header" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <h3>Have you ever seen the customer?</h3>
+                    <p>Corporate banking payment flow</p>
+                </div>
+                <div class="case-content">
+                    <p>Client wanted to optimize a single payment form. I asked: "Does anyone actually use it?" Turns out, even SMEs import payment batches. We focused on the import wizard instead.</p>
+                    <span class="case-link" style="color: #f5576c;">Read case study →</span>
                 </div>
             </a>
         </div>
