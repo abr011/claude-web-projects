@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transformation: Before and After | UX Case Study</title>
+    <title>We Removed the Complexity | UX Case Study</title>
 
-    <!-- Open Graph for LinkedIn -->
     <meta property="og:title" content="We Removed the Complexity">
     <meta property="og:description" content="UX Case Study: How we transformed a technical permissions system into simple people sharing.">
     <meta property="og:type" content="article">
@@ -21,14 +20,73 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
-            color: #1a1a1a;
-            background: #fafafa;
+            color: #e0e0e0;
+            background: #121212;
         }
 
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* HEADER */
+        header {
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            background: #1a1a1a;
+            z-index: 100;
+        }
+
+        header .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+        }
+
+        nav {
+            display: flex;
+            gap: 32px;
+        }
+
+        nav a {
+            font-size: 14px;
+            color: #888;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: white;
+        }
+
+        .lang-switch {
+            font-size: 13px;
+            color: #666;
+            margin-left: 32px;
+            padding: 4px 10px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .lang-switch:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        /* HERO */
         .hero {
             text-align: center;
             padding: 80px 20px 60px;
-            background: white;
+            background: #1a1a1a;
         }
 
         .hero h1 {
@@ -38,13 +96,15 @@
             max-width: 800px;
             margin-left: auto;
             margin-right: auto;
+            color: white;
         }
 
-        /* Variant A: Contained with gap */
+        /* SPLIT LAYOUT */
         .split-wrapper {
             max-width: 1200px;
             margin: 0 auto;
             padding: 60px 40px;
+            background: #121212;
         }
 
         .split-container {
@@ -59,11 +119,13 @@
         }
 
         .side-left {
-            background: #ffebee;
+            background: #2a1a1a;
+            border: 1px solid #3a2a2a;
         }
 
         .side-right {
-            background: #e8f5e9;
+            background: #1a2a1a;
+            border: 1px solid #2a3a2a;
         }
 
         .side h2 {
@@ -75,31 +137,32 @@
         }
 
         .side-left h2 {
-            color: #c62828;
+            color: #ff6b6b;
         }
 
         .side-right h2 {
-            color: #2e7d32;
+            color: #69db7c;
         }
 
         .side h3 {
             font-size: 28px;
             font-weight: 600;
             margin-bottom: 20px;
+            color: white;
         }
 
         .side p {
             font-size: 17px;
             margin-bottom: 18px;
-            color: #444;
+            color: #999;
         }
 
         .image-box {
-            background: white;
+            background: #222;
             padding: 25px;
             border-radius: 8px;
             margin: 25px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            border: 1px solid #333;
         }
 
         .image-box img {
@@ -119,14 +182,14 @@
             padding-left: 30px;
             position: relative;
             font-size: 15px;
-            color: #444;
+            color: #999;
         }
 
         .problem-list li::before {
-            content: "✗";
+            content: "\2717";
             position: absolute;
             left: 0;
-            color: #c62828;
+            color: #ff6b6b;
             font-weight: 700;
             font-size: 18px;
         }
@@ -141,25 +204,25 @@
             padding-left: 30px;
             position: relative;
             font-size: 15px;
-            color: #444;
+            color: #999;
         }
 
         .solution-list li::before {
-            content: "✓";
+            content: "\2713";
             position: absolute;
             left: 0;
-            color: #2e7d32;
+            color: #69db7c;
             font-weight: 700;
             font-size: 18px;
         }
 
         .demo-large {
-            background: white;
+            background: #222;
             padding: 30px;
             border-radius: 8px;
             text-align: center;
             margin: 25px 0;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            border: 1px solid #333;
         }
 
         .demo-large img {
@@ -168,8 +231,9 @@
             border-radius: 6px;
         }
 
+        /* HOW SECTION */
         .how-section {
-            background: white;
+            background: #1a1a1a;
             padding: 80px 40px;
             text-align: center;
         }
@@ -177,30 +241,33 @@
         .how-section h3 {
             font-size: 24px;
             margin-bottom: 20px;
-            color: #666;
+            color: #888;
         }
 
         .how-section p {
             font-size: 18px;
             max-width: 700px;
             margin: 0 auto 30px;
-            color: #555;
+            color: #666;
         }
 
         .sketch-hint {
             display: inline-block;
-            background: #fafafa;
+            background: #222;
             padding: 20px 40px;
             border-radius: 8px;
             font-size: 16px;
-            color: #666;
+            color: #888;
+            border: 1px solid #333;
         }
 
+        /* FOOTER */
         footer {
-            background: #1a1a1a;
+            background: #222;
             color: white;
             text-align: center;
             padding: 50px 20px;
+            border-top: 1px solid #333;
         }
 
         footer .tagline {
@@ -211,16 +278,23 @@
 
         footer .subtitle {
             font-size: 16px;
-            color: #999;
+            color: #888;
         }
 
         footer a {
-            color: #999;
+            color: #888;
             text-decoration: none;
         }
 
         footer a:hover {
-            color: white;
+            color: #f5a623;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #f5a623;
+            font-weight: 600;
         }
 
         @media (max-width: 968px) {
@@ -236,18 +310,38 @@
                 padding: 40px 30px;
             }
 
-            .hero h1 { font-size: 40px; }
+            .hero h1 { font-size: 32px; }
+
+            header .container {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            nav {
+                gap: 20px;
+            }
         }
     </style>
 </head>
 <body>
+    <header>
+        <div class="container">
+            <a href="../index.html" class="logo">Ing. Ales Brom</a>
+            <nav>
+                <a href="../index.html#skills">What I do</a>
+                <a href="../index.html#work">Work</a>
+                <a href="../index.html#contact">Contact</a>
+                <a href="case-study-final-cs.html" class="lang-switch">CS</a>
+            </nav>
+        </div>
+    </header>
+
     <div class="hero">
         <h1>From "Set permissions" to "Share with Anna"</h1>
     </div>
 
     <div class="split-wrapper">
         <div class="split-container">
-            <!-- LEFT: Problem -->
             <div class="side side-left">
                 <h2>Before</h2>
                 <h3>The Assignment</h3>
@@ -270,7 +364,6 @@
                 <p style="margin-top: 35px; font-style: italic; color: #666;">Users don't want to "manage permissions". They want to share with Anna.</p>
             </div>
 
-            <!-- RIGHT: Solution -->
             <div class="side side-right">
                 <h2>After</h2>
                 <h3>The Solution</h3>
@@ -290,12 +383,11 @@
                     <li>Progressive disclosure (advanced hidden)</li>
                 </ul>
 
-                <p style="margin-top: 35px; font-weight: 600; color: #2e7d32;">Result: People reach their goal without thinking about "permissions".</p>
+                <p style="margin-top: 35px; font-weight: 600; color: #69db7c;">Result: People reach their goal without thinking about "permissions".</p>
             </div>
         </div>
     </div>
 
-    <!-- How We Got Here -->
     <div class="how-section">
         <h3>How did we get here?</h3>
         <p>Dozens of paper sketches explored different approaches. Each iteration got closer to the user's mental model: thinking in terms of people, not permissions.</p>
@@ -307,7 +399,7 @@
     <footer>
         <div class="tagline">We removed the complexity</div>
         <div class="subtitle">You're welcome.</div>
-        <p style="margin-top: 30px; color: #666;">Aleš Brom · UX Designer · <a href="https://alesbrom.cz">alesbrom.cz</a></p>
+        <a href="../index.html#work" class="back-link">Back to portfolio</a>
     </footer>
 </body>
 </html>

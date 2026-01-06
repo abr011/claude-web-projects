@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Have You Ever Seen the Customer? | UX Case Study</title>
+    <title>Stop Optimizing What Nobody Uses | UX Case Study</title>
 
-    <meta property="og:title" content="Have You Ever Seen the Customer?">
+    <meta property="og:title" content="Stop Optimizing What Nobody Uses">
     <meta property="og:description" content="UX Case Study: How focusing on what users actually do led to 80% higher satisfaction.">
     <meta property="og:type" content="article">
 
@@ -19,14 +19,73 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
-            color: #1a1a1a;
-            background: #fafafa;
+            color: #e0e0e0;
+            background: #121212;
         }
 
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* HEADER */
+        header {
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            background: #1a1a1a;
+            z-index: 100;
+        }
+
+        header .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+        }
+
+        nav {
+            display: flex;
+            gap: 32px;
+        }
+
+        nav a {
+            font-size: 14px;
+            color: #888;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: white;
+        }
+
+        .lang-switch {
+            font-size: 13px;
+            color: #666;
+            margin-left: 32px;
+            padding: 4px 10px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .lang-switch:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        /* HERO */
         .hero {
             text-align: center;
             padding: 80px 20px 60px;
-            background: white;
+            background: #1a1a1a;
         }
 
         .hero h1 {
@@ -36,12 +95,15 @@
             max-width: 800px;
             margin-left: auto;
             margin-right: auto;
+            color: white;
         }
 
+        /* SPLIT LAYOUT */
         .split-wrapper {
             max-width: 1200px;
             margin: 0 auto;
             padding: 60px 40px;
+            background: #121212;
         }
 
         .split-container {
@@ -56,11 +118,13 @@
         }
 
         .side-left {
-            background: #ffebee;
+            background: #2a1a1a;
+            border: 1px solid #3a2a2a;
         }
 
         .side-right {
-            background: #e8f5e9;
+            background: #1a2a1a;
+            border: 1px solid #2a3a2a;
         }
 
         .side h2 {
@@ -72,31 +136,32 @@
         }
 
         .side-left h2 {
-            color: #c62828;
+            color: #ff6b6b;
         }
 
         .side-right h2 {
-            color: #2e7d32;
+            color: #69db7c;
         }
 
         .side h3 {
             font-size: 28px;
             font-weight: 600;
             margin-bottom: 20px;
+            color: white;
         }
 
         .side p {
             font-size: 17px;
             margin-bottom: 18px;
-            color: #444;
+            color: #999;
         }
 
         .image-box {
-            background: white;
+            background: #222;
             padding: 25px;
             border-radius: 8px;
             margin: 25px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            border: 1px solid #333;
         }
 
         .image-box img {
@@ -104,28 +169,25 @@
             height: auto;
             display: block;
             border-radius: 4px;
+            margin: 0 auto;
         }
 
-        .problem-list {
-            list-style: none;
+        .image-box .caption {
+            font-size: 12px;
+            color: #666;
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        .image-box .caption.good {
+            color: #69db7c;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
             margin: 25px 0;
-        }
-
-        .problem-list li {
-            padding: 12px 0;
-            padding-left: 30px;
-            position: relative;
-            font-size: 15px;
-            color: #444;
-        }
-
-        .problem-list li::before {
-            content: "✗";
-            position: absolute;
-            left: 0;
-            color: #c62828;
-            font-weight: 700;
-            font-size: 18px;
         }
 
         .solution-list {
@@ -138,20 +200,21 @@
             padding-left: 30px;
             position: relative;
             font-size: 15px;
-            color: #444;
+            color: #999;
         }
 
         .solution-list li::before {
-            content: "✓";
+            content: "\2713";
             position: absolute;
             left: 0;
-            color: #2e7d32;
+            color: #69db7c;
             font-weight: 700;
             font-size: 18px;
         }
 
+        /* INSIGHT SECTION */
         .insight-section {
-            background: white;
+            background: #1a1a1a;
             padding: 80px 40px;
             text-align: center;
         }
@@ -159,50 +222,55 @@
         .insight-section h3 {
             font-size: 24px;
             margin-bottom: 20px;
-            color: #666;
+            color: #888;
         }
 
         .insight-section p {
             font-size: 18px;
             max-width: 700px;
             margin: 0 auto 30px;
-            color: #555;
+            color: #666;
         }
 
         .insight-box {
             display: inline-block;
-            background: #fff3e0;
+            background: #2a2a1a;
             padding: 20px 40px;
             border-radius: 8px;
             font-size: 18px;
-            color: #e65100;
+            color: #f5a623;
             font-weight: 600;
+            border: 1px solid #3a3a2a;
         }
 
+        /* IMPACT SECTION */
         .impact-section {
-            background: #f0f9ff;
+            background: #1a2a3a;
             padding: 60px 40px;
             text-align: center;
+            border: 1px solid #2a3a4a;
         }
 
         .impact-number {
             font-size: 72px;
             font-weight: 700;
-            color: #007bff;
+            color: #4dabf7;
             line-height: 1;
         }
 
         .impact-label {
             font-size: 18px;
-            color: #666;
+            color: #888;
             margin-top: 12px;
         }
 
+        /* FOOTER */
         footer {
-            background: #1a1a1a;
+            background: #222;
             color: white;
             text-align: center;
             padding: 50px 20px;
+            border-top: 1px solid #333;
         }
 
         footer .tagline {
@@ -213,16 +281,23 @@
 
         footer .subtitle {
             font-size: 16px;
-            color: #999;
+            color: #888;
         }
 
         footer a {
-            color: #999;
+            color: #888;
             text-decoration: none;
         }
 
         footer a:hover {
-            color: white;
+            color: #f5a623;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #f5a623;
+            font-weight: 600;
         }
 
         @media (max-width: 968px) {
@@ -239,53 +314,76 @@
             }
 
             .hero h1 { font-size: 32px; }
+
+            .image-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header .container {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            nav {
+                gap: 20px;
+            }
         }
     </style>
 </head>
 <body>
+    <header>
+        <div class="container">
+            <a href="../index.html" class="logo">Ing. Ales Brom</a>
+            <nav>
+                <a href="../index.html#skills">What I do</a>
+                <a href="../index.html#work">Work</a>
+                <a href="../index.html#contact">Contact</a>
+                <a href="case-study-cs.html" class="lang-switch">CS</a>
+            </nav>
+        </div>
+    </header>
+
     <div class="hero">
         <h1>The Best Solution to the Wrong Problem</h1>
     </div>
 
     <div class="split-wrapper">
         <div class="split-container">
-            <!-- LEFT: Problem -->
             <div class="side side-left">
                 <h2>Before</h2>
                 <h3>The Assignment</h3>
                 <p>Corporate banking client wanted to optimize their single payment order form. "Make it prettier, more user-friendly."</p>
 
-                <p style="margin-top: 20px; font-weight: 500;">We could have done this:</p>
+                <p style="margin-top: 20px; font-weight: 500; color: #ccc;">We could have done this:</p>
 
-                <div class="image-box" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                    <div>
-                        <img src="single-form.png" alt="Original complex form" style="opacity: 0.6;">
-                        <p style="font-size: 12px; color: #999; margin-top: 8px; text-align: center;">Original</p>
+                <div class="image-grid">
+                    <div class="image-box" style="margin: 0;">
+                        <img src="single-form.png" alt="Original complex form" style="max-height: 300px; width: auto;">
+                        <p class="caption">Original</p>
                     </div>
-                    <div>
-                        <img src="single-form-good.png" alt="Improved clean form">
-                        <p style="font-size: 12px; color: #2e7d32; margin-top: 8px; text-align: center;">Improved</p>
+                    <div class="image-box" style="margin: 0;">
+                        <img src="single-form-good.png" alt="Improved clean form" style="max-height: 300px; width: auto;">
+                        <p class="caption good">Improved</p>
                     </div>
                 </div>
 
                 <h3 style="margin-top: 35px;">But it wouldn't matter</h3>
                 <p>We could create the most beautiful, user-friendly single payment form ever made. Saved payees, smart defaults, clean design.</p>
 
-                <p style="font-weight: 600; color: #c62828; margin-top: 16px;">It would still be a waste of money.</p>
+                <p style="font-weight: 600; color: #ff6b6b; margin-top: 16px;">It would still be a waste of money.</p>
 
                 <p style="margin-top: 20px;">Why? Because nobody uses single payment forms. Even the smallest businesses export payment batches from their accounting software.</p>
 
-                <p style="margin-top: 35px; font-style: italic; color: #666;">"Have you ever seen a customer use this form?" — My first question in the kick-off meeting.</p>
+                <p style="margin-top: 35px; font-style: italic; color: #666;">"Have you ever seen a customer use this form?" - My first question in the kick-off meeting.</p>
             </div>
 
-            <!-- RIGHT: Solution -->
             <div class="side side-right">
                 <h2>After</h2>
                 <h3>The Real Solution</h3>
                 <p>Discovered that even SME users export payment lists from their accounting software. Nobody types payments one by one.</p>
 
                 <div class="image-box">
-                    <img src="import-wizard.png" alt="Simple drag-drop import wizard">
+                    <img src="import-wizard.png" alt="Simple drag-drop import wizard" style="max-height: 350px; width: auto;">
                 </div>
 
                 <h3 style="margin-top: 35px;">What Changed</h3>
@@ -298,12 +396,11 @@
                     <li>Focused dev resources where users actually are</li>
                 </ul>
 
-                <p style="margin-top: 35px; font-weight: 600; color: #2e7d32;">Result: 80% higher satisfaction with the import flow.</p>
+                <p style="margin-top: 35px; font-weight: 600; color: #69db7c;">Result: 80% higher satisfaction with the import flow.</p>
             </div>
         </div>
     </div>
 
-    <!-- Insight Section -->
     <div class="insight-section">
         <h3>The Key Insight</h3>
         <p>It's not about making a bad form better. It's about asking: should we be building this form at all?</p>
@@ -312,7 +409,6 @@
         </div>
     </div>
 
-    <!-- Impact Section -->
     <div class="impact-section">
         <div class="impact-number">80%</div>
         <div class="impact-label">More satisfied customers with the import flow</div>
@@ -321,7 +417,7 @@
     <footer>
         <div class="tagline">Focus on where users actually are</div>
         <div class="subtitle">Not where you think they should be.</div>
-        <p style="margin-top: 30px; color: #666;">Aleš Brom · UX Designer · <a href="https://alesbrom.cz">alesbrom.cz</a></p>
+        <a href="../index.html#work" class="back-link">Back to portfolio</a>
     </footer>
 </body>
 </html>
