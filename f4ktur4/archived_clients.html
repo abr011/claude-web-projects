@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archivovaní klienti</title>
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
+    <link rel="stylesheet" href="https://unpkg.com/normalize.css@8.0.0/normalize.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/firebase-config.js"></script>
+</head>
+<body>
+
+<nav class="hamburger-nav">
+    <button class="hamburger-btn" id="hamburgerBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <div class="nav-menu" id="navMenu">
+        <a href="index.html">Nova faktura</a>
+        <a href="invoices.html">Faktury</a>
+        <a href="clients.html" class="active">Klienti</a>
+        <a href="my_info.html?edit=true">Moje udaje</a>
+    </div>
+</nav>
+
+<div class="container">
+    <h2>Archivovaní klienti</h2>
+
+    <div class="archived_clients_list">
+        <div class="rows">
+        </div>
+        <p class="empty_message hidden">Žádní archivovaní klienti</p>
+    </div>
+
+    <div class="buttons">
+        <a class="link" href="index.html">Zpět na fakturu</a>
+    </div>
+</div>
+
+<script src="js/nav.js"></script>
+<script>
+var firebaseDatabase = database;
+
+function loadArchivedClients() {
+    var ak = firebaseDatabase.ref("about_client");
+    var query = ak.orderByKey();
+    var hasArchived = false;
+
+    query.once("value").then(function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+            var key = childSnapshot.key;
+            var childData = childSnapshot.val();
+
+            // Only show archived clients
+            if (!childData.archived) {
+                return;
+            }
+
+            hasArchived = true;
+
+            $('.archived_clients_list .rows').append(
+                '<div class="archived_client_item" data-client_id="' + key + '">' +
+                '<div class="client_row">' +
+                '<div class="client_details">' +
+                '<div class="client_info">' + childData.client_name_id + '</div>' +
+                '<span class="additional_info">' + childData.client_address_street + ", " +
+                childData.client_address_town + ", IČ " + childData.client_legal_id + '</span>' +
+                '</div>' +
+                '<button class="reactivate_client" data-client_id="' + key + '">Obnovit</button>' +
+                '</div>' +
+                '</div>'
+            );
+        });
+
+        if (!hasArchived) {
+            $('.empty_message').removeClass('hidden');
+        }
+
+        // Add reactivate button click handler
+        $('.reactivate_client').on('click', function(e) {
+            e.stopPropagation();
+            var clientId = $(this).data('client_id');
+            firebaseDatabase.ref("about_client/" + clientId).update({
+                archived: false
+            }).then(function() {
+                // Remove from list
+                $('.archived_client_item[data-client_id="' + clientId + '"]').fadeOut(300, function() {
+                    $(this).remove();
+                    // Check if list is empty
+                    if ($('.archived_client_item').length === 0) {
+                        $('.empty_message').removeClass('hidden');
+                    }
+                });
+            });
+        });
+    });
+}
+
+loadArchivedClients();
+</script>
+
+</body>
+</html>

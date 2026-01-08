@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Print</title>
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
+    <link rel="stylesheet" href="css/print.css">
+    <link rel="stylesheet" type="text/css" href="css/print.css" media="print">
+    <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/moment.js"></script>
+    <script src="js/main.js"></script>
+</head>
+<body>
+
+<div class="qr">
+
+</div>
+
+<h1 id="invoice_number">
+    Faktura č.
+</h1>
+
+<div id="me">
+    <p class="sort_of_label">
+        Fakturu vystavil
+    </p>
+    <div class="name">
+        Aleš Brom
+
+    </div>
+    <div class="legal_id top strong">IČ74991159
+    </div>
+    <div id="account_number">
+
+
+            č. ú. <span class="my_account_number top">8367941/6100
+            </span>
+
+    </div>
+</div>
+
+<div id="for_what">
+    <p class="sort_of_label">
+        za práci, příp. na projektu
+    </p>
+    <div class="for_what">testování</div>
+</div>
+
+<div id="date">
+    <p class="sort_of_label">
+        s datem splatnosti
+    </p>
+
+    <div class="date_to_send key">18.7.2017</div>
+    <p class="explanation">
+        a datem vystavení <span class="date_issued strong">4. 7. 2017</span>
+    </p>
+</div>
+
+
+
+<div id="amount">
+    <p class="sort_of_label">
+        Za proplacení částky
+    </p>
+    <div class="total_amount key">24000 Kč</div>
+    <p class="explanation">
+        nejsem plátce DPH
+    </p>
+</div>
+
+
+
+
+<div id="client">
+    <p class="sort_of_label">
+        Vám, jako odběrateli
+    </p>
+    <div class="name">Martin</div>
+
+    <div class="legal_id">05820464</div>
+
+</div>
+
+
+
+<div id="thanks">
+    <p class="sort_of_label">
+
+    </p>
+    <div class="sort_of_key thanks">
+        Děkuju
+    </div>
+</div>
+
+<div class="template-switch no-print">
+    <a href="invoice_to_print3.html">Pro nového klienta</a>
+</div>
+
+
+<script>
+	const config = {
+		apiKey: "AIzaSyDrqihmPtjDnEgm2j0rGhR1-QbiIWCmldo",
+		authDomain: "invoice-71a47.firebaseapp.com",
+		databaseURL: "https://invoice-71a47.firebaseio.com",
+		projectId: "invoice-71a47",
+		storageBucket: "invoice-71a47.appspot.com",
+		messagingSenderId: "845423691647"
+	};
+
+	firebase.initializeApp(config);
+
+	var database = firebase.database();
+
+	var firebaseRef = firebase.database().ref();
+
+</script>
+
+<script src="js/invoice_to_print.js"></script>
+
+</body>
+</html>

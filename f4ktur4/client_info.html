@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="robots" content="noindex, nofollow">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Client</title>
+	<link rel="stylesheet" type="text/css" href="css/reset.css">
+	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/nav.css">
+	<script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+	<script src="js/jquery-3.1.1.min.js"></script>
+	<script src="js/firebase-config.js"></script>
+	<script src="js/main.js"></script>
+</head>
+<body>
+
+<nav class="hamburger-nav">
+    <button class="hamburger-btn" id="hamburgerBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <div class="nav-menu" id="navMenu">
+        <a href="index.html">Nova faktura</a>
+        <a href="invoices.html">Faktury</a>
+        <a href="clients.html" class="active">Klienti</a>
+        <a href="my_info.html?edit=true">Moje udaje</a>
+    </div>
+</nav>
+
+	<div class="container">
+
+		<div class="step1">
+			<h2>Základní info o klientovi</h2>
+
+			<div id="client_legal_id">
+			    <div class="status">
+			    </div>
+				<div class="input">
+		    		<label for="new_client_legal_id">IČO </label>
+		    		<input id="new_client_legal_id" type="text" placeholder=""> <span></span>
+				</div>
+			</div>
+
+			<div id="client_tax_id">
+				<div class="status">
+			    </div>
+			    <div class="input">
+    				<label for="new_client_tax_id">DIČ (nepovinné)</label>
+    				CZ <input id="new_client_tax_id" type="text" placeholder=""> <span></span>
+				</div>
+			</div>
+
+			<div class="full hidden">
+				<div class="loader">
+
+				</div>
+				<div class="progress">
+						AHoj sodfhsohwvjn
+					</div>
+			</div>
+
+
+			<div class="buttons">
+				<div id="confirm_form" class="buttons form">
+					<div class="button disabled">
+						<p>Potvrdit údaje<br><span>a získat data z rejstříku</span></p>
+					</div>
+					<div class="small">
+						nebo
+					</div>
+					<div class="link">
+						<a href="my_info.html">Na údaje o Vás</a>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+		</div>
+
+		<div class="step2 initial_position hidden">
+
+			<h2 class="">Název a sídlo klienta<span></span> </h2>
+
+			<div id="client_name">
+			    <div class="status">
+			    </div>
+				<div class="input">
+		    		<label for="new_client_name">Název firmy</label>
+		    		<input id="new_client_name" type="text" placeholder=""> <span></span>
+				</div>
+			</div>
+
+			<div id="client_address_street">
+			    <div class="status">
+			    </div>
+				<div class="input">
+		    		<label for="new_client_address_street">Ulice a č.p.</label>
+		    		<input id="new_client_address_street" type="text" placeholder=""> <span></span>
+				</div>
+			</div>
+
+			<div id="client_address_town">
+			    <div class="status">
+			    </div>
+				<div class="input">
+		    		<label for="new_client_address_town">Obec</label>
+		    		<input id="new_client_address_town" type="text" placeholder=""> <span></span>
+				</div>
+			</div>
+
+			<div id="client_address_zip">
+			    <div class="status">
+			    </div>
+				<div class="input">
+		    		<label for="new_client_address_zip">PSČ</label>
+		    		<input id="new_client_address_zip" type="text" placeholder=""> <span></span>
+				</div>
+			</div>
+
+			<div class="buttons">
+				<div id="confirm_about_client" class="buttons form">
+					<div class="button disabled">
+						<p>Potvrdit údaje<br><span>a pokračovat na první fakturu</span></p>
+					</div>
+					<div class="small">
+						nebo
+					</div>
+					<div class="link">
+						<a href="client_info.html">Zpět na základní údaje</a>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+	<script src="js/nav.js"></script>
+	<script src="js/client_info.js"></script>
+
+</body>
+</html>

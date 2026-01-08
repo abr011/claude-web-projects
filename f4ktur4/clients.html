@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klienti</title>
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
+    <link rel="stylesheet" href="https://unpkg.com/normalize.css@8.0.0/normalize.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/firebase-config.js"></script>
+</head>
+<body>
+
+<nav class="hamburger-nav">
+    <button class="hamburger-btn" id="hamburgerBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <div class="nav-menu" id="navMenu">
+        <a href="index.html">Nova faktura</a>
+        <a href="invoices.html">Faktury</a>
+        <a href="clients.html" class="active">Klienti</a>
+        <a href="my_info.html?edit=true">Moje udaje</a>
+    </div>
+</nav>
+
+<div class="container">
+    <h2>Klienti</h2>
+
+    <div class="clients-list" id="clientsList">
+        <!-- Clients loaded dynamically -->
+    </div>
+
+    <div class="empty_message hidden" id="emptyMessage">
+        Zatim zadni klienti
+    </div>
+
+    <a href="client_info.html" class="add-link">Pridat klienta</a>
+</div>
+
+<script src="js/nav.js"></script>
+<script src="js/clients.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,888 @@
+/* ==========================================================================
+   Invoice App - Consolidated Styles
+   ========================================================================== */
+
+/* Base Styles
+   ========================================================================== */
+
+body,
+html,
+input {
+	background: #fefefe;
+	font: 16px/1 Avenir Next, Open sans, Helvetica, Arial, Sans-Serif;
+	height: 100%;
+	width: 100%;
+	color: #333;
+}
+
+h2 {
+	padding: 32px 0px 0px 50px;
+	font-size: 1.5rem;
+	margin: 0px 0px 0px 0px;
+}
+
+h4 {
+	margin: 16px 0px 0px 120px;
+	font-size: 1.2em;
+}
+
+.container {
+	margin-left: 88px;
+}
+
+/* Form Elements
+   ========================================================================== */
+
+label {
+  display: block;
+  margin: 36px 0px 8px 0px;
+  font-size: 0.75em;
+  color: #777;
+}
+
+input {
+  padding: 0px 8px 0px 0px;
+  width: 300px;
+  font-size: 1.25em;
+  font-weight: 400;
+  outline: none;
+  border: none;
+  box-sizing: border-box;
+  border-bottom: solid 2px #aaa;
+}
+
+input:focus {
+  outline: none;
+  box-sizing: border-box;
+  border-bottom: solid 2px #1a1eb2;
+}
+
+input:disabled {
+  outline: none;
+  box-sizing: border-box;
+  padding-bottom: 1px;
+  border-bottom: dotted 1px #aaa;
+  color: #aaa;
+}
+
+input:focus.field_is_wrong,
+.field_is_wrong {
+  outline: none;
+  box-sizing: border-box;
+  border-bottom: solid 2px #ee0000;
+}
+
+.input span {
+	position: absolute;
+	display: inline-block;
+	width: 336px;
+	padding-left: 20px;
+	padding-top: 4px;
+	color: red;
+	font-size: 0.875em;
+	line-height: 1.4em;
+}
+
+.prefix {
+  display: inline-block;
+  font-size: 1.125em;
+  margin: 4px 4px 0px 0px;
+  padding: 0px 0px 0px 0px;
+}
+
+/* Additional Info
+   ========================================================================== */
+
+.additional_info {
+  padding-top: 8px;
+  font-size: .75em;
+  color: grey;
+}
+
+/* Status Indicator
+   ========================================================================== */
+
+.status {
+	float: left;
+	height: 60px;
+	width: 50px;
+	padding: 0px 40px 0px 0px;
+	text-align: right;
+	line-height: 60px;
+	font-size: 2em;
+}
+
+/* Helper Classes
+   ========================================================================== */
+
+.hidden {
+	display: none;
+}
+
+span.hidden {
+	display: none;
+}
+
+/* Edit mode text visibility */
+.edit-mode-text {
+	display: none;
+}
+
+.new-mode-text.hidden {
+	display: none;
+}
+
+.squeezed {
+	width: 190px;
+	float:left;
+}
+
+.disabled {
+  color: #aaa;
+}
+
+.error {
+  color: red;
+}
+
+/* Status Bar
+   ========================================================================== */
+
+#status_bar {
+	display: inline-block;
+	padding: 4px 16px 4px 16px;
+	position: absolute;
+	top: -16px;
+	left: 56px;
+	line-height: 1.5rem;
+}
+
+.problem {
+	background-color: #ee3333;
+	color: #fff;
+}
+
+/* Overlay
+   ========================================================================== */
+
+.full {
+	position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 2;
+}
+
+/* Buttons
+   ========================================================================== */
+
+.button {
+  transition: background-color .3s ease;
+  box-sizing: border-box;
+  width: 220px;
+  height: 60px;
+  text-align: center;
+  position: relative;
+  background-color: #FF4500;
+  border-radius: 4px;
+  margin: 80px 0px 0px 0px;
+  color: #fff;
+  cursor: pointer;
+  line-height: 60px;
+  overflow: hidden;
+  float: left;
+  box-shadow: 4px 4px lightgrey;
+}
+
+.button:hover {
+  box-shadow: 2px 2px lightgrey;
+}
+
+.button:hover.disabled.progress {
+  background-color: #FF6E39;
+  cursor: default;
+  box-shadow: 0px 0px lightgrey;
+}
+
+.button.disabled.progress {
+  background-color: #FF6E39;
+  cursor: default;
+  box-shadow: 0px 0px lightgrey;
+}
+
+.button.disabled {
+  background-color: #FF6E39;
+  box-shadow: 0px 0px lightgrey;
+}
+
+.inner {
+	transition: opacity 0.3s ease;
+	width: 100%;
+	height: 6px;
+	background-color: #C63500;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	opacity: 0;
+}
+
+.active {
+  opacity: 1;
+  animation: progressAnimation 3s ease;
+}
+
+.small {
+	float: left;
+	width: 100px;
+	height: 60px;
+	color: #777;
+	font-size: .875em;
+	text-align: center;
+	line-height: 60px;
+	margin-top: 80px;
+}
+
+.link {
+	display: block;
+	position: relative;
+	cursor: pointer;
+	float: left;
+	width: 220px;
+	height: 60px;
+	color: #ff9000;
+	font-weight: 400;
+	text-decoration: none;
+	line-height: 60px;
+	vertical-align: middle;
+	margin-top: 80px;
+}
+
+.link.disabled {
+	opacity: .7;
+}
+
+.link.secondary {
+	color: #999;
+	font-size: 0.875em;
+	margin-top: 20px;
+}
+
+/* Step Containers
+   ========================================================================== */
+
+.step1, .step2 {
+  width: 700px;
+  padding: 0px 0px 184px 24px;
+  margin: 20px 0px 0px 88px;
+  border: solid 2px grey;
+  background-color: #fefefe;
+  z-index: 4;
+}
+
+.step2 {
+  margin-top: 0px;
+}
+
+.initial_position {
+  position: relative;
+  top: -400px;
+}
+
+.out_position {
+  position: relative;
+  left: -1400px;
+}
+
+/* Index Page Styles
+   ========================================================================== */
+
+a.button {
+  display: block;
+  font-size: 1.2em;
+  color: white;
+  text-align: center;
+  line-height: 60px;
+  vertical-align: middle;
+  text-decoration: none;
+  font-weight: 400;
+}
+
+.button.index {
+  margin: 64px 0px 0px 80px;
+}
+
+.message {
+  float: left;
+  margin-top: 56px;
+  width: 720px;
+}
+
+.message p {
+  margin: 24px 0px 20px 80px;
+  font-size: 2em;
+  line-height: 1.8em;
+}
+
+.message span {
+  text-decoration: line-through;
+}
+
+.preview {
+  position: relative;
+  float: left;
+  margin-top: 24px;
+  width: 382px;
+  height: 520px;
+}
+
+.pic {
+  border: solid 5px lightgrey;
+  margin-left: 0px;
+  box-shadow: 4px 4px grey;
+}
+
+.preview h3 {
+  display: inline-block;
+  margin: 40px 0px 0px 40px;
+  padding: 8px 20px 2px 20px;
+  font-size: 1.2em;
+  background-color: lightgrey;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+  box-shadow: 4px 4px grey;
+}
+
+/* My Info Page - Input Widths
+   ========================================================================== */
+
+input#new_my_account_number {
+  width: 112px;
+  padding-right: 0;
+}
+
+input#my_address_town {
+  width: 112px;
+}
+
+input#new_my_legal_id {
+  width: 104px;
+  padding-right: 0px;
+}
+
+input#new_my_address_zip {
+  width: 72px;
+  padding-right: 0px;
+}
+
+input#new_my_account_number_prefix {
+  width: 64px;
+  padding-right: 0px;
+}
+
+input#new_my_bank_code {
+  width: 56px;
+  padding-right: 0;
+}
+
+/* Client Info Page - Input Widths
+   ========================================================================== */
+
+input#new_client_tax_id {
+  width: 104px;
+  padding-right: 0px;
+}
+
+input#new_client_legal_id {
+  width: 104px;
+  padding-right: 0px;
+}
+
+input#new_client_address_zip {
+  width: 72px;
+  padding-right: 0px;
+}
+
+/* Invoice Page Styles
+   ========================================================================== */
+
+.invoice_info {
+  float: left;
+  width: 66%;
+  max-width: 688px;
+}
+
+.invoice_info h2 {
+  padding-bottom: 0px;
+}
+
+input#new_thanks {
+  width: 220px;
+}
+
+input#new_date_to_send,
+input#new_date_issued {
+  width: 120px;
+}
+
+input#new_amount {
+  width: 112px;
+}
+
+input#new_invoice_number_year {
+  width: 56px;
+  margin-left: 20px;
+}
+
+input#new_invoice_number {
+  width: 32px;
+  padding-right: 0px;
+}
+
+.additional_info .today,
+.additional_info .last_month {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0px;
+  font-size: .75rem;
+  cursor: pointer;
+}
+
+.additional_info .last_month {
+  margin-left: 16px;
+}
+
+.additional_info input[type="checkbox"] {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+/* Hide native date picker icon */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
+
+input[type="date"] {
+  position: relative;
+}
+
+/* Client List & Selection
+   ========================================================================== */
+
+.client .additional_info,
+.client_list .additional_info {
+  display: inline-block;
+  padding: 4px 8px 4px 4px;
+  margin: 0px 0px 0px 0px;
+}
+
+.client_info,
+.client_info_selected {
+  display: inline-block;
+  height: 22px;
+  float: left;
+  font-size: 1.125em;
+  font-weight: 400;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.client_list {
+  position: absolute;
+  left: 300px;
+  top: 0;
+  margin: 0;
+  padding: 12px 16px 16px 16px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 100;
+  max-height: 400px;
+  min-width: 320px;
+  overflow-y: auto;
+}
+
+.client_list_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.client_list_header span {
+  font-weight: 500;
+  color: #333;
+}
+
+.close_client_list {
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: #eee;
+  color: #666;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.close_client_list:hover {
+  background: #ddd;
+  color: #333;
+}
+
+.client_list_item {
+  margin: 4px 0px 0px 0px;
+  padding: 8px 8px 8px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.client_list_item:hover {
+  background-color: #f5f5f5;
+}
+
+.client_row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.client_row .client_info {
+  flex: 1;
+}
+
+.archive_client {
+  display: none;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: #eee;
+  color: #999;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  margin-left: 8px;
+  transition: all 0.2s ease;
+}
+
+.client_list_item:hover .archive_client {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.archive_client:hover {
+  background: #ff4500;
+  color: #fff;
+}
+
+/* Archived Clients Page
+   ========================================================================== */
+
+.archived_clients_list {
+  margin-top: 24px;
+  max-width: 600px;
+}
+
+.archived_client_item {
+  padding: 16px;
+  margin-bottom: 8px;
+  background: #fafafa;
+  border-radius: 4px;
+}
+
+.archived_client_item .client_row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.archived_client_item .client_details {
+  flex: 1;
+}
+
+.archived_client_item .client_info {
+  font-size: 1.125em;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.reactivate_client {
+  padding: 8px 16px;
+  border: none;
+  background: #4CAF50;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875em;
+  transition: background 0.2s ease;
+}
+
+.reactivate_client:hover {
+  background: #43A047;
+}
+
+.empty_message {
+  color: #999;
+  font-style: italic;
+  padding: 24px 0;
+}
+
+.client .client_info_selected.focus {
+  outline: none;
+  border-bottom: solid 2px #1a1eb2;
+}
+
+.client_info_selected {
+  outline: none;
+  border-bottom: solid 2px #aaa;
+}
+
+.client_list_actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+}
+
+.client_list .mini_button {
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: .8em;
+  background-color: #444;
+  padding: 8px 16px;
+  color: #eee;
+  border-radius: 4px;
+}
+
+.client_list .mini_button.secondary {
+  background-color: #eee;
+  color: #666;
+}
+
+.client_list .mini_button.secondary:hover {
+  background-color: #ddd;
+}
+
+/* My Info Box
+   ========================================================================== */
+
+.my_info h4 {
+  margin: 4px 0px 8px 0px;
+  font-size: .8em;
+}
+
+.my_info p.break {
+  padding-top: 8px;
+}
+
+.my_info {
+  float: left;
+  width: 30%;
+  margin-top: 86px;
+  margin-left: 24px;
+  padding: 0px 0px 0px 16px;
+  line-height: 1.5em;
+  font-size:.875em;
+  position: relative;
+}
+
+.my_info::before {
+  content: " ";
+  box-sizing: border-box;
+  width: 1px;
+  height: 80%;
+  margin-top: 14px;
+  background-color: #ddd;
+  position: absolute;
+  left: 0px;
+}
+
+.my_info .link_button {
+  display: inline-block;
+  margin: 16px 0px 0px 0px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: .8em;
+  text-transform: uppercase;
+  color: #ff9000;
+}
+
+/* Animations
+   ========================================================================== */
+
+@keyframes progressAnimation {
+  0%   { width: 0; }
+  20%  { width: 5%; }
+  40%  { width: 20%; }
+  60%  { width: 70%; }
+  80%  { width: 75%; }
+  100% { width: 100%; }
+}
+
+@-webkit-keyframes progressAnimation {
+  0%   { width: 0; }
+  20%  { width: 5%; }
+  40%  { width: 20%; }
+  60%  { width: 70%; }
+  80%  { width: 75%; }
+  100% { width: 100%; }
+}
+
+@keyframes bounce_Out_Left {
+  20% {
+    opacity: 1;
+    transform: translate3d(20px, 0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(-1000px, 0, 0);
+  }
+}
+
+.bounce_Out_Left {
+  animation-name: bounce_Out_Left;
+  animation-duration: 400ms;
+  animation-iteration-count: 1;
+  animation-fill-mode: backwards;
+}
+
+@keyframes bounce_In_Right {
+  from, 60%, 75%, 90%, to {
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  }
+  from {
+    opacity: 0;
+    transform: translate3d(1500px, 0, 0);
+  }
+  60% {
+    opacity: 1;
+    transform: translate3d(-25px, 0, 0);
+  }
+  75% {
+    transform: translate3d(10px, 0, 0);
+  }
+  90% {
+    transform: translate3d(-5px, 0, 0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.bounce_In_Right {
+  animation-name: bounce_In_Right;
+  animation-duration: 280ms;
+  animation-iteration-count: 1;
+}
+
+@keyframes bounce_Out_Right {
+  20% {
+    opacity: 1;
+    transform: translate3d(-20px, 0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(1000px, 0, 0);
+  }
+}
+
+.bounce_Out_Right {
+  animation-name: bounce_Out_Right;
+  animation-duration: 280ms;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes bounce_In_Left {
+  from, 60%, 75%, 90%, to {
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  }
+  0% {
+    opacity: 0;
+    transform: translate3d(-3000px, 0, 0);
+  }
+  60% {
+    opacity: 1;
+    transform: translate3d(25px, 0, 0);
+  }
+  75% {
+    transform: translate3d(-10px, 0, 0);
+  }
+  90% {
+    transform: translate3d(5px, 0, 0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.bounce_In_Left {
+  animation-name: bounce_In_Left;
+  animation-duration: 280ms;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes zoom_Out {
+  from {
+    opacity: 1;
+  }
+  70% {
+    opacity: 0;
+    transform: scale3d(.13, .13, .1) translate3d(1710px, -980px, 0px);
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.zoom_Out {
+  animation-name: zoom_Out;
+  animation-duration: 600ms;
+  animation-iteration-count: 1;
+}
+
+@keyframes fade_Out {
+  from {
+    opacity: 1;
+  }
+  70% {
+    opacity: 0;
+    transform: scale3d(.35, .35, .35) translate3d(410px, -320px, 0px);
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.fade_Out {
+  animation-name: fade_Out;
+  animation-duration: 600ms;
+  animation-iteration-count: 1;
+}

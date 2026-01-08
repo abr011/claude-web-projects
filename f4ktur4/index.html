@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
+    <link rel="stylesheet" href="https://unpkg.com/normalize.css@8.0.0/normalize.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/moment.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/main.js"></script>
+</head>
+<body>
+
+<nav class="hamburger-nav">
+    <button class="hamburger-btn" id="hamburgerBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <div class="nav-menu" id="navMenu">
+        <a href="index.html" class="active">Nova faktura</a>
+        <a href="invoices.html">Faktury</a>
+        <a href="clients.html">Klienti</a>
+        <a href="my_info.html?edit=true">Moje udaje</a>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="invoice_info">
+        <h2>Fakturační údaje</h2>
+        <div id="invoice_number">
+            <div class="status">
+            </div>
+            <div class="input">
+                <label for="new_client_name">Číslo faktury</label>
+                <input id="new_invoice_number" type="text" placeholder="">
+                <input id="new_invoice_number_year" type="text" placeholder=""><span></span>
+                <p class="additional_info">poslední číslo bylo 123456</p>
+            </div>
+        </div>
+
+        <div id="date_issued">
+            <div class="status">
+            </div>
+            <div class="input squeezed">
+                <label for="new_date_issued">Datum vystavení</label>
+                <input id="new_date_issued" type="date"> <span></span>
+
+                <p class="additional_info">
+                    <label for="date_issued_today" class="today">
+                        <input type="checkbox" checked id="date_issued_today" />dnes
+                    </label>
+                    <label for="date_issued_last_month" class="last_month">
+                        <input type="checkbox" unchecked id="date_issued_last_month" />minulý měsíc
+                    </label>
+                </p>
+            </div>
+        </div>
+
+        <div id="date_to_send">
+            <div class="input">
+                <label for="new_date_to_send">Datum splatnosti</label>
+                <input id="new_date_to_send" type="date"><span></span>
+                <p class="additional_info">za 14 dní
+                </p>
+            </div>
+        </div>
+
+        <div class="client">
+            <div class="status">
+            </div>
+            <label for="new_client">Klient</label>
+            <div class="client_info_selected">
+            </div>
+            <span class="additional_info">Nadražní 89, Praha 5 - 150 00, IČ 21212121</span>
+        </div>
+
+        <div class="client_list hidden">
+            <div class="client_list_header">
+                <span>Vyberte klienta</span>
+                <button class="close_client_list">×</button>
+            </div>
+            <div class="rows">
+
+            </div>
+            <div class="client_list_actions">
+                <a class="mini_button" id="add_client" href="client_info.html">PŘIDAT KLIENTA</a>
+                <a class="mini_button secondary" href="archived_clients.html">ARCHIVOVANÍ</a>
+            </div>
+
+        </div>
+
+        <div id="amount">
+            <div class="status">
+            </div>
+            <div class="input">
+                <label class="amount" for="new_amount">Částka k fakturaci</label>
+                <input id="new_amount" type="text"> Kč<span></span>
+            </div>
+        </div>
+
+        <div id="for_what">
+            <div class="status">
+            </div>
+            <div class="input for_what">
+                <label for="new_for_what">Popis činnosti (nepovinné) </label>
+                <!-- <span class="explanation">např. název projektu, číslo objednávky apod.</span> -->
+                <input id="new_for_what" type="text" placeholder=""><span></span>
+
+            </div>
+        </div>
+
+        <div id="thanks">
+            <div class="status">
+            </div>
+            <div class="input">
+                <label for="new_thanks">Text poděkování (nepovinné)</label>
+                <input id="new_thanks" type="text" placeholder=""><span></span>
+            </div>
+        </div>
+        <div class="buttons">
+            <div id="confirm_invoice" class="buttons form">
+                <div class="button">
+                    <p>Uložit a vytisknout<br><span>a poslat klientovi</span></p>
+                </div>
+                <div class="small">
+                    nebo
+                </div>
+                <a class="link" href="invoice_to_print.html">
+                    Zobrazit náhled faktury
+                </a>
+            </div>
+        </div>
+
+        <div id="footer">
+        </div>
+
+    </div>
+
+    <div class="my_info">
+        <h4>Informace o Vás</h4>
+        <div id="about_me"></div>
+        <a class="link_button" href="my_info.html?edit=true">
+            Změnit údaje
+        </a>
+    </div>
+
+</div>
+
+<script src="js/nav.js"></script>
+<script src="js/invoice.js"></script>
+
+</body>
+</html>

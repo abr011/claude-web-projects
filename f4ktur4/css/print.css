@@ -1,0 +1,131 @@
+/* ==========================================================================
+   Invoice Print Styles
+   ========================================================================== */
+
+body, html {
+	background: white;
+	font: 16px/24px Avenir Next, Open sans, Helvetica, Arial, Sans-Serif;
+	width: 100%;
+	padding-left: 20px;
+}
+
+h1 {
+	font-size: 2rem;
+	line-height: 2.2rem;
+	padding: 40px 0 0px 0;
+	font-weight: 500;
+}
+
+h1 .inv-nn {
+	margin-right: 0.3em;
+}
+
+.amount-thousands {
+	margin-right: 0.2em;
+}
+
+h1 span {
+	font-weight: 500;
+}
+
+.top {
+	padding-top: 4px;
+}
+
+.strong {
+	font-weight: 600;
+}
+
+.legal_id {
+	padding-top: 4px;
+}
+
+.sort_of_label {
+	font-size: 14px;
+	color: #FF9000;
+	margin: 40px 0 4px 0;
+}
+
+.sort_of_label_new {
+	font-size: 14px;
+	color: #FF9000;
+	margin: 16px 0 4px 0;
+}
+
+.key {
+	font-size: 2rem;
+	line-height: 2.2rem;
+	padding: 8px 0 0px 0;
+	font-weight: 500;
+}
+
+.sort_of_space {
+	margin-left: 3px;
+}
+
+.key .sort_of_space {
+	margin-left: 5px;
+}
+
+.sort_of_key {
+	font-size: 1.5rem;
+	line-height: 2rem;
+	margin: 0px 0 0px 0;
+}
+
+.explanation {
+	font-size: 14px;
+	margin: 0px 0 0px 0;
+}
+
+.detail {
+	margin: 8px 0 0px 0;
+}
+
+.detail .explanation {
+	margin: -8px 0 0px 0;
+}
+
+.qr {
+	position: absolute;
+	float: left;
+	margin: 340px 20px 20px 320px;
+	width: 300px;
+	height: 300px;
+}
+
+.pseudospace {
+	margin-left: 5px;
+}
+
+#account_number {
+	width: 340px;
+	float: left;
+}
+
+.co, .co ul {
+	line-height: 1.5;
+	font-size: 14px;
+}
+
+.template-switch {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+}
+
+.template-switch a {
+	color: #999;
+	font-size: 14px;
+}
+
+@media print {
+	.no-print {
+		display: none;
+	}
+}
+
+.co ul {
+	list-style-type: disc;
+	padding-left: 25px;
+}
