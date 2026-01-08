@@ -43,19 +43,22 @@ function renderClients(clients) {
     clients.forEach(function(client) {
         var data = client.data;
         var isArchived = data.archived === true;
-        var address = [data.client_address_street, data.client_address_town, data.client_address_zip]
-            .filter(Boolean).join(', ');
+
+        // Build info line: IČ + city
+        var infoParts = [];
+        if (data.client_legal_id) {
+            infoParts.push('IČ ' + data.client_legal_id);
+        }
+        if (data.client_address_town) {
+            infoParts.push(data.client_address_town);
+        }
+        var infoLine = infoParts.join(', ');
 
         var html = '<div class="client-item' + (isArchived ? ' archived' : '') + '" data-key="' + client.key + '">' +
-            '<div class="client-main">' +
-                '<div class="client-name">' + (data.client_name_id || 'Bez nazvu') + '</div>' +
-                '<div class="client-info-row">' +
-                    'IC ' + (data.client_legal_id || '-') +
-                    (data.client_tax_id ? ', DIC CZ' + data.client_tax_id : '') +
-                '</div>' +
-                '<div class="client-info-row">' + address + '</div>' +
-            '</div>' +
-            '<div class="client-actions">';
+            '<div class="item-header">' + (data.client_name_id || 'Bez názvu') + '</div>' +
+            '<div class="item-row">' +
+                '<div class="item-info">' + infoLine + '</div>' +
+                '<div class="item-actions">';
 
         if (isArchived) {
             html += '<button class="action-btn reactivate" data-key="' + client.key + '">Obnovit</button>';
@@ -64,7 +67,7 @@ function renderClients(clients) {
                     '<button class="action-btn archive" data-key="' + client.key + '">Archivovat</button>';
         }
 
-        html += '</div></div>';
+        html += '</div></div></div>';
 
         container.append(html);
     });

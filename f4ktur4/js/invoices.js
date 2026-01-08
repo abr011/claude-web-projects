@@ -39,25 +39,33 @@ function renderInvoices(invoices) {
 
     invoices.forEach(function(invoice) {
         var data = invoice.data;
+        var isArchived = data.archived === true;
         var invNumber = String(data.invoice_number).padStart(2, '0');
         var amount = formatAmount(data.amount);
 
-        var html = '<div class="invoice-item" data-key="' + invoice.key + '">' +
-            '<div class="invoice-main">' +
-                '<div class="invoice-number">' + invNumber + ' ' + data.invoice_number_year + '</div>' +
-                '<div class="invoice-details">' +
-                    '<span class="invoice-client">' + (data.client_name || 'Neznamy klient') + '</span>' +
-                    '<span class="invoice-amount">' + amount + ' Kc</span>' +
-                    '<span class="invoice-date">' + data.date_issued + '</span>' +
-                '</div>' +
-            '</div>' +
-            '<div class="invoice-actions">' +
-                '<a href="#" class="action-link view-bezna" data-key="' + invoice.key + '">Bezna</a>' +
-                '<a href="#" class="action-link view-nova" data-key="' + invoice.key + '">Pro noveho klienta</a>' +
+        // Build info line: client, amount, date
+        var infoParts = [];
+        infoParts.push(data.client_name || 'Neznámý klient');
+        infoParts.push(amount + ' Kč');
+        infoParts.push(data.date_issued);
+        var infoLine = infoParts.join(', ');
+
+        var html = '<div class="invoice-item' + (isArchived ? ' archived' : '') + '" data-key="' + invoice.key + '">' +
+            '<div class="item-header">' + invNumber + ' ' + data.invoice_number_year + '</div>' +
+            '<div class="item-row">' +
+                '<div class="item-info">' + infoLine + '</div>' +
+                '<div class="item-actions">';
+
+        if (isArchived) {
+            html += '<button class="action-btn reactivate" data-key="' + invoice.key + '">Obnovit</button>';
+        } else {
+            html += '<a href="#" class="action-link view-bezna" data-key="' + invoice.key + '">Běžná</a>' +
+                '<a href="#" class="action-link view-nova" data-key="' + invoice.key + '">Pro nového klienta</a>' +
                 '<a href="index.html?edit=' + invoice.key + '" class="action-link edit">Upravit</a>' +
-                '<button class="action-btn delete" data-key="' + invoice.key + '">Smazat</button>' +
-            '</div>' +
-        '</div>';
+                '<button class="action-btn archive" data-key="' + invoice.key + '">Archivovat</button>';
+        }
+
+        html += '</div></div></div>';
 
         container.append(html);
     });
@@ -104,25 +112,26 @@ function loadInvoiceAndNavigate(key, targetPage) {
     });
 }
 
-// Delete invoice
-$(document).on('click', '.delete', function() {
+// Archive invoice
+$(document).on('click', '.invoice-item .archive', function() {
     var key = $(this).data('key');
     var item = $(this).closest('.invoice-item');
-    var invoiceNumber = item.find('.invoice-number').text();
+    var invoiceNumber = item.find('.item-header').text();
 
-    if (confirm('Opravdu smazat fakturu ' + invoiceNumber + '?')) {
-        firebase.database().ref("invoice").child(key).remove()
-            .then(function() {
-                item.fadeOut(300, function() {
-                    $(this).remove();
-                    // Check if list is empty
-                    if ($('.invoice-item').length === 0) {
-                        $('#emptyMessage').removeClass('hidden');
-                    }
-                });
-            })
+    if (confirm('Archivovat fakturu ' + invoiceNumber + '?')) {
+        firebase.database().ref("invoice").child(key).update({ archived: true })
             .catch(function(error) {
-                alert('Chyba pri mazani: ' + error.message);
+                alert('Chyba: ' + error.message);
             });
     }
+});
+
+// Reactivate invoice
+$(document).on('click', '.invoice-item .reactivate', function() {
+    var key = $(this).data('key');
+
+    firebase.database().ref("invoice").child(key).update({ archived: false })
+        .catch(function(error) {
+            alert('Chyba: ' + error.message);
+        });
 });
