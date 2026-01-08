@@ -14,14 +14,14 @@ clientsRef.on('value', function(snapshot) {
         });
     });
 
-    // Sort: active first, then by name
+    // Sort alphabetically by name (archived at end)
     clients.sort(function(a, b) {
         // Archived at the end
         if (a.data.archived !== b.data.archived) {
             return a.data.archived ? 1 : -1;
         }
-        // Then alphabetically by name
-        return (a.data.client_name_id || '').localeCompare(b.data.client_name_id || '');
+        // Alphabetically by name
+        return (a.data.client_name_id || '').localeCompare(b.data.client_name_id || '', 'cs');
     });
 
     renderClients(clients);

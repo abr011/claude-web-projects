@@ -1,27 +1,36 @@
 // Check authentication
 checkAuth();
 
-// Load all invoices from Firebase
-var invoicesRef = firebase.database().ref("invoice");
+// Store clients for name lookup
+var clientsMap = {};
 
-invoicesRef.on('value', function(snapshot) {
-    var invoices = [];
+// Load clients first, then invoices
+firebase.database().ref("about_client").once('value').then(function(clientsSnapshot) {
+    // Build clients map
+    clientsSnapshot.forEach(function(child) {
+        clientsMap[child.key] = child.val().client_name_id;
+    });
 
-    snapshot.forEach(function(childSnapshot) {
-        invoices.push({
-            key: childSnapshot.key,
-            data: childSnapshot.val()
+    // Now load invoices
+    firebase.database().ref("invoice").on('value', function(snapshot) {
+        var invoices = [];
+
+        snapshot.forEach(function(childSnapshot) {
+            invoices.push({
+                key: childSnapshot.key,
+                data: childSnapshot.val()
+            });
         });
-    });
 
-    // Sort by invoice number (newest first)
-    invoices.sort(function(a, b) {
-        var aNum = parseInt(a.data.invoice_number_year + String(a.data.invoice_number).padStart(2, '0'));
-        var bNum = parseInt(b.data.invoice_number_year + String(b.data.invoice_number).padStart(2, '0'));
-        return bNum - aNum;
-    });
+        // Sort by year and number (newest first)
+        invoices.sort(function(a, b) {
+            var aNum = parseInt(a.data.invoice_number_year + String(a.data.invoice_number).padStart(2, '0'));
+            var bNum = parseInt(b.data.invoice_number_year + String(b.data.invoice_number).padStart(2, '0'));
+            return bNum - aNum;
+        });
 
-    renderInvoices(invoices);
+        renderInvoices(invoices);
+    });
 });
 
 function renderInvoices(invoices) {
@@ -37,15 +46,26 @@ function renderInvoices(invoices) {
 
     emptyMessage.addClass('hidden');
 
+    var currentYear = null;
+
     invoices.forEach(function(invoice) {
         var data = invoice.data;
         var isArchived = data.archived === true;
         var invNumber = String(data.invoice_number).padStart(2, '0');
         var amount = formatAmount(data.amount);
-        var clientName = data.client_name || 'Neznámý klient';
+        var year = data.invoice_number_year;
 
-        // Header: number year + client name
-        var headerText = invNumber + ' ' + data.invoice_number_year + ' — ' + clientName;
+        // Get client name from stored value or lookup from clients map
+        var clientName = data.client_name || clientsMap[data.client_key] || 'Neznámý klient';
+
+        // Add year divider if year changed
+        if (year !== currentYear) {
+            currentYear = year;
+            container.append('<div class="year-divider">' + year + '</div>');
+        }
+
+        // Header: number + client name
+        var headerText = invNumber + ' — ' + clientName;
 
         // Info line: amount, date
         var infoLine = amount + ' Kč, ' + data.date_issued;
