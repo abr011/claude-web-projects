@@ -1,3 +1,6 @@
+// Check authentication
+checkAuth();
+
 // Check if in edit mode
 var urlParams = new URLSearchParams(window.location.search);
 var isEditMode = urlParams.get('edit') === 'true';

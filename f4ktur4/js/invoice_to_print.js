@@ -1,3 +1,6 @@
+// Check authentication
+checkAuth();
+
 // Format amount with CSS margin for thousands separator
 function formatAmountWithSpans(amount) {
 	var num = String(amount).replace(/\s/g, '');

@@ -1,3 +1,6 @@
+// Check authentication
+checkAuth();
+
 // Load all invoices from Firebase
 var invoicesRef = firebase.database().ref("invoice");
 

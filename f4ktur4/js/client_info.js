@@ -1,3 +1,6 @@
+// Check authentication
+checkAuth();
+
 var list_of_form_fields = {
 
 	"client_legal_id": {

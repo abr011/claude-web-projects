@@ -1,3 +1,6 @@
+// Check authentication before loading page
+checkAuth();
+
 var list_of_form_fields = {
 
 	"invoice_number": {

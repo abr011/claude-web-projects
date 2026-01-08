@@ -1,3 +1,6 @@
+// Check authentication
+checkAuth();
+
 // Load all clients from Firebase
 var clientsRef = firebase.database().ref("about_client");
 

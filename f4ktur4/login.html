@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prihlaseni</title>
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase-auth.js"></script>
+    <style>
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            text-align: center;
+        }
+        .login-title {
+            font-size: 2rem;
+            margin-bottom: 16px;
+            color: #333;
+        }
+        .login-subtitle {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 40px;
+        }
+        .google-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 24px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .google-btn:hover {
+            background: #f5f5f5;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .google-btn img {
+            width: 20px;
+            height: 20px;
+        }
+        .error-msg {
+            color: #c00;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h1 class="login-title">Fakturace</h1>
+    <p class="login-subtitle">Prihlaste se pro pristup</p>
+
+    <button class="google-btn" id="googleSignIn">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+        Prihlasit se pres Google
+    </button>
+
+    <p class="error-msg" id="errorMsg"></p>
+</div>
+
+<script>
+    const config = {
+        apiKey: "AIzaSyDrqihmPtjDnEgm2j0rGhR1-QbiIWCmldo",
+        authDomain: "invoice-71a47.firebaseapp.com",
+        databaseURL: "https://invoice-71a47.firebaseio.com",
+        projectId: "invoice-71a47"
+    };
+    firebase.initializeApp(config);
+
+    var ALLOWED_EMAIL = "ales.brom@gmail.com";
+    var provider = new firebase.auth.GoogleAuthProvider();
+
+    // Check if already logged in
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user && user.email === ALLOWED_EMAIL) {
+            window.location.href = "index.html";
+        }
+    });
+
+    // Show error from URL
+    var urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('error') === 'unauthorized') {
+        document.getElementById('errorMsg').textContent = 'Pristup odepren. Pouze pro ales.brom@gmail.com';
+    }
+
+    // Google Sign-in
+    document.getElementById('googleSignIn').addEventListener('click', function() {
+        this.classList.add('loading');
+        this.textContent = 'Prihlasuji...';
+
+        firebase.auth().signInWithPopup(provider).then(function(result) {
+            var user = result.user;
+            if (user.email === ALLOWED_EMAIL) {
+                window.location.href = "index.html";
+            } else {
+                firebase.auth().signOut();
+                document.getElementById('errorMsg').textContent = 'Pristup odepren. Pouze pro ' + ALLOWED_EMAIL;
+                document.getElementById('googleSignIn').classList.remove('loading');
+                document.getElementById('googleSignIn').innerHTML = '<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"> Prihlasit se pres Google';
+            }
+        }).catch(function(error) {
+            document.getElementById('errorMsg').textContent = 'Chyba: ' + error.message;
+            document.getElementById('googleSignIn').classList.remove('loading');
+            document.getElementById('googleSignIn').innerHTML = '<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"> Prihlasit se pres Google';
+        });
+    });
+</script>
+
+</body>
+</html>

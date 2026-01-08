@@ -87,6 +87,17 @@
     font-weight: 500;
 }
 
+.nav-menu .nav-divider {
+    height: 1px;
+    background: #eee;
+    margin: 4px 0;
+}
+
+.nav-menu a.sign-out {
+    color: #999;
+    font-size: 0.85em;
+}
+
 /* Invoice List
    ========================================================================== */
 

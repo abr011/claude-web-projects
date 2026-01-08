@@ -9,6 +9,7 @@
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/nav.css">
 	<script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase-auth.js"></script>
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script src="js/firebase-config.js"></script>
 	<script src="js/main.js"></script>
@@ -26,6 +27,8 @@
         <a href="invoices.html">Faktury</a>
         <a href="clients.html" class="active">Klienti</a>
         <a href="my_info.html?edit=true">Moje udaje</a>
+        <div class="nav-divider"></div>
+        <a href="#" class="sign-out" onclick="signOut(); return false;">Odhlásit</a>
     </div>
 </nav>
 

@@ -18,6 +18,33 @@ firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
 var firebaseRef = firebase.database().ref();
 
+// Allowed user email (only this account can access)
+var ALLOWED_EMAIL = "ales.brom@gmail.com";
+
+// Auth check function - call on every page
+function checkAuth(callback) {
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user && user.email === ALLOWED_EMAIL) {
+            // User is signed in and authorized
+            if (callback) callback(user);
+        } else if (user) {
+            // User signed in but not authorized
+            firebase.auth().signOut();
+            window.location.href = "login.html?error=unauthorized";
+        } else {
+            // No user signed in
+            window.location.href = "login.html";
+        }
+    });
+}
+
+// Sign out function
+function signOut() {
+    firebase.auth().signOut().then(function() {
+        window.location.href = "login.html";
+    });
+}
+
 // Animation classes (used across all pages)
 var animationInRight = "bounce_In_Right";
 var animationOutLeft = "bounce_Out_Left";
