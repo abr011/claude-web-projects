@@ -42,16 +42,16 @@ function renderInvoices(invoices) {
         var isArchived = data.archived === true;
         var invNumber = String(data.invoice_number).padStart(2, '0');
         var amount = formatAmount(data.amount);
+        var clientName = data.client_name || 'Neznámý klient';
 
-        // Build info line: client, amount, date
-        var infoParts = [];
-        infoParts.push(data.client_name || 'Neznámý klient');
-        infoParts.push(amount + ' Kč');
-        infoParts.push(data.date_issued);
-        var infoLine = infoParts.join(', ');
+        // Header: number year + client name
+        var headerText = invNumber + ' ' + data.invoice_number_year + ' — ' + clientName;
+
+        // Info line: amount, date
+        var infoLine = amount + ' Kč, ' + data.date_issued;
 
         var html = '<div class="invoice-item' + (isArchived ? ' archived' : '') + '" data-key="' + invoice.key + '">' +
-            '<div class="item-header">' + invNumber + ' ' + data.invoice_number_year + '</div>' +
+            '<div class="item-header">' + headerText + '</div>' +
             '<div class="item-row">' +
                 '<div class="item-info">' + infoLine + '</div>' +
                 '<div class="item-actions">';

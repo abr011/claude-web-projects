@@ -44,13 +44,19 @@ function renderClients(clients) {
         var data = client.data;
         var isArchived = data.archived === true;
 
-        // Build info line: IČ + city
+        // Build info line: street, city, IČ, DIČ
         var infoParts = [];
-        if (data.client_legal_id) {
-            infoParts.push('IČ ' + data.client_legal_id);
+        if (data.client_address_street) {
+            infoParts.push(data.client_address_street);
         }
         if (data.client_address_town) {
             infoParts.push(data.client_address_town);
+        }
+        if (data.client_legal_id) {
+            infoParts.push('IČ ' + data.client_legal_id);
+        }
+        if (data.client_tax_id) {
+            infoParts.push('DIČ CZ' + data.client_tax_id);
         }
         var infoLine = infoParts.join(', ');
 
