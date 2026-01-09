@@ -16,18 +16,20 @@ input {
 }
 
 h2 {
-	padding: 32px 0px 0px 50px;
+	padding: 32px 0px 0px 0px;
 	font-size: 1.5rem;
 	margin: 0px 0px 0px 0px;
 }
 
 h4 {
-	margin: 16px 0px 0px 120px;
+	margin: 16px 0px 0px 0px;
 	font-size: 1.2em;
 }
 
 .container {
-	margin-left: 88px;
+	display: flex;
+	padding: 0 48px;
+	max-width: 1200px;
 }
 
 /* Form Elements
@@ -103,13 +105,7 @@ input:focus.field_is_wrong,
    ========================================================================== */
 
 .status {
-	float: left;
-	height: 60px;
-	width: 50px;
-	padding: 0px 40px 0px 0px;
-	text-align: right;
-	line-height: 60px;
-	font-size: 2em;
+	display: none;
 }
 
 /* Helper Classes
@@ -189,7 +185,7 @@ span.hidden {
   position: relative;
   background-color: #FF4500;
   border-radius: 4px;
-  margin: 80px 0px 0px 0px;
+  margin: 24px 0px 0px 0px;
   color: #fff;
   cursor: pointer;
   line-height: 60px;
@@ -243,7 +239,7 @@ span.hidden {
 	font-size: .875em;
 	text-align: center;
 	line-height: 60px;
-	margin-top: 80px;
+	margin-top: 24px;
 }
 
 .link {
@@ -258,7 +254,7 @@ span.hidden {
 	text-decoration: none;
 	line-height: 60px;
 	vertical-align: middle;
-	margin-top: 80px;
+	margin-top: 24px;
 }
 
 .link.disabled {
@@ -410,13 +406,16 @@ input#new_client_address_zip {
    ========================================================================== */
 
 .invoice_info {
-  float: left;
-  width: 66%;
-  max-width: 688px;
+  flex: 2;
+  min-width: 0;
 }
 
 .invoice_info h2 {
-  padding-bottom: 0px;
+  padding: 32px 0px 0px 0px;
+}
+
+.invoice_info .buttons {
+  margin-left: 0;
 }
 
 input#new_thanks {
@@ -429,7 +428,7 @@ input#new_date_issued {
 }
 
 input#new_amount {
-  width: 112px;
+  width: 120px;
 }
 
 input#new_invoice_number_year {
@@ -702,13 +701,11 @@ input[type="date"] {
 }
 
 .my_info {
-  float: left;
-  width: 30%;
+  flex: 1;
   margin-top: 86px;
-  margin-left: 24px;
-  padding: 0px 0px 0px 16px;
+  padding: 0px 0px 0px 32px;
   line-height: 1.5em;
-  font-size:.875em;
+  font-size: .875em;
   position: relative;
 }
 
@@ -730,6 +727,32 @@ input[type="date"] {
   font-weight: 500;
   font-size: .8em;
   text-transform: uppercase;
+  color: #ff9000;
+}
+
+.filename-format {
+  margin-top: 24px;
+}
+
+.filename-format h4 {
+  margin: 0 0 4px 0;
+  font-size: .8em;
+}
+
+#filename-format-display {
+  font-family: monospace;
+  font-size: .85em;
+  color: #555;
+}
+
+.change-format {
+  font-size: .75em;
+  color: #999;
+  margin-left: 8px;
+  text-decoration: none;
+}
+
+.change-format:hover {
   color: #ff9000;
 }
 

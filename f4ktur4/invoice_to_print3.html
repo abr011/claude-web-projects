@@ -9,12 +9,19 @@
     <link rel="stylesheet" href="css/print.css">
     <link rel="stylesheet" type="text/css" href="css/print.css" media="print">
     <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase-auth.js"></script>
     <script src="js/jquery-3.1.1.min.js"></script>
     <script src="js/moment.js"></script>
     <script src="js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
+
+<div class="template-toggle no-print">
+    <button class="toggle-btn" data-template="invoice_to_print.html">Běžná</button>
+    <button class="toggle-btn active" data-template="invoice_to_print3.html">Pro nového klienta</button>
+</div>
+
+<div id="invoice-content">
 
 <div class="qr">
 
@@ -88,8 +95,18 @@
     </div>
 </div>
 
-<div class="template-switch no-print">
-    <a href="invoice_to_print.html">Běžná</a>
+</div><!-- end invoice-content -->
+
+<div class="buttons no-print">
+    <div class="button save-btn">
+        <p>Uložit PDF</p>
+    </div>
+    <div class="small">
+        nebo
+    </div>
+    <a class="link" href="index.html">
+        Zpět na formulář
+    </a>
 </div>
 
 <script src="js/firebase-config.js"></script>

@@ -119,9 +119,9 @@ var ok = "&#127867;";
 var nok = " ";
 
 function date_difference() {
-	// Native HTML5 date inputs use YYYY-MM-DD format
-	var a = moment(list_of_form_fields.date_issued.cleared_input_value, "YYYY-MM-DD");
-	var b = moment(list_of_form_fields.date_to_send.cleared_input_value, "YYYY-MM-DD");
+	// Text inputs use Czech format D. M. YYYY
+	var a = moment(list_of_form_fields.date_issued.cleared_input_value, "D. M. YYYY");
+	var b = moment(list_of_form_fields.date_to_send.cleared_input_value, "D. M. YYYY");
 
 	var difference = b.diff(a, 'days');
 
@@ -283,8 +283,10 @@ invoiceRef.limitToLast(1).on('child_added', function (snapshot) {
         inv_year = inv_year_last;
     }
 
-    if (inv_number_last < 10) {
-        inv_number_last = "0" + inv_number_last;
+    // Parse as integer first to avoid "007" when db already has "07"
+    var inv_number_last_int = parseInt(inv_number_last, 10);
+    if (inv_number_last_int < 10) {
+        inv_number_last = "0" + inv_number_last_int;
     }
 
     if (inv_number < 10) {
@@ -296,7 +298,9 @@ invoiceRef.limitToLast(1).on('child_added', function (snapshot) {
     list_of_form_fields.client_key.cleared_input_value = client;
     list_of_form_fields.client_name.cleared_input_value = snapshot.child("client_name").val();
     list_of_form_fields.me.cleared_input_value = me;
-    list_of_form_fields.amount.cleared_input_value = snapshot.child("amount").val();
+    // No space - CSS letter-spacing will provide visual separation
+    var amountVal = snapshot.child("amount").val();
+    list_of_form_fields.amount.cleared_input_value = amountVal ? amountVal.toString().replace(/\s/g, '') : '';
     list_of_form_fields.for_what.cleared_input_value = snapshot.child("for_what").val();
     list_of_form_fields.thanks.cleared_input_value = snapshot.child("thanks").val();
 
@@ -328,6 +332,17 @@ invoiceRef.limitToLast(1).on('child_added', function (snapshot) {
     var last_invoice_me = firebaseDatabase.ref("about_me");
 
     last_invoice_me.limitToLast(1).on("child_added", function (snapshot) {
+        // Store my info for PDF generation
+        window.myInfo = {
+            name: snapshot.child("my_name").val(),
+            address_street: snapshot.child("my_address_street").val(),
+            address_town: snapshot.child("my_address_town").val(),
+            address_zip: snapshot.child("my_address_zip").val(),
+            legal_id: snapshot.child("my_legal_id").val(),
+            account_prefix: snapshot.child("my_account_number_prefix").val(),
+            account_number: snapshot.child("my_account_number").val(),
+            bank_code: snapshot.child("my_bank_code").val()
+        };
 
         $('#about_me').html(
             '<div data-about_me_id="' + key + '">' +
@@ -348,9 +363,9 @@ invoiceRef.limitToLast(1).on('child_added', function (snapshot) {
 // Date handling - using native HTML5 date inputs
 moment.locale('cs');
 
-// Set default dates using ISO format (YYYY-MM-DD) for native date inputs
-document.getElementById("new_date_issued").value = moment().format('YYYY-MM-DD');
-document.getElementById("new_date_to_send").value = moment().add(14, 'days').format('YYYY-MM-DD');
+// Set default dates using Czech format (D. M. YYYY) for text inputs
+document.getElementById("new_date_issued").value = moment().format('D. M. YYYY');
+document.getElementById("new_date_to_send").value = moment().add(14, 'days').format('D. M. YYYY');
 
 // Update form field values AFTER setting the inputs
 list_of_form_fields.date_issued.cleared_input_value = $('#new_date_issued').val();
@@ -377,8 +392,8 @@ $('#date_issued_today').on("click", function () {
 	if (document.getElementById('date_issued_today').checked) {
 		$('#date_issued_last_month').prop('checked', false);
 
-		document.getElementById("new_date_issued").value = moment().format('YYYY-MM-DD');
-		document.getElementById("new_date_to_send").value = moment().add(14, 'days').format('YYYY-MM-DD');
+		document.getElementById("new_date_issued").value = moment().format('D. M. YYYY');
+		document.getElementById("new_date_to_send").value = moment().add(14, 'days').format('D. M. YYYY');
 
 		list_of_form_fields.date_issued.cleared_input_value = $('#new_date_issued').val();
 		list_of_form_fields.date_to_send.cleared_input_value = $('#new_date_to_send').val();
@@ -394,11 +409,11 @@ $('#date_issued_last_month').on("click", function () {
 	if (document.getElementById('date_issued_last_month').checked) {
 		$('#date_issued_today').prop('checked', false);
 
-		var date_issued = moment().subtract(1, 'months').endOf('month').format('YYYY-MM-DD');
+		var date_issued = moment().subtract(1, 'months').endOf('month').format('D. M. YYYY');
 		document.getElementById("new_date_issued").value = date_issued;
 		list_of_form_fields.date_issued.cleared_input_value = $('#new_date_issued').val();
 
-		var date_to_send = moment().subtract(1, 'months').endOf('month').add(14, 'days').format('YYYY-MM-DD');
+		var date_to_send = moment().subtract(1, 'months').endOf('month').add(14, 'days').format('D. M. YYYY');
 		document.getElementById("new_date_to_send").value = date_to_send;
 		list_of_form_fields.date_to_send.cleared_input_value = $('#new_date_to_send').val();
 
@@ -478,38 +493,181 @@ $('input').keyup(function () {
 	get_proper_value(key);
 });
 
-$('#confirm_invoice .button').on("click", function () {
-	if ($(this).hasClass("disabled")) {
+// Format amount with spans for thousands (10000+)
+function formatAmountWithSpans(amount) {
+	var num = parseInt(String(amount).replace(/\s/g, ''), 10);
+	if (num < 10000) return String(num);
+	var str = String(num);
+	var parts = [];
+	while (str.length > 3) {
+		parts.unshift(str.slice(-3));
+		str = str.slice(0, -3);
+	}
+	if (str.length > 0) parts.unshift(str);
+	return parts.map(function(part, index) {
+		if (index < parts.length - 1) {
+			return "<span class='amount-thousands'>" + part + "</span>";
+		}
+		return part;
+	}).join('');
+}
 
-	} else {
-		$('#confirm_invoice .button').addClass("disabled")
+// Generate filename based on format template
+function generatePdfFilename(data) {
+	var myInfo = window.myInfo || {};
+	var myName = myInfo.name || 'ales-brom';
+	var invNum = String(data.invoice_number).padStart(2, '0');
+	var year = String(data.invoice_number_year).slice(-2);
+	var clientName = data.client_name || 'klient';
 
-		var invoice_Ref = firebaseDatabase.ref('invoice');
-		var new_invoice_Ref = invoice_Ref.push();
-		new_invoice_Ref.set({
-			'amount': list_of_form_fields.amount.cleared_input_value,
-
-			'client_key': list_of_form_fields.client_key.cleared_input_value,
-			'client_name': list_of_form_fields.client_name.cleared_input_value,
-
-			'date_issued': list_of_form_fields.date_issued.cleared_input_value,
-			'date_to_send': list_of_form_fields.date_to_send.cleared_input_value,
-
-			'for_what': list_of_form_fields.for_what.cleared_input_value,
-			'invoice_number': list_of_form_fields.invoice_number.cleared_input_value,
-			'invoice_number_year': list_of_form_fields.invoice_number_year.cleared_input_value,
-
-			'my_key': list_of_form_fields.me.cleared_input_value,
-			'thanks': list_of_form_fields.thanks.cleared_input_value,
-		})
-
-		window.location.href = "invoice_to_print.html";
-
+	function normalize(str) {
+		return str.toLowerCase()
+			.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+			.replace(/[^a-z0-9]+/g, '-')
+			.replace(/^-+|-+$/g, '');
 	}
 
+	var format = data.filename_format || 'fa-{jmeno}-{cislo}-{rok}-{klient}';
+	return format
+		.replace('{jmeno}', normalize(myName))
+		.replace('{cislo}', invNum)
+		.replace('{rok}', year)
+		.replace('{klient}', normalize(clientName));
+}
+
+// Save invoice to Firebase with automatic retry
+function saveInvoiceToFirebase(data) {
+	if (!data) return;
+
+	firebase.database().ref('invoice').push().set({
+		'amount': data.amount,
+		'client_key': data.client_key,
+		'client_name': data.client_name,
+		'date_issued': data.date_issued,
+		'date_to_send': data.date_to_send,
+		'for_what': data.for_what,
+		'invoice_number': data.invoice_number,
+		'invoice_number_year': data.invoice_number_year,
+		'thanks': data.thanks
+	}).then(function() {
+		localStorage.removeItem('invoicePending');
+		console.log('Invoice saved to Firebase');
+	}).catch(function(error) {
+		console.log('Save failed, retrying in 5s...', error);
+		setTimeout(function() {
+			saveInvoiceToFirebase(data);
+		}, 5000);
+	});
+}
+
+$('#confirm_invoice .button').on("click", function () {
+	if ($(this).hasClass("disabled")) {
+		return;
+	}
+
+	$('#confirm_invoice .button').addClass("disabled");
+
+	// Get current form values
+	get_proper_value('invoice_number');
+	get_proper_value('invoice_number_year');
+	get_proper_value('amount');
+	get_proper_value('for_what');
+	get_proper_value('thanks');
+
+	var invoiceData = {
+		invoice_number: list_of_form_fields.invoice_number.cleared_input_value,
+		invoice_number_year: list_of_form_fields.invoice_number_year.cleared_input_value,
+		amount: list_of_form_fields.amount.cleared_input_value,
+		date_issued: list_of_form_fields.date_issued.cleared_input_value,
+		date_to_send: list_of_form_fields.date_to_send.cleared_input_value,
+		for_what: list_of_form_fields.for_what.cleared_input_value,
+		thanks: list_of_form_fields.thanks.cleared_input_value,
+		client_key: list_of_form_fields.client_key.cleared_input_value,
+		client_name: $('.client_info_selected').text(),
+		filename_format: $('#filename-format-display').text() || 'fa-{jmeno}-{cislo}-{rok}-{klient}'
+	};
+
+	// Store for retry if needed
+	localStorage.setItem('invoicePending', JSON.stringify(invoiceData));
+
+	// Populate hidden print template
+	var $tpl = $('#print-template');
+	var invNum = String(invoiceData.invoice_number).padStart(2, '0');
+	var myInfo = window.myInfo || {};
+
+	// My info
+	var myFullName = myInfo.name + ', ' + myInfo.address_street + ', ' + myInfo.address_town + ', ' + myInfo.address_zip;
+	var myAccount = (myInfo.account_prefix ? myInfo.account_prefix + ' – ' : '') + myInfo.account_number + ' / ' + myInfo.bank_code;
+
+	$tpl.find('#print_invoice_number').html("Faktura č. <span class='inv-nn'>" + invNum + "</span><span class='inv-yyyy'>" + invoiceData.invoice_number_year + "</span>");
+	$tpl.find('#me .name').html(myFullName);
+	$tpl.find('#me .legal_id').html('IČ ' + myInfo.legal_id);
+	$tpl.find('#account_number .my_account_number').html(myAccount);
+
+	// Invoice data
+	$tpl.find('#print_for_what .for_what').html(invoiceData.for_what);
+	$tpl.find('#date .date_to_send').html(invoiceData.date_to_send);
+	$tpl.find('#date .date_issued').html(invoiceData.date_issued);
+	$tpl.find('#print_amount .total_amount').html(formatAmountWithSpans(invoiceData.amount) + ' Kč');
+
+	// Client info
+	var clientInfo = $('.client .additional_info').text();
+	var clientAddress = clientInfo.split(', IČ')[0] || '';
+	var clientLegalId = clientInfo.split('IČ ')[1] || '';
+	$tpl.find('#client .name').html(invoiceData.client_name + ', ' + clientAddress);
+	$tpl.find('#client .legal_id').html('IČ ' + clientLegalId);
+
+	// Thanks
+	$tpl.find('#print_thanks .thanks').html(invoiceData.thanks);
+
+	// Generate QR code URL
+	var pureAmount = String(invoiceData.amount).replace(/\s/g, '');
+	var vs = invNum + invoiceData.invoice_number_year;
+	if (myInfo.account_number && myInfo.bank_code) {
+		var qrUrl = '<img src="https://api.paylibo.com/paylibo/generator/czech/image?accountNumber=' + myInfo.account_number + '&bankCode=' + myInfo.bank_code + '&amount=' + pureAmount + '&currency=CZK&vs=' + vs + '">';
+		$tpl.find('.qr').html(qrUrl);
+	}
+
+	// Generate PDF
+	var filename = generatePdfFilename(invoiceData) + '.pdf';
+	var element = document.getElementById('invoice-content');
+
+	// Temporarily show the template for rendering
+	$tpl.css('left', '0');
+
+	var opt = {
+		margin: [10, 10, 10, 10],
+		filename: filename,
+		image: { type: 'jpeg', quality: 0.98 },
+		html2canvas: { scale: 2, useCORS: true },
+		jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+	};
+
+	html2pdf().set(opt).from(element).save().then(function() {
+		// Hide template again
+		$tpl.css('left', '-9999px');
+
+		// Save to Firebase
+		saveInvoiceToFirebase(invoiceData);
+
+		// Reset form for next invoice
+		var nextInvoiceNum = parseInt(invoiceData.invoice_number) + 1;
+		$('#new_invoice_number').val(String(nextInvoiceNum).padStart(2, '0'));
+
+		// Reset dates to today + 14 days
+		var today = moment();
+		$('#new_date_issued').val(today.format('D. M. YYYY'));
+		$('#new_date_to_send').val(today.add(14, 'days').format('D. M. YYYY'));
+
+		// Update last invoice number hint
+		$('#invoice_number .additional_info').text(invNum + ' ' + invoiceData.invoice_number_year + ' je číslo poslední faktury');
+
+		// Re-enable button
+		$('#confirm_invoice .button').removeClass("disabled");
+	});
 });
 
-// Preview links - save form data to sessionStorage before opening
+// Preview links - save form data to localStorage before opening
 $('.link[href*="invoice_to_print"]').on("click", function (e) {
 	e.preventDefault();
 	var targetUrl = $(this).attr('href');
@@ -521,9 +679,9 @@ $('.link[href*="invoice_to_print"]').on("click", function (e) {
 	get_proper_value('for_what');
 	get_proper_value('thanks');
 
-	// Format dates for display (DD. M. YYYY)
-	var dateIssued = moment(list_of_form_fields.date_issued.cleared_input_value, 'YYYY-MM-DD').format('D. M. YYYY');
-	var dateToSend = moment(list_of_form_fields.date_to_send.cleared_input_value, 'YYYY-MM-DD').format('D. M. YYYY');
+	// Dates are already in Czech format D. M. YYYY
+	var dateIssued = list_of_form_fields.date_issued.cleared_input_value;
+	var dateToSend = list_of_form_fields.date_to_send.cleared_input_value;
 
 	var previewData = {
 		invoice_number: list_of_form_fields.invoice_number.cleared_input_value,
@@ -535,12 +693,35 @@ $('.link[href*="invoice_to_print"]').on("click", function (e) {
 		thanks: list_of_form_fields.thanks.cleared_input_value,
 		client_key: list_of_form_fields.client_key.cleared_input_value,
 		client_name: $('.client_info_selected').text(),
-		client_address: $('.client .additional_info').text()
+		client_address: $('.client .additional_info').text(),
+		filename_format: $('#filename-format-display').text() || 'fa-{jmeno}-{cislo}-{rok}-{klient}'
 	};
 
-	sessionStorage.setItem('invoicePreview', JSON.stringify(previewData));
+	localStorage.setItem('invoicePreview', JSON.stringify(previewData));
 	window.location.href = targetUrl;
 });
 
+// Filename format handling
+var DEFAULT_FILENAME_FORMAT = 'fa-{jmeno}-{cislo}-{rok}-{klient}';
 
+// Load filename format from Firebase
+var settingsRef = firebase.database().ref('settings/filename_format');
+settingsRef.once('value').then(function(snapshot) {
+	var format = snapshot.val();
+	if (format) {
+		$('#filename-format-display').text(format);
+	}
+});
 
+// Change filename format via prompt
+$('.change-format').on('click', function(e) {
+	e.preventDefault();
+	var currentFormat = $('#filename-format-display').text();
+	var newFormat = prompt('Formát názvu PDF\n\nProměnné: {jmeno}, {cislo}, {rok}, {klient}', currentFormat);
+	if (newFormat && newFormat !== currentFormat) {
+		$('#filename-format-display').text(newFormat);
+		firebase.database().ref('settings').update({
+			filename_format: newFormat
+		});
+	}
+});
