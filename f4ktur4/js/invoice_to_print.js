@@ -1,19 +1,49 @@
 // Check authentication
 checkAuth();
 
-// Save button handler
-$('#saveBtn').on('click', function() {
+// Store invoice number for PDF filename
+var pdfFilename = 'faktura';
+
+// Save & Print button handler
+$('#savePrintBtn').on('click', function() {
     var previewData = sessionStorage.getItem('invoicePreview');
+    var btn = $(this);
+
+    btn.prop('disabled', true).addClass('saving').text('Ukládám...');
+
+    // Function to generate PDF
+    function generatePDF() {
+        btn.text('Generuji PDF...');
+
+        // Hide action bar for PDF
+        $('.action-bar').hide();
+
+        var element = document.body;
+        var opt = {
+            margin: 10,
+            filename: pdfFilename + '.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        html2pdf().set(opt).from(element).save().then(function() {
+            // Show action bar again
+            $('.action-bar').show();
+            btn.text('Hotovo').removeClass('saving').addClass('done');
+        });
+    }
+
     if (!previewData) {
-        alert('Faktura již byla uložena');
+        // Already saved, just generate PDF
+        generatePDF();
         return;
     }
 
     var data = JSON.parse(previewData);
-    var btn = $(this);
-    btn.prop('disabled', true).text('Ukládám...');
+    pdfFilename = 'faktura-' + String(data.invoice_number).padStart(2, '0') + '-' + data.invoice_number_year;
 
-    // Get my_key from about_me
+    // Get my_key from about_me and save invoice
     firebase.database().ref("about_me").limitToLast(1).once('child_added').then(function(snapshot) {
         var myKey = snapshot.key;
 
@@ -34,10 +64,11 @@ $('#saveBtn').on('click', function() {
     }).then(function() {
         // Clear preview data
         sessionStorage.removeItem('invoicePreview');
-        btn.text('Uloženo').addClass('saved');
+        // Generate PDF
+        generatePDF();
     }).catch(function(error) {
         alert('Chyba při ukládání: ' + error.message);
-        btn.prop('disabled', false).text('Uložit');
+        btn.prop('disabled', false).removeClass('saving').text('Uložit a vytisknout');
     });
 });
 

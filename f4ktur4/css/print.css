@@ -150,32 +150,23 @@ h1 {
 	background: #f0f0f0;
 }
 
-.action-bar .btn-save {
+.action-bar .btn-save-print {
 	background: #ff9000;
 	color: white;
 }
 
-.action-bar .btn-save:hover {
+.action-bar .btn-save-print:hover {
 	background: #e68200;
 }
 
-.action-bar .btn-save.saved {
-	background: #4caf50;
-	cursor: default;
-}
-
-.action-bar .btn-save:disabled {
+.action-bar .btn-save-print.saving {
 	opacity: 0.7;
 	cursor: wait;
 }
 
-.action-bar .btn-print {
-	background: #1a1a1a;
-	color: white;
-}
-
-.action-bar .btn-print:hover {
-	background: #333;
+.action-bar .btn-save-print.done {
+	background: #4caf50;
+	cursor: default;
 }
 
 .action-bar .template-link {
