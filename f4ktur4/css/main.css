@@ -424,7 +424,21 @@ input#new_client_address_zip {
 }
 
 .invoice_info .buttons {
-  margin-left: 90px;
+  margin-left: 0;
+  clear: both;
+  padding: 40px 0 40px 0;
+}
+
+.invoice_info .buttons .button {
+  margin-top: 0;
+}
+
+.invoice_info .buttons .small {
+  margin-top: 0;
+}
+
+.invoice_info .buttons .link {
+  margin-top: 0;
 }
 
 input#new_thanks {
