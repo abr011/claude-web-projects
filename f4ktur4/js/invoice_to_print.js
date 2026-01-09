@@ -1,6 +1,46 @@
 // Check authentication
 checkAuth();
 
+// Save button handler
+$('#saveBtn').on('click', function() {
+    var previewData = sessionStorage.getItem('invoicePreview');
+    if (!previewData) {
+        alert('Faktura již byla uložena');
+        return;
+    }
+
+    var data = JSON.parse(previewData);
+    var btn = $(this);
+    btn.prop('disabled', true).text('Ukládám...');
+
+    // Get my_key from about_me
+    firebase.database().ref("about_me").limitToLast(1).once('child_added').then(function(snapshot) {
+        var myKey = snapshot.key;
+
+        // Save invoice
+        var invoiceRef = firebase.database().ref('invoice').push();
+        return invoiceRef.set({
+            'amount': data.amount,
+            'client_key': data.client_key,
+            'client_name': data.client_name,
+            'date_issued': data.date_issued,
+            'date_to_send': data.date_to_send,
+            'for_what': data.for_what,
+            'invoice_number': data.invoice_number,
+            'invoice_number_year': data.invoice_number_year,
+            'my_key': myKey,
+            'thanks': data.thanks
+        });
+    }).then(function() {
+        // Clear preview data
+        sessionStorage.removeItem('invoicePreview');
+        btn.text('Uloženo').addClass('saved');
+    }).catch(function(error) {
+        alert('Chyba při ukládání: ' + error.message);
+        btn.prop('disabled', false).text('Uložit');
+    });
+});
+
 // Format amount with CSS margin for thousands separator
 function formatAmountWithSpans(amount) {
 	var num = String(amount).replace(/\s/g, '');

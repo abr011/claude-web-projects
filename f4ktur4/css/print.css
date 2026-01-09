@@ -108,6 +108,81 @@ h1 span {
 	font-size: 14px;
 }
 
+/* Tabular numbers for consistent digit width */
+.total_amount,
+.key,
+h1 {
+	font-variant-numeric: tabular-nums;
+	font-feature-settings: "tnum";
+}
+
+/* Action bar */
+.action-bar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	background: #fafafa;
+	padding: 12px 20px;
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	border-bottom: 1px solid #eee;
+	z-index: 100;
+}
+
+.action-bar a,
+.action-bar button {
+	padding: 8px 16px;
+	border-radius: 4px;
+	font-size: 14px;
+	text-decoration: none;
+	cursor: pointer;
+	border: none;
+	background: none;
+}
+
+.action-bar .btn-back {
+	color: #666;
+}
+
+.action-bar .btn-back:hover {
+	background: #f0f0f0;
+}
+
+.action-bar .btn-save {
+	background: #ff9000;
+	color: white;
+}
+
+.action-bar .btn-save:hover {
+	background: #e68200;
+}
+
+.action-bar .btn-save.saved {
+	background: #4caf50;
+	cursor: default;
+}
+
+.action-bar .btn-save:disabled {
+	opacity: 0.7;
+	cursor: wait;
+}
+
+.action-bar .btn-print {
+	background: #1a1a1a;
+	color: white;
+}
+
+.action-bar .btn-print:hover {
+	background: #333;
+}
+
+.action-bar .template-link {
+	margin-left: auto;
+	color: #999;
+}
+
 .template-switch {
 	position: absolute;
 	top: 20px;
@@ -122,6 +197,16 @@ h1 span {
 @media print {
 	.no-print {
 		display: none;
+	}
+
+	body, html {
+		padding-top: 0;
+	}
+}
+
+@media screen {
+	body {
+		padding-top: 60px;
 	}
 }
 
