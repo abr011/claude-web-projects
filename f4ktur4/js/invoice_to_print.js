@@ -1,20 +1,27 @@
 // Check authentication
 checkAuth();
 
-// Format amount with CSS margin for thousands separator
+// Format amount - space only for 10000+
 function formatAmountWithSpans(amount) {
-	var num = String(amount).replace(/\s/g, '');
+	var num = parseInt(String(amount).replace(/\s/g, ''), 10);
+
+	// Pro čísla menší než 10000 - bez mezery
+	if (num < 10000) {
+		return String(num);
+	}
+
+	// Pro čísla 10000+ - rozdělit po tisících
+	var str = String(num);
 	var parts = [];
-	while (num.length > 3) {
-		parts.unshift(num.slice(-3));
-		num = num.slice(0, -3);
+	while (str.length > 3) {
+		parts.unshift(str.slice(-3));
+		str = str.slice(0, -3);
 	}
-	if (num.length > 0) {
-		parts.unshift(num);
+	if (str.length > 0) {
+		parts.unshift(str);
 	}
-	if (parts.length === 1) {
-		return parts[0];
-	}
+
+	// Spojit s mezerou (CSS margin)
 	return parts.map(function(part, index) {
 		if (index < parts.length - 1) {
 			return "<span class='amount-thousands'>" + part + "</span>";
@@ -23,8 +30,8 @@ function formatAmountWithSpans(amount) {
 	}).join('');
 }
 
-// Check for preview data in sessionStorage first
-var previewData = sessionStorage.getItem('invoicePreview');
+// Check for preview data in localStorage first (invoicePending from save button, invoicePreview from preview link)
+var previewData = localStorage.getItem('invoicePending') || localStorage.getItem('invoicePreview');
 
 if (previewData) {
 	// Use data from form (preview mode)
@@ -176,4 +183,106 @@ if (previewData) {
 			});
 		});
 	});
+}
+
+// Generate filename based on format template
+function generateFilename() {
+	var previewData = localStorage.getItem('invoicePending') || localStorage.getItem('invoicePreview');
+	var data = previewData ? JSON.parse(previewData) : {};
+
+	var myName = $('#me .name').text().split(',')[0] || 'ales-brom';
+	var invNum = String(data.invoice_number || '01').padStart(2, '0');
+	var year = String(data.invoice_number_year || new Date().getFullYear()).slice(-2);
+	var clientName = data.client_name || $('#client .name').text().split(',')[0] || 'klient';
+
+	// Normalize: remove diacritics, lowercase, replace spaces with dashes
+	function normalize(str) {
+		return str.toLowerCase()
+			.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+			.replace(/[^a-z0-9]+/g, '-')
+			.replace(/^-+|-+$/g, '');
+	}
+
+	// Get format template or use default
+	var format = data.filename_format || 'fa-{jmeno}-{cislo}-{rok}-{klient}';
+
+	// Replace placeholders with actual values
+	return format
+		.replace('{jmeno}', normalize(myName))
+		.replace('{cislo}', invNum)
+		.replace('{rok}', year)
+		.replace('{klient}', normalize(clientName));
+}
+
+// Template toggle - switch between templates while preserving sessionStorage
+$('.toggle-btn').on('click', function() {
+	var template = $(this).data('template');
+	var currentPage = window.location.pathname.split('/').pop();
+
+	if (template !== currentPage) {
+		window.location.href = template;
+	}
+});
+
+// Save PDF button
+$('.save-btn').on('click', function() {
+	var filename = generateFilename() + '.pdf';
+
+	// Hide non-print elements during PDF generation
+	$('.template-toggle, .buttons').hide();
+
+	var element = document.getElementById('invoice-content');
+	var opt = {
+		margin: [10, 10, 10, 10],
+		filename: filename,
+		image: { type: 'jpeg', quality: 0.98 },
+		html2canvas: { scale: 2, useCORS: true },
+		jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+	};
+
+	html2pdf().set(opt).from(element).save().then(function() {
+		$('.template-toggle, .buttons').show();
+
+		// Save to Firebase (with retry on failure)
+		var pendingData = localStorage.getItem('invoicePending');
+		if (pendingData) {
+			saveInvoiceToFirebase(JSON.parse(pendingData));
+		} else {
+			// Preview mode - clear preview data
+			localStorage.removeItem('invoicePreview');
+		}
+	});
+});
+
+// Save invoice to Firebase with automatic retry
+function saveInvoiceToFirebase(data) {
+	if (!data) return;
+
+	firebase.database().ref('invoice').push().set({
+		'amount': data.amount,
+		'client_key': data.client_key,
+		'client_name': data.client_name,
+		'date_issued': data.date_issued,
+		'date_to_send': data.date_to_send,
+		'for_what': data.for_what,
+		'invoice_number': data.invoice_number,
+		'invoice_number_year': data.invoice_number_year,
+		'thanks': data.thanks
+	}).then(function() {
+		// Success - clear localStorage
+		localStorage.removeItem('invoicePending');
+		console.log('Invoice saved to Firebase');
+	}).catch(function(error) {
+		// Failed - retry in 5 seconds
+		console.log('Save failed, retrying in 5s...', error);
+		setTimeout(function() {
+			saveInvoiceToFirebase(data);
+		}, 5000);
+	});
+}
+
+// Auto-save PDF if ?save=true parameter is present
+if (window.location.search.indexOf('save=true') !== -1) {
+	// Trigger immediately - data is in localStorage
+	$('.save-btn').trigger('click');
 }

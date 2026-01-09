@@ -733,6 +733,32 @@ input[type="date"] {
   color: #ff9000;
 }
 
+.filename-format {
+  margin-top: 24px;
+}
+
+.filename-format h4 {
+  margin: 0 0 4px 0;
+  font-size: .8em;
+}
+
+#filename-format-display {
+  font-family: monospace;
+  font-size: .85em;
+  color: #555;
+}
+
+.change-format {
+  font-size: .75em;
+  color: #999;
+  margin-left: 8px;
+  text-decoration: none;
+}
+
+.change-format:hover {
+  color: #ff9000;
+}
+
 /* Animations
    ========================================================================== */
 

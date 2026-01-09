@@ -9,8 +9,9 @@
     <link rel="stylesheet" href="https://unpkg.com/normalize.css@8.0.0/normalize.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/print.css">
     <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase-auth.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="js/jquery-3.1.1.min.js"></script>
     <script src="js/moment.js"></script>
     <script src="js/firebase-config.js"></script>
@@ -51,7 +52,7 @@
             </div>
             <div class="input squeezed">
                 <label for="new_date_issued">Datum vystavení</label>
-                <input id="new_date_issued" type="date"> <span></span>
+                <input id="new_date_issued" type="text" placeholder="D. M. YYYY"> <span></span>
 
                 <p class="additional_info">
                     <label for="date_issued_today" class="today">
@@ -67,7 +68,7 @@
         <div id="date_to_send">
             <div class="input">
                 <label for="new_date_to_send">Datum splatnosti</label>
-                <input id="new_date_to_send" type="date"><span></span>
+                <input id="new_date_to_send" type="text" placeholder="D. M. YYYY"><span></span>
                 <p class="additional_info">za 14 dní
                 </p>
             </div>
@@ -150,8 +151,50 @@
         <a class="link_button" href="my_info.html?edit=true">
             Změnit údaje
         </a>
+        <div class="filename-format">
+            <h4>Formát názvu PDF</h4>
+            <span id="filename-format-display">fa-{jmeno}-{cislo}-{rok}-{klient}</span>
+            <a href="#" class="change-format">Změnit</a>
+        </div>
     </div>
 
+</div>
+
+<!-- Hidden invoice template for PDF generation -->
+<div id="print-template" style="position: absolute; left: -9999px; top: 0; width: 800px; background: white; padding: 20px;">
+    <div id="invoice-content">
+        <div class="qr"></div>
+        <h1 id="print_invoice_number">Faktura č.</h1>
+        <div id="me">
+            <p class="sort_of_label">Fakturu vystavil</p>
+            <div class="name"></div>
+            <div class="legal_id top strong"></div>
+            <div id="account_number">č. ú. <span class="my_account_number top"></span></div>
+        </div>
+        <div id="print_for_what">
+            <p class="sort_of_label">za práci, příp. na projektu</p>
+            <div class="for_what"></div>
+        </div>
+        <div id="date">
+            <p class="sort_of_label">s datem splatnosti</p>
+            <div class="date_to_send key"></div>
+            <p class="explanation">a datem vystavení <span class="date_issued strong"></span></p>
+        </div>
+        <div id="print_amount">
+            <p class="sort_of_label">Za proplacení částky</p>
+            <div class="total_amount key"></div>
+            <p class="explanation">nejsem plátce DPH</p>
+        </div>
+        <div id="client">
+            <p class="sort_of_label">Vám, jako odběrateli</p>
+            <div class="name"></div>
+            <div class="legal_id"></div>
+        </div>
+        <div id="print_thanks">
+            <p class="sort_of_label"></p>
+            <div class="sort_of_key thanks"></div>
+        </div>
+    </div>
 </div>
 
 <script src="js/nav.js"></script>
