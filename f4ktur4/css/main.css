@@ -419,6 +419,14 @@ input#new_client_address_zip {
   padding-bottom: 0px;
 }
 
+#invoice_number .additional_info {
+  margin-left: 90px;
+}
+
+.invoice_info .buttons {
+  margin-left: 90px;
+}
+
 input#new_thanks {
   width: 220px;
 }
