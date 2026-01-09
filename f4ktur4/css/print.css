@@ -108,13 +108,16 @@ h1 span {
 	font-size: 14px;
 }
 
-/* Consistent number styling - use system monospace for digits */
+/* Consistent number styling - use system-ui for uniform digit weights */
 .total_amount,
 .key,
 h1 {
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 	font-variant-numeric: tabular-nums;
 	font-feature-settings: "tnum";
 	font-weight: 500;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 /* Print buttons at bottom */
