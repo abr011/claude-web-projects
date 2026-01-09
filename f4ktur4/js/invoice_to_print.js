@@ -1,36 +1,58 @@
 // Check authentication
 checkAuth();
 
-// Store invoice number for PDF filename
-var pdfFilename = 'faktura';
+// Store PDF filename parts
+var pdfFilenameParts = {
+    myName: '',
+    invoiceNumber: '',
+    year: '',
+    clientName: ''
+};
+
+// Build filename: fa-ales-brom-1-25-martin.pdf
+function buildPdfFilename() {
+    var parts = [];
+    parts.push('fa');
+    if (pdfFilenameParts.myName) {
+        parts.push(pdfFilenameParts.myName.toLowerCase().replace(/\s+/g, '-').normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
+    }
+    parts.push(pdfFilenameParts.invoiceNumber);
+    parts.push(pdfFilenameParts.year.slice(-2)); // Last 2 digits of year
+    if (pdfFilenameParts.clientName) {
+        parts.push(pdfFilenameParts.clientName.toLowerCase().replace(/\s+/g, '-').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9-]/g, ''));
+    }
+    return parts.join('-') + '.pdf';
+}
 
 // Save & Print button handler
 $('#savePrintBtn').on('click', function() {
     var previewData = sessionStorage.getItem('invoicePreview');
     var btn = $(this);
 
-    btn.prop('disabled', true).addClass('saving').text('Ukládám...');
+    btn.prop('disabled', true).addClass('saving');
+    btn.find('p').html('Ukládám...');
 
     // Function to generate PDF
     function generatePDF() {
-        btn.text('Generuji PDF...');
+        btn.find('p').html('Generuji PDF...');
 
-        // Hide action bar for PDF
-        $('.action-bar').hide();
+        // Hide buttons for PDF
+        $('.print-buttons').hide();
 
         var element = document.body;
         var opt = {
-            margin: 10,
-            filename: pdfFilename + '.pdf',
+            margin: [10, 10, 10, 10],
+            filename: buildPdfFilename(),
             image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2 },
+            html2canvas: { scale: 2, useCORS: true },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
         html2pdf().set(opt).from(element).save().then(function() {
-            // Show action bar again
-            $('.action-bar').show();
-            btn.text('Hotovo').removeClass('saving').addClass('done');
+            // Show buttons again
+            $('.print-buttons').show();
+            btn.find('p').html('Hotovo');
+            btn.removeClass('saving').addClass('done');
         });
     }
 
@@ -41,11 +63,14 @@ $('#savePrintBtn').on('click', function() {
     }
 
     var data = JSON.parse(previewData);
-    pdfFilename = 'faktura-' + String(data.invoice_number).padStart(2, '0') + '-' + data.invoice_number_year;
+    pdfFilenameParts.invoiceNumber = String(data.invoice_number);
+    pdfFilenameParts.year = String(data.invoice_number_year);
+    pdfFilenameParts.clientName = data.client_name || '';
 
-    // Get my_key from about_me and save invoice
+    // Get my_key and my_name from about_me and save invoice
     firebase.database().ref("about_me").limitToLast(1).once('child_added').then(function(snapshot) {
         var myKey = snapshot.key;
+        pdfFilenameParts.myName = snapshot.val().my_name || '';
 
         // Save invoice
         var invoiceRef = firebase.database().ref('invoice').push();
@@ -68,7 +93,8 @@ $('#savePrintBtn').on('click', function() {
         generatePDF();
     }).catch(function(error) {
         alert('Chyba při ukládání: ' + error.message);
-        btn.prop('disabled', false).removeClass('saving').text('Uložit a vytisknout');
+        btn.prop('disabled', false).removeClass('saving');
+        btn.find('p').html('Uložit a vytisknout<br><span>a poslat klientovi</span>');
     });
 });
 

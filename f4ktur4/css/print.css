@@ -108,96 +108,77 @@ h1 span {
 	font-size: 14px;
 }
 
-/* Tabular numbers for consistent digit width */
+/* Consistent number styling - use system monospace for digits */
 .total_amount,
 .key,
 h1 {
 	font-variant-numeric: tabular-nums;
 	font-feature-settings: "tnum";
+	font-weight: 500;
 }
 
-/* Action bar */
-.action-bar {
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	background: #fafafa;
-	padding: 12px 20px;
-	display: flex;
-	gap: 12px;
-	align-items: center;
-	border-bottom: 1px solid #eee;
-	z-index: 100;
+/* Print buttons at bottom */
+.print-buttons {
+	margin: 60px 0 40px 0;
+	padding: 40px 0 0 0;
+	border-top: 1px solid #eee;
 }
 
-.action-bar a,
-.action-bar button {
-	padding: 8px 16px;
-	border-radius: 4px;
-	font-size: 14px;
-	text-decoration: none;
-	cursor: pointer;
-	border: none;
-	background: none;
-}
-
-.action-bar .btn-back {
-	color: #666;
-}
-
-.action-bar .btn-back:hover {
-	background: #f0f0f0;
-}
-
-.action-bar .btn-save-print {
-	background: #ff9000;
+.print-buttons .button {
+	display: inline-block;
+	background: #FF4500;
 	color: white;
+	border: none;
+	border-radius: 4px;
+	padding: 16px 24px;
+	font-size: 16px;
+	cursor: pointer;
+	text-align: left;
 }
 
-.action-bar .btn-save-print:hover {
-	background: #e68200;
+.print-buttons .button:hover {
+	background: #e63e00;
 }
 
-.action-bar .btn-save-print.saving {
+.print-buttons .button.saving {
 	opacity: 0.7;
 	cursor: wait;
 }
 
-.action-bar .btn-save-print.done {
+.print-buttons .button.done {
 	background: #4caf50;
-	cursor: default;
 }
 
-.action-bar .template-link {
-	margin-left: auto;
-	color: #999;
+.print-buttons .button p {
+	margin: 0;
+	line-height: 1.4;
 }
 
-.template-switch {
-	position: absolute;
-	top: 20px;
-	right: 20px;
+.print-buttons .button span {
+	font-size: 12px;
+	opacity: 0.8;
 }
 
-.template-switch a {
+.print-buttons .small {
+	display: inline-block;
+	margin: 0 16px;
 	color: #999;
 	font-size: 14px;
+}
+
+.print-buttons .link {
+	color: #ff9000;
+	text-decoration: none;
+	font-size: 14px;
+}
+
+.print-buttons .link:hover {
+	text-decoration: underline;
 }
 
 @media print {
 	.no-print {
 		display: none;
-	}
-
-	body, html {
-		padding-top: 0;
-	}
-}
-
-@media screen {
-	body {
-		padding-top: 60px;
 	}
 }
 
