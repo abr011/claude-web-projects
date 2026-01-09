@@ -18,23 +18,10 @@ firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
 var firebaseRef = firebase.database().ref();
 
-// Anonymous auth - signs in automatically without user interaction
+// No authentication - security by obscurity (f4ktur4 URL)
 function checkAuth(callback) {
-    firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-            // Already signed in (anonymously)
-            if (callback) callback(user);
-        } else {
-            // Sign in anonymously
-            firebase.auth().signInAnonymously().catch(function(error) {
-                console.error("Anonymous auth error:", error);
-            });
-        }
-    });
-}
-
-function signOut() {
-    // No-op for anonymous auth
+    // No-op - just call callback immediately if provided
+    if (callback) callback();
 }
 
 // Animation classes (used across all pages)
