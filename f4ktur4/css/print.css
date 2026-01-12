@@ -6,6 +6,10 @@ body, html {
 	background: white;
 	font: 16px/24px Avenir Next, Open sans, Helvetica, Arial, Sans-Serif;
 	width: 100%;
+}
+
+/* Only add padding on print preview pages (no .container) */
+body:not(:has(.container)) {
 	padding-left: 88px;
 }
 
