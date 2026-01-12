@@ -424,7 +424,7 @@ input#new_client_address_zip {
 }
 
 .invoice_info .buttons {
-  margin-left: 0;
+  margin-left: 24px;
   clear: both;
   padding: 40px 0 40px 0;
 }
