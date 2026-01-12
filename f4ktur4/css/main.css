@@ -423,21 +423,21 @@ input#new_client_address_zip {
   margin-left: 50px;
 }
 
-.invoice_info .buttons {
+.container > .buttons {
   margin-left: 24px;
   clear: both;
   padding: 40px 0 40px 0;
 }
 
-.invoice_info .buttons .button {
+.container > .buttons .button {
   margin-top: 0;
 }
 
-.invoice_info .buttons .small {
+.container > .buttons .small {
   margin-top: 0;
 }
 
-.invoice_info .buttons .link {
+.container > .buttons .link {
   margin-top: 0;
 }
 
