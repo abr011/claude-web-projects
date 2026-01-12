@@ -360,12 +360,31 @@ invoiceRef.limitToLast(1).on('child_added', function (snapshot) {
 });
 
 
-// Date handling - using native HTML5 date inputs
+// Date handling with flatpickr
 moment.locale('cs');
 
-// Set default dates using Czech format (D. M. YYYY) for text inputs
-document.getElementById("new_date_issued").value = moment().format('D. M. YYYY');
-document.getElementById("new_date_to_send").value = moment().add(14, 'days').format('D. M. YYYY');
+// Initialize flatpickr on date inputs
+var dateIssuedPicker = flatpickr("#new_date_issued", {
+	locale: "cs",
+	dateFormat: "j. n. Y",
+	defaultDate: new Date(),
+	onChange: function(selectedDates, dateStr) {
+		list_of_form_fields.date_issued.cleared_input_value = dateStr;
+		$('#date_issued_today').prop('checked', false);
+		$('#date_issued_last_month').prop('checked', false);
+		date_difference();
+	}
+});
+
+var dateToSendPicker = flatpickr("#new_date_to_send", {
+	locale: "cs",
+	dateFormat: "j. n. Y",
+	defaultDate: moment().add(14, 'days').toDate(),
+	onChange: function(selectedDates, dateStr) {
+		list_of_form_fields.date_to_send.cleared_input_value = dateStr;
+		date_difference();
+	}
+});
 
 // Update form field values AFTER setting the inputs
 list_of_form_fields.date_issued.cleared_input_value = $('#new_date_issued').val();
@@ -392,8 +411,8 @@ $('#date_issued_today').on("click", function () {
 	if (document.getElementById('date_issued_today').checked) {
 		$('#date_issued_last_month').prop('checked', false);
 
-		document.getElementById("new_date_issued").value = moment().format('D. M. YYYY');
-		document.getElementById("new_date_to_send").value = moment().add(14, 'days').format('D. M. YYYY');
+		dateIssuedPicker.setDate(new Date(), true);
+		dateToSendPicker.setDate(moment().add(14, 'days').toDate(), true);
 
 		list_of_form_fields.date_issued.cleared_input_value = $('#new_date_issued').val();
 		list_of_form_fields.date_to_send.cleared_input_value = $('#new_date_to_send').val();
@@ -409,12 +428,12 @@ $('#date_issued_last_month').on("click", function () {
 	if (document.getElementById('date_issued_last_month').checked) {
 		$('#date_issued_today').prop('checked', false);
 
-		var date_issued = moment().subtract(1, 'months').endOf('month').format('D. M. YYYY');
-		document.getElementById("new_date_issued").value = date_issued;
+		var date_issued = moment().subtract(1, 'months').endOf('month').toDate();
+		dateIssuedPicker.setDate(date_issued, true);
 		list_of_form_fields.date_issued.cleared_input_value = $('#new_date_issued').val();
 
-		var date_to_send = moment().subtract(1, 'months').endOf('month').add(14, 'days').format('D. M. YYYY');
-		document.getElementById("new_date_to_send").value = date_to_send;
+		var date_to_send = moment().subtract(1, 'months').endOf('month').add(14, 'days').toDate();
+		dateToSendPicker.setDate(date_to_send, true);
 		list_of_form_fields.date_to_send.cleared_input_value = $('#new_date_to_send').val();
 
 	} else {
@@ -655,9 +674,8 @@ $('#confirm_invoice .button').on("click", function () {
 		$('#new_invoice_number').val(String(nextInvoiceNum).padStart(2, '0'));
 
 		// Reset dates to today + 14 days
-		var today = moment();
-		$('#new_date_issued').val(today.format('D. M. YYYY'));
-		$('#new_date_to_send').val(today.add(14, 'days').format('D. M. YYYY'));
+		dateIssuedPicker.setDate(new Date(), true);
+		dateToSendPicker.setDate(moment().add(14, 'days').toDate(), true);
 
 		// Update last invoice number hint
 		$('#invoice_number .additional_info').text(invNum + ' ' + invoiceData.invoice_number_year + ' je číslo poslední faktury');

@@ -771,14 +771,17 @@ input[type="date"] {
 }
 
 .change-format {
-  font-size: .75em;
-  color: #999;
-  margin-left: 8px;
+  display: block;
+  margin: 8px 0px 0px 0px;
   text-decoration: none;
+  font-weight: 500;
+  font-size: .8em;
+  text-transform: uppercase;
+  color: #ff9000;
 }
 
 .change-format:hover {
-  color: #ff9000;
+  color: #cc7300;
 }
 
 /* Animations
