@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Curriculum Vitae · Aleš Brom</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #e0e0e0;
+            background: #121212;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* HEADER */
+        header {
+            padding: 20px 0;
+            background: #1a1a1a;
+        }
+
+        header .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+        }
+
+        nav {
+            display: flex;
+            gap: 32px;
+        }
+
+        nav a {
+            font-size: 14px;
+            color: #888;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: white;
+        }
+
+        nav a.active {
+            color: white;
+        }
+
+        .lang-switch {
+            font-size: 13px;
+            color: #666;
+            margin-left: 32px;
+            padding: 4px 10px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .lang-switch:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        /* PAGE HEADER */
+        .page-header {
+            padding: 60px 0 40px;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 32px;
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background: #f5a623;
+            color: #1a1a1a;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: background 0.2s;
+        }
+
+        .download-btn:hover {
+            background: #e6960f;
+        }
+
+        /* CV CONTAINER */
+        .cv-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 40px 80px;
+        }
+
+        .cv-paper {
+            background: white;
+            color: #1a1a1a;
+            padding: 48px 64px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+        }
+
+        /* CV STYLES */
+        .cv-paper .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8px;
+        }
+
+        .cv-paper h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .cv-paper .contact {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .cv-paper .contact a {
+            color: #1a1a1a;
+        }
+
+        .cv-paper .subtitle {
+            font-size: 14px;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+        }
+
+        .cv-paper .experience-years {
+            font-size: 14px;
+            color: #1a1a1a;
+            margin-bottom: 40px;
+        }
+
+        .cv-paper section {
+            margin-bottom: 32px;
+        }
+
+        .cv-paper h3 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .cv-paper p {
+            font-size: 14px;
+            color: #444;
+            margin-bottom: 8px;
+        }
+
+        .cv-paper .job-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+        }
+
+        .cv-paper .job-period {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .cv-paper ul {
+            list-style: none;
+            margin-bottom: 12px;
+        }
+
+        .cv-paper li {
+            font-size: 14px;
+            color: #444;
+            padding-left: 14px;
+            position: relative;
+            margin-bottom: 6px;
+        }
+
+        .cv-paper li::before {
+            content: "·";
+            position: absolute;
+            left: 0;
+            color: #999;
+        }
+
+        .cv-paper .clients {
+            font-size: 14px;
+            color: #444;
+        }
+
+        .cv-paper .clients strong {
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+
+        .cv-paper .skills-list {
+            font-size: 14px;
+            color: #444;
+        }
+
+        .cv-paper .degree {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+        }
+
+        .cv-paper .school {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .cv-paper .languages {
+            font-size: 14px;
+            color: #444;
+        }
+
+        /* PRINT STYLES */
+        @media print {
+            body {
+                background: white;
+            }
+
+            header, .page-header {
+                display: none;
+            }
+
+            .cv-wrapper {
+                padding: 0;
+                max-width: 100%;
+            }
+
+            .cv-paper {
+                box-shadow: none;
+                padding: 0;
+            }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            nav {
+                gap: 20px;
+            }
+
+            .cv-wrapper {
+                padding: 0 20px 60px;
+            }
+
+            .cv-paper {
+                padding: 32px 24px;
+            }
+
+            .cv-paper .header-top {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="../index.html" class="logo">Ing. Aleš Brom</a>
+            <nav>
+                <a href="../index.html#skills">What I do</a>
+                <a href="../index.html#work">Work</a>
+                <a href="index.html" class="active">CV</a>
+                <a href="../index.html#contact">Contact</a>
+                <a href="cs.html" class="lang-switch">CS</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <h1>Curriculum Vitae</h1>
+        <a href="CV_Ales_Brom_UX.pdf" download class="download-btn">Download as PDF</a>
+    </div>
+
+    <div class="cv-wrapper">
+        <div class="cv-paper">
+            <div class="header-top">
+                <h2>Aleš Brom</h2>
+                <p class="contact">ales.brom@gmail.com · +420 602 655 775 · <a href="https://alesbrom.cz">alesbrom.cz</a></p>
+            </div>
+            <p class="subtitle">UX Consultant</p>
+            <p class="experience-years">15+ years of experience</p>
+
+            <section>
+                <h3>About</h3>
+                <p>I find the real problem before designing anything. Most briefs need reframing, not executing.</p>
+            </section>
+
+            <section>
+                <h3>Work Experience</h3>
+                <p class="job-title">Independent UX Designer, Researcher, and Consultant</p>
+                <p class="job-period">2009 – Present</p>
+                <ul>
+                    <li>30+ projects across banking, telecom, logistics, and e-commerce</li>
+                    <li>Research to wireframes, then hand off to visual designers</li>
+                    <li>From one-man UX team to coordinating with analysts, PMs, and developers</li>
+                </ul>
+                <p class="clients">
+                    <strong>Clients:</strong> Wüstenrot, Penzijní fond České spořitelny, RWE, ČSOB, KB, ING, Člověk v tísni, Metrans, Contember, Váš hosting, T-Mobile, Skutečný dárek, Tipsport, najdivideo, 108agency
+                </p>
+            </section>
+
+            <section>
+                <h3>Skills</h3>
+                <p class="skills-list">Problem defining · Problem solving · UX research · Usability testing · Wireframing · Prototyping · Information architecture</p>
+            </section>
+
+            <section>
+                <h3>Tools</h3>
+                <p class="skills-list">Figma · Miro · Axure · Google Analytics · HTML / CSS / JS</p>
+            </section>
+
+            <section>
+                <h3>Education</h3>
+                <p class="degree">Master's in Informatics</p>
+                <p class="school">Czech University of Life Sciences Prague (ČZU)</p>
+                <p class="school">1995–2001</p>
+            </section>
+
+            <section>
+                <h3>Languages</h3>
+                <p class="languages">English (C1) · Spanish (B1) · German (A1) · Russian (A1)</p>
+            </section>
+        </div>
+    </div>
+</body>
+</html>

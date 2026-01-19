@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CV Typography Comparison</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.5;
+            color: #1a1a1a;
+            background: #e0e0e0;
+            padding: 40px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .variant {
+            background: white;
+            padding: 32px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .variant-label {
+            background: #1a1a1a;
+            color: white;
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            margin: -32px -32px 24px -32px;
+            border-radius: 8px 8px 0 0;
+        }
+
+        /* ============================================
+           VARIANT A: Current (light grey headers)
+           ============================================ */
+        .variant-a h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .variant-a .subtitle {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .variant-a .contact {
+            font-size: 11px;
+            color: #888;
+            margin-bottom: 24px;
+        }
+
+        .variant-a h2 {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #999;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .variant-a .job-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+        }
+
+        .variant-a .job-period {
+            font-size: 11px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .variant-a p, .variant-a li {
+            font-size: 12px;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .variant-a section {
+            margin-bottom: 20px;
+        }
+
+        /* ============================================
+           VARIANT B: Bold black headers
+           ============================================ */
+        .variant-b h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .variant-b .subtitle {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .variant-b .contact {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 24px;
+        }
+
+        .variant-b h2 {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .variant-b .job-title {
+            font-size: 13px;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+        }
+
+        .variant-b .job-period {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .variant-b p, .variant-b li {
+            font-size: 12px;
+            color: #444;
+            margin-bottom: 6px;
+        }
+
+        .variant-b section {
+            margin-bottom: 20px;
+        }
+
+        /* ============================================
+           VARIANT C: No uppercase, larger headers
+           ============================================ */
+        .variant-c h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .variant-c .subtitle {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .variant-c .contact {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 24px;
+        }
+
+        .variant-c h2 {
+            font-size: 13px;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+            font-weight: 600;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 4px;
+        }
+
+        .variant-c .job-title {
+            font-size: 13px;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+        }
+
+        .variant-c .job-period {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .variant-c p, .variant-c li {
+            font-size: 12px;
+            color: #444;
+            margin-bottom: 6px;
+        }
+
+        .variant-c section {
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        li {
+            padding-left: 12px;
+            position: relative;
+        }
+
+        li::before {
+            content: "·";
+            position: absolute;
+            left: 0;
+            color: #999;
+        }
+
+        .note {
+            font-size: 11px;
+            color: #666;
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid">
+        <!-- VARIANT A: Current -->
+        <div class="variant variant-a">
+            <div class="variant-label">A: Current (grey uppercase headers)</div>
+
+            <h1>Aleš Brom</h1>
+            <p class="subtitle">UX Designer, Researcher, and Consultant</p>
+            <p class="contact">ales.brom@gmail.com · +420 602 655 775</p>
+
+            <section>
+                <h2>About</h2>
+                <p>I question briefs before solving them. Because the right problem beats a perfect solution to the wrong one.</p>
+            </section>
+
+            <section>
+                <h2>Work Experience</h2>
+                <p class="job-title">Freelance UX Designer</p>
+                <p class="job-period">2009 – Present</p>
+                <ul>
+                    <li>Startups to enterprises, teams of 1 to 100+</li>
+                    <li>Full UX cycle: ideation, research, wireframes</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Skills</h2>
+                <p>Problem defining · Problem solving · UX research</p>
+            </section>
+
+            <p class="note">Headers: light grey (#999), uppercase<br>Body: dark grey (#333)</p>
+        </div>
+
+        <!-- VARIANT B: Bold black headers -->
+        <div class="variant variant-b">
+            <div class="variant-label">B: Bold black headers (recommended)</div>
+
+            <h1>Aleš Brom</h1>
+            <p class="subtitle">UX Designer, Researcher, and Consultant</p>
+            <p class="contact">ales.brom@gmail.com · +420 602 655 775</p>
+
+            <section>
+                <h2>About</h2>
+                <p>I question briefs before solving them. Because the right problem beats a perfect solution to the wrong one.</p>
+            </section>
+
+            <section>
+                <h2>Work Experience</h2>
+                <p class="job-title">Freelance UX Designer</p>
+                <p class="job-period">2009 – Present</p>
+                <ul>
+                    <li>Startups to enterprises, teams of 1 to 100+</li>
+                    <li>Full UX cycle: ideation, research, wireframes</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Skills</h2>
+                <p>Problem defining · Problem solving · UX research</p>
+            </section>
+
+            <p class="note">Headers: black (#1a1a1a), bold, uppercase<br>Body: medium grey (#444)</p>
+        </div>
+
+        <!-- VARIANT C: No uppercase -->
+        <div class="variant variant-c">
+            <div class="variant-label">C: Normal case + underline</div>
+
+            <h1>Aleš Brom</h1>
+            <p class="subtitle">UX Designer, Researcher, and Consultant</p>
+            <p class="contact">ales.brom@gmail.com · +420 602 655 775</p>
+
+            <section>
+                <h2>About</h2>
+                <p>I question briefs before solving them. Because the right problem beats a perfect solution to the wrong one.</p>
+            </section>
+
+            <section>
+                <h2>Work Experience</h2>
+                <p class="job-title">Freelance UX Designer</p>
+                <p class="job-period">2009 – Present</p>
+                <ul>
+                    <li>Startups to enterprises, teams of 1 to 100+</li>
+                    <li>Full UX cycle: ideation, research, wireframes</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Skills</h2>
+                <p>Problem defining · Problem solving · UX research</p>
+            </section>
+
+            <p class="note">Headers: black, normal case, underline<br>Body: medium grey (#444)</p>
+        </div>
+    </div>
+</body>
+</html>

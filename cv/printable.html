@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CV · Aleš Brom · UX Designer</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.5;
+            color: #1a1a1a;
+            background: #fafafa;
+        }
+
+        a {
+            color: #1a1a1a;
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 48px 64px;
+            background: white;
+        }
+
+        /* HEADER */
+        header {
+            margin-bottom: 40px;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .contact {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+        }
+
+        .experience-years {
+            font-size: 14px;
+            color: #1a1a1a;
+        }
+
+        /* SECTIONS */
+        section {
+            margin-bottom: 32px;
+        }
+
+        h2 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: 14px;
+            color: #444;
+            margin-bottom: 8px;
+        }
+
+        /* WORK EXPERIENCE */
+        .job-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+        }
+
+        .job-period {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        ul {
+            list-style: none;
+            margin-bottom: 12px;
+        }
+
+        li {
+            font-size: 14px;
+            color: #444;
+            padding-left: 14px;
+            position: relative;
+            margin-bottom: 6px;
+        }
+
+        li::before {
+            content: "·";
+            position: absolute;
+            left: 0;
+            color: #999;
+        }
+
+        .clients {
+            font-size: 14px;
+            color: #444;
+            margin-bottom: 12px;
+        }
+
+        .clients strong {
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+
+        /* SKILLS */
+        .skills-list {
+            font-size: 14px;
+            color: #444;
+        }
+
+        /* EDUCATION */
+        .degree {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+        }
+
+        .school {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* LANGUAGES */
+        .languages {
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* PORTFOLIO LINK */
+        .portfolio-link {
+            font-size: 13px;
+            color: #666;
+        }
+
+        /* PRINT STYLES */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .container {
+                max-width: 100%;
+                padding: 0;
+            }
+        }
+
+        /* SCREEN: show print hint */
+        @media screen {
+            .print-hint {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: #1a1a1a;
+                color: white;
+                padding: 12px 20px;
+                border-radius: 6px;
+                font-size: 13px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            }
+
+            .print-hint kbd {
+                background: #333;
+                padding: 2px 6px;
+                border-radius: 3px;
+                font-family: inherit;
+            }
+        }
+
+        @media print {
+            .print-hint {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-top">
+                <h1>Aleš Brom</h1>
+                <p class="contact">ales.brom@gmail.com · +420 602 655 775 · <a href="https://alesbrom.cz">alesbrom.cz</a></p>
+            </div>
+            <p class="subtitle">UX Consultant</p>
+            <p class="experience-years">15+ years of experience</p>
+        </header>
+
+        <section>
+            <h2>About</h2>
+            <p>I find the real problem before designing anything. Most briefs need reframing, not executing.</p>
+        </section>
+
+        <section>
+            <h2>Work Experience</h2>
+            <p class="job-title">Independent UX Designer, Researcher, and Consultant</p>
+            <p class="job-period">2009 – Present</p>
+            <ul>
+                <li>30+ projects across banking, telecom, logistics, and e-commerce</li>
+                <li>Research to wireframes, then hand off to visual designers</li>
+                <li>From one-man UX team to coordinating with analysts, PMs, and developers</li>
+            </ul>
+            <p class="clients">
+                <strong>Clients:</strong> Wüstenrot, Penzijní fond České spořitelny, RWE, ČSOB, KB, ING, Člověk v tísni, Metrans, Contember, Váš hosting, T-Mobile, Skutečný dárek, Tipsport, najdivideo, 108agency
+            </p>
+        </section>
+
+        <section>
+            <h2>Skills</h2>
+            <p class="skills-list">Problem defining · Problem solving · UX research · Usability testing · Wireframing · Prototyping · Information architecture</p>
+        </section>
+
+        <section>
+            <h2>Tools</h2>
+            <p class="skills-list">Figma · Miro · Axure · Google Analytics · HTML / CSS / JS</p>
+        </section>
+
+        <section>
+            <h2>Education</h2>
+            <p class="degree">Master's in Informatics</p>
+            <p class="school">Czech University of Life Sciences Prague (ČZU)</p>
+            <p class="school">1995–2001</p>
+        </section>
+
+        <section>
+            <h2>Languages</h2>
+            <p class="languages">English (C1) · Spanish (B1) · German (A1) · Russian (A1)</p>
+        </section>
+    </div>
+
+    <div class="print-hint">
+        Press <kbd>Cmd</kbd> + <kbd>P</kbd> to save as PDF
+    </div>
+</body>
+</html>
