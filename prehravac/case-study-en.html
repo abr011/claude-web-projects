@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>When the Designer Is the User | UX Case Study</title>
+
+    <meta property="og:title" content="When the Designer Is the User">
+    <meta property="og:description" content="UX Case Study: Redesigning a personal audiobook player by challenging every convention that audiobook apps take for granted.">
+    <meta property="og:type" content="article">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #e0e0e0;
+            background: #121212;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* HEADER */
+        header {
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            background: #1a1a1a;
+            z-index: 100;
+        }
+
+        header .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+        }
+
+        nav {
+            display: flex;
+            gap: 32px;
+        }
+
+        nav a {
+            font-size: 14px;
+            color: #888;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: white;
+        }
+
+        /* HERO */
+        .hero {
+            text-align: center;
+            padding: 80px 20px 60px;
+            background: #1a1a1a;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            color: white;
+        }
+
+        /* SPLIT LAYOUT */
+        .split-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+            background: #121212;
+        }
+
+        .split-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .side {
+            padding: 50px;
+            border-radius: 12px;
+        }
+
+        .side-left {
+            background: #2a1a1a;
+            border: 1px solid #3a2a2a;
+        }
+
+        .side-right {
+            background: #1a2a1a;
+            border: 1px solid #2a3a2a;
+        }
+
+        .side h2 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .side-left h2 {
+            color: #ff6b6b;
+        }
+
+        .side-right h2 {
+            color: #69db7c;
+        }
+
+        .side h3 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .side p {
+            font-size: 17px;
+            margin-bottom: 18px;
+            color: #ccc;
+        }
+
+        .image-box {
+            background: #222;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid #333;
+        }
+
+        .image-box img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 4px;
+            margin: 0 auto;
+        }
+
+        .image-box .caption {
+            font-size: 12px;
+            color: #666;
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        .image-box .caption.good {
+            color: #69db7c;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin: 25px 0;
+        }
+
+        .problem-list {
+            list-style: none;
+            margin: 25px 0;
+        }
+
+        .problem-list li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            font-size: 15px;
+            color: #ccc;
+        }
+
+        .problem-list li::before {
+            content: "\2717";
+            position: absolute;
+            left: 0;
+            color: #ff6b6b;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .solution-list {
+            list-style: none;
+            margin: 25px 0;
+        }
+
+        .solution-list li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            font-size: 15px;
+            color: #ccc;
+        }
+
+        .solution-list li::before {
+            content: "\2713";
+            position: absolute;
+            left: 0;
+            color: #69db7c;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        /* INSIGHT SECTION */
+        .insight-section {
+            background: #1a1a1a;
+            padding: 80px 40px;
+            text-align: center;
+        }
+
+        .insight-section h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #ccc;
+        }
+
+        .insight-section p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: #ccc;
+        }
+
+        .insight-box {
+            display: inline-block;
+            background: #2a2a1a;
+            padding: 20px 40px;
+            border-radius: 8px;
+            font-size: 18px;
+            color: #f5a623;
+            font-weight: 600;
+            border: 1px solid #3a3a2a;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #222;
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+            border-top: 1px solid #333;
+        }
+
+        footer .tagline {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        footer .subtitle {
+            font-size: 16px;
+            color: #888;
+        }
+
+        footer a {
+            color: #888;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #f5a623;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #f5a623;
+            font-weight: 600;
+        }
+
+        @media (max-width: 968px) {
+            .split-container {
+                grid-template-columns: 1fr;
+            }
+
+            .split-wrapper {
+                padding: 40px 20px;
+            }
+
+            .side {
+                padding: 40px 30px;
+            }
+
+            .hero h1 { font-size: 32px; }
+
+            .image-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header .container {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            nav {
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="../index.html" class="logo">Ing. Ales Brom</a>
+            <nav>
+                <a href="../index.html#skills">What I do</a>
+                <a href="../index.html#work">Work</a>
+                <a href="../index.html#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="hero">
+        <h1>When the Designer Is the User</h1>
+    </div>
+
+    <div class="split-wrapper">
+        <div class="split-container">
+            <div class="side side-left">
+                <h2>The Problem</h2>
+                <h3>Every Audiobook App Is Surprised You Want to Listen</h3>
+                <p>I had books on two platforms. One (Audiolibrix) greeted every play tap with a popup complaining I hadn't downloaded anything. As if listening to a book was an unexpected use case.</p>
+
+                <p>The other (Audioteka) was better, but fragile offline. You could download books — if you remembered to, and then remembered to delete them. No filtering by narrator, which for audiobooks is sometimes more important than the author. Descriptions buried under clutter and CAPSLOCK. Good luck figuring out which part of a series you're looking at.</p>
+
+                <div class="image-grid">
+                    <div class="image-box" style="margin: 0;">
+                        <img src="before-library.png" alt="Original library: dark cover grid" style="max-height: 400px; width: auto;">
+                        <p class="caption">Generic cover grid</p>
+                    </div>
+                    <div class="image-box" style="margin: 0;">
+                        <img src="before-player.png" alt="Original player: Spotify clone" style="max-height: 400px; width: auto;">
+                        <p class="caption">Spotify-clone player</p>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 35px;">What Bothered Me Most</h3>
+                <ul class="problem-list">
+                    <li>Players play <em>chapters</em> &mdash; so the progress bar sometimes represents 8 minutes, sometimes 3 hours. I don't care about chapters. I care how much of the <em>book</em> is left.</li>
+                    <li>No way to filter by narrator &mdash; but half the reason I pick a book is who reads it</li>
+                    <li>Sleep timer stops the book. Great. Now I wake up and can't rewind to where I fell asleep &mdash; because chapters.</li>
+                    <li>Offline is a manual chore: download before, delete after. Forget either and you're stuck.</li>
+                </ul>
+
+                <p style="margin-top: 20px; font-style: italic; color: #666;">Even the AI said I shouldn't start this project. "Use an existing platform." But I didn't like the players.</p>
+            </div>
+
+            <div class="side side-right">
+                <h2>The Result</h2>
+                <h3>Built for How I Actually Listen</h3>
+                <p>88 versions. Built and tested at 11pm in bed with headphones on &mdash; where audiobooks are actually used. After the first day, I turned on airplane mode and the book kept playing. I almost broke into tears.</p>
+
+                <div class="image-grid">
+                    <div class="image-box" style="margin: 0;">
+                        <img src="after-library.png" alt="Redesigned library: rich list with series" style="max-height: 400px; width: auto;">
+                        <p class="caption good">Series cards, narrator links, genre tags</p>
+                    </div>
+                    <div class="image-box" style="margin: 0;">
+                        <img src="after-player.png" alt="Redesigned player: context-aware" style="max-height: 400px; width: auto;">
+                        <p class="caption good">Book-level time, 30-min seek, sleep rewind</p>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 35px;">What I Changed</h3>
+                <ul class="solution-list">
+                    <li><strong>Book time, not chapter time</strong> &mdash; elapsed and remaining for the entire book. The progress bar shows &plusmn;30 minutes around where you are, not a 3-hour chapter or a 15-hour book.</li>
+                    <li><strong>Narrator is first-class</strong> &mdash; tap any narrator name to filter the library. Because sometimes the voice matters more than who wrote it.</li>
+                    <li><strong>Sleep timer with rewind</strong> &mdash; set 30 minutes, fall asleep, wake up. The player offers to rewind exactly those 30 minutes. One tap.</li>
+                    <li><strong>Offline just works</strong> &mdash; auto-prefetches the next 30 minutes during playback. Auto-deletes old cache when storage fills up. No manual downloads, no cleanup.</li>
+                    <li><strong>Series make sense</strong> &mdash; books grouped into series cards with position ("Part 3 of 7"). Descriptions written for the series, not copy-pasted marketing blurbs.</li>
+                    <li><strong>Pictures suppressed, text elevated</strong> &mdash; title, author, narrator, genre tags, and a clean description visible without tapping anything.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="insight-section">
+        <h3>What I Learned Building This</h3>
+        <p>I'm a UX designer, not a developer. I built this with AI because I wanted to see what's possible &mdash; and because I needed a real project to develop a UX design skill beyond theory. Not my skill &mdash; Claude's. Every design decision I made became a documented principle: "names are navigation," "show enough to decide without tapping," "system handles errors, user does nothing." The skill grew from a generic design system to 24KB of battle-tested patterns in five days. Now Claude applies them to new projects automatically.</p>
+        <p>When you're both the designer and the user, you can test a control layout at 11pm and change it by midnight. The skip buttons changed three times. The sleep timer was preset to 30 minutes from day one because that's what I always set it to. No speed options &mdash; I never use them. Every decision was filtered through one question: does this help me listen to a book in bed?</p>
+        <div class="insight-box">
+            The best product decisions come from solving your own frustrations.<br>Not from competitive analysis.
+        </div>
+    </div>
+
+    <footer>
+        <div class="tagline">Got a brief that needs challenging?<br>Or a mess that needs simplifying?</div>
+        <div class="subtitle">I remove what doesn't matter. So you can focus on what does.</div>
+        <a href="../index.html#work" class="back-link">Back to portfolio</a>
+    </footer>
+</body>
+</html>
