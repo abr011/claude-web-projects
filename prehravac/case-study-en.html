@@ -84,7 +84,152 @@
             color: white;
         }
 
-        /* SPLIT LAYOUT */
+        /* NARRATIVE SECTIONS */
+        .narrative {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        .narrative h2 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            font-weight: 600;
+            color: #888;
+        }
+
+        .narrative h3 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .narrative p {
+            font-size: 17px;
+            margin-bottom: 18px;
+            color: #ccc;
+        }
+
+        /* FULL-WIDTH SECTIONS */
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px 60px;
+        }
+
+        .section-dark {
+            background: #1a1a1a;
+            padding-top: 60px;
+            padding-bottom: 60px;
+        }
+
+        .section-dark .section {
+            padding-bottom: 0;
+        }
+
+        /* COMPARISON LAYOUTS */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .comparison-side {
+            padding: 30px;
+            border-radius: 12px;
+        }
+
+        .comparison-bad {
+            background: #2a1a1a;
+        }
+
+        .comparison-good {
+            background: #1a2a1a;
+        }
+
+        .comparison-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .comparison-bad .comparison-label {
+            color: #ff6b6b;
+        }
+
+        .comparison-good .comparison-label {
+            color: #69db7c;
+        }
+
+        .comparison-side h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        .comparison-side p {
+            font-size: 15px;
+            color: #aaa;
+            margin-bottom: 12px;
+        }
+
+        .comparison-side img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 6px;
+            margin: 16px auto 0;
+        }
+
+        /* FILMSTRIP */
+        .filmstrip-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .filmstrip {
+            background: #1e1e1e;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 30px 0;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .filmstrip img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 6px;
+        }
+
+        .filmstrip-caption {
+            font-size: 13px;
+            color: #666;
+            text-align: center;
+            margin-top: 12px;
+        }
+
+        .filmstrip-stat {
+            display: inline-block;
+            background: #ff6b6b20;
+            color: #ff6b6b;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        /* SPLIT LAYOUT (kept for before/after) */
         .split-wrapper {
             max-width: 1200px;
             margin: 0 auto;
@@ -105,12 +250,10 @@
 
         .side-left {
             background: #2a1a1a;
-            border: 1px solid #3a2a2a;
         }
 
         .side-right {
             background: #1a2a1a;
-            border: 1px solid #2a3a2a;
         }
 
         .side h2 {
@@ -144,10 +287,9 @@
 
         .image-box {
             background: #222;
-            padding: 25px;
+            padding: 20px;
             border-radius: 8px;
             margin: 25px 0;
-            border: 1px solid #333;
         }
 
         .image-box img {
@@ -167,6 +309,10 @@
 
         .image-box .caption.good {
             color: #69db7c;
+        }
+
+        .image-box .caption.bad {
+            color: #ff6b6b;
         }
 
         .image-grid {
@@ -220,6 +366,98 @@
             font-size: 18px;
         }
 
+        /* AI SECTION */
+        .ai-section {
+            background: #1a1a2a;
+            padding: 60px 0;
+        }
+
+        .ai-section .narrative {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        .ai-section h2 {
+            color: #a78bfa;
+        }
+
+        .ai-pipeline {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 20px;
+            align-items: center;
+            margin: 30px 0;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 40px;
+        }
+
+        .ai-pipeline-box {
+            padding: 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .ai-pipeline-input {
+            background: #2a1a1a;
+            color: #ccc;
+        }
+
+        .ai-pipeline-output {
+            background: #1a2a1a;
+            color: #ccc;
+        }
+
+        .ai-pipeline-arrow {
+            font-size: 24px;
+            color: #a78bfa;
+            text-align: center;
+        }
+
+        .ai-pipeline-box .label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .ai-pipeline-input .label {
+            color: #ff6b6b;
+        }
+
+        .ai-pipeline-output .label {
+            color: #69db7c;
+        }
+
+        .ai-pipeline-box .text {
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .ai-pipeline-box .strike {
+            text-decoration: line-through;
+            color: #666;
+        }
+
+        .ai-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .ai-tag {
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            background: #69db7c20;
+            color: #69db7c;
+            font-weight: 500;
+        }
+
         /* INSIGHT SECTION */
         .insight-section {
             background: #1a1a1a;
@@ -248,7 +486,6 @@
             font-size: 18px;
             color: #f5a623;
             font-weight: 600;
-            border: 1px solid #3a3a2a;
         }
 
         /* FOOTER */
@@ -257,7 +494,6 @@
             color: white;
             text-align: center;
             padding: 50px 20px;
-            border-top: 1px solid #333;
         }
 
         footer .tagline {
@@ -287,8 +523,10 @@
             font-weight: 600;
         }
 
+        /* RESPONSIVE */
         @media (max-width: 968px) {
-            .split-container {
+            .split-container,
+            .comparison {
                 grid-template-columns: 1fr;
             }
 
@@ -298,6 +536,18 @@
 
             .side {
                 padding: 40px 30px;
+            }
+
+            .narrative {
+                padding: 40px 20px;
+            }
+
+            .section {
+                padding: 0 20px 40px;
+            }
+
+            .filmstrip-wrapper {
+                padding: 0 20px;
             }
 
             .hero h1 { font-size: 32px; }
@@ -313,6 +563,15 @@
 
             nav {
                 gap: 20px;
+            }
+
+            .ai-pipeline {
+                grid-template-columns: 1fr;
+                padding: 0 20px;
+            }
+
+            .ai-pipeline-arrow {
+                transform: rotate(90deg);
             }
         }
     </style>
@@ -333,70 +592,162 @@
         <h1>When the Designer Is the User</h1>
     </div>
 
+    <!-- SECTION 1: The Problem Narrative -->
+    <div class="narrative">
+        <h2>The Problem</h2>
+        <h3>Five Screens to See One Book</h3>
+        <p>I had 2,000 audiobooks on Audioteka. To see what a single book is about, I had to scroll through five screens: a giant cover consuming the entire viewport, redundant metadata, a collapsed description prefixed with boilerplate ("Audiokniha [title], autor [author], cte [narrator], rezie [director]"), and when I finally expanded it &mdash; marketing copy, CAPSLOCK taglines, and user reviews. The actual story description was buried four screens down.</p>
+    </div>
+
+    <!-- Audioteka Detail Filmstrip -->
+    <div class="filmstrip-wrapper">
+        <div class="filmstrip">
+            <img src="audioteka-detail-filmstrip.png" alt="Audioteka book detail: 5 screens of scrolling to see one book's information">
+            <p class="filmstrip-caption">
+                One book. Five screens. The actual story description starts on screen 3.
+                <br><span class="filmstrip-stat">5 screens for 1 book</span>
+            </p>
+        </div>
+    </div>
+
+    <div class="narrative">
+        <p>The library wasn't better. 119 favorites in a flat list &mdash; cover, author, title, rating. No search by narrator. No genre filtering. No series grouping. No way to find anything except scrolling.</p>
+        <p>The player showed a giant cover consuming 60% of the screen. Chapter names like "19_Muz_na_stezce_13" with no book-level time. Sleep timer stopped the book but couldn't tell me where I fell asleep.</p>
+        <p style="margin-top: 20px; font-style: italic; color: #666;">Even the AI said I shouldn't start this project. "Use an existing platform." But I didn't like the players.</p>
+    </div>
+
+    <!-- SECTION 2: Side-by-side comparisons -->
+    <div class="section">
+        <div class="comparison">
+            <div class="comparison-side comparison-bad">
+                <div class="comparison-label">Audioteka</div>
+                <h4>Library: A Flat List</h4>
+                <p>Cover + author + title + rating. 119 books, no way to filter by narrator, genre, or series. Just scroll.</p>
+                <img src="audioteka-favorites.png" alt="Audioteka favorites: flat list with cover and title only" style="max-height: 500px; width: auto;">
+            </div>
+            <div class="comparison-side comparison-good">
+                <div class="comparison-label">Prehravac</div>
+                <h4>Library: Rich + Filterable</h4>
+                <p>Genre tag cloud, search by narrator, series cards with position ("Part 6 of 7"), descriptions visible inline, progress tracking.</p>
+                <img src="prehravac-library.png" alt="Prehravac library: tag cloud, rich list items with genre tags and series info" style="max-height: 500px; width: auto;">
+            </div>
+        </div>
+
+        <div class="comparison">
+            <div class="comparison-side comparison-bad">
+                <div class="comparison-label">Audioteka</div>
+                <h4>Player: Giant Cover, Chapter Time</h4>
+                <p>Cover takes 60% of the screen. Raw chapter name "19_Muz na stezce 13". Seek bar = chapter progress. Time shows book total but seeking doesn't match.</p>
+                <img src="audioteka-player.png" alt="Audioteka player: giant cover, raw chapter names, chapter-level seek" style="max-height: 500px; width: auto;">
+            </div>
+            <div class="comparison-side comparison-good">
+                <div class="comparison-label">Prehravac</div>
+                <h4>Player: Book Time, Smart Seek</h4>
+                <p>Small cover + metadata. Book-level elapsed/remaining (29:59 / -7:37:59). Sleep timer with rewind. Offline auto-prefetch indicator.</p>
+                <img src="prehravac-detail.png" alt="Prehravac player: book-level time, sleep timer, compact metadata" style="max-height: 500px; width: auto;">
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 3: The AI Approach -->
+    <div class="ai-section">
+        <div class="narrative">
+            <h2>The AI Approach</h2>
+            <h3>Turning Marketing Noise into Useful Metadata</h3>
+            <p>Audioteka's book descriptions are marketing copy. They repeat the author and narrator (already shown in metadata), add the director's name (nobody cares), prefix everything with "Audiokniha [title] obsahuje...", and pad the end with CAPSLOCK taglines and credit blocks.</p>
+            <p>Instead of displaying this raw text, I built a pipeline: descriptions are cleaned by stripping boilerplate prefixes, CAPSLOCK lines, credit blocks, and redundant series tags. Then Google Gemini reads the cleaned text and generates genre tags (from a taxonomy of 9 genres and 28 sub-genres), detects series membership, and writes short series descriptions in Czech.</p>
+        </div>
+
+        <div class="ai-pipeline">
+            <div class="ai-pipeline-box ai-pipeline-input">
+                <div class="label">Audioteka raw</div>
+                <div class="text">
+                    <span class="strike">Audiokniha Muz na stezce, autor Engelbert Prim, cte Martin Zahalka, rezie Milos Vrana.</span>
+                    Bozi mlyn s turbem #1.
+                    Z temnich mracen, ktera se nad lidstvem leta stahovala, konecne uhodilo...
+                    <span class="strike">Drsny vedeckofantasticky roman v ponure ere soumraku lidstva...</span>
+                    <span class="strike">A jestli ano, jste divni.</span>
+                </div>
+            </div>
+            <div class="ai-pipeline-arrow">&rarr;</div>
+            <div class="ai-pipeline-box ai-pipeline-output">
+                <div class="label">Prehravac cleaned + AI-tagged</div>
+                <div class="text">
+                    Z temnich mracen, ktera se nad lidstvem leta stahovala, konecne uhodilo. Vetsina svetove populace podlehla vrazednemu viru...
+                </div>
+                <div class="ai-tags">
+                    <span class="ai-tag">Sci-fi</span>
+                    <span class="ai-tag">Postapo</span>
+                    <span class="ai-tag">Part 1 of 5</span>
+                    <span class="ai-tag">Bozi mlyn s turbem</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="narrative" style="padding-top: 30px;">
+            <p>The result: every book in the library has a clean description (800 characters max, story-focused), genre and sub-genre tags for filtering, and series positioning. No scrolling through marketing copy to find out what a book is about.</p>
+        </div>
+    </div>
+
+    <!-- SECTION 4: The Full Before/After -->
     <div class="split-wrapper">
         <div class="split-container">
             <div class="side side-left">
-                <h2>The Problem</h2>
-                <h3>Every Audiobook App Is Surprised You Want to Listen</h3>
-                <p>I had books on two platforms. One (Audiolibrix) greeted every play tap with a popup complaining I hadn't downloaded anything. As if listening to a book was an unexpected use case.</p>
-
-                <p>The other (Audioteka) was better, but fragile offline. You could download books — if you remembered to, and then remembered to delete them. No filtering by narrator, which for audiobooks is sometimes more important than the author. Descriptions buried under clutter and CAPSLOCK. Good luck figuring out which part of a series you're looking at.</p>
-
-                <div class="image-grid">
-                    <div class="image-box" style="margin: 0;">
-                        <img src="before-library.png" alt="Original library: dark cover grid" style="max-height: 400px; width: auto;">
-                        <p class="caption">Generic cover grid</p>
-                    </div>
-                    <div class="image-box" style="margin: 0;">
-                        <img src="before-player.png" alt="Original player: Spotify clone" style="max-height: 400px; width: auto;">
-                        <p class="caption">Spotify-clone player</p>
-                    </div>
-                </div>
-
-                <h3 style="margin-top: 35px;">What Bothered Me Most</h3>
+                <h2>What Bothered Me Most</h2>
+                <h3>The Details That Nobody Fixes</h3>
                 <ul class="problem-list">
                     <li>Players play <em>chapters</em> &mdash; so the progress bar sometimes represents 8 minutes, sometimes 3 hours. I don't care about chapters. I care how much of the <em>book</em> is left.</li>
                     <li>No way to filter by narrator &mdash; but half the reason I pick a book is who reads it</li>
                     <li>Sleep timer stops the book. Great. Now I wake up and can't rewind to where I fell asleep &mdash; because chapters.</li>
                     <li>Offline is a manual chore: download before, delete after. Forget either and you're stuck.</li>
+                    <li>Descriptions are marketing copy &mdash; credits, taglines, boilerplate. The actual story is buried.</li>
+                    <li>No series awareness &mdash; "Part 3 of 7" nowhere to be found. Which book comes next? Guess.</li>
                 </ul>
-
-                <p style="margin-top: 20px; font-style: italic; color: #666;">Even the AI said I shouldn't start this project. "Use an existing platform." But I didn't like the players.</p>
-            </div>
-
-            <div class="side side-right">
-                <h2>The Result</h2>
-                <h3>Built for How I Actually Listen</h3>
-                <p>88 versions. Built and tested at 11pm in bed with headphones on &mdash; where audiobooks are actually used. After the first day, I turned on airplane mode and the book kept playing. I almost broke into tears.</p>
 
                 <div class="image-grid">
                     <div class="image-box" style="margin: 0;">
-                        <img src="after-library.png" alt="Redesigned library: rich list with series" style="max-height: 400px; width: auto;">
-                        <p class="caption good">Series cards, narrator links, genre tags</p>
+                        <img src="before-library.png" alt="Original library: dark cover grid" style="max-height: 400px; width: auto;">
+                        <p class="caption bad">v0.1: generic cover grid</p>
                     </div>
                     <div class="image-box" style="margin: 0;">
-                        <img src="after-player.png" alt="Redesigned player: context-aware" style="max-height: 400px; width: auto;">
-                        <p class="caption good">Book-level time, 30-min seek, sleep rewind</p>
+                        <img src="before-player.png" alt="Original player: Spotify clone" style="max-height: 400px; width: auto;">
+                        <p class="caption bad">v0.1: Spotify-clone player</p>
                     </div>
                 </div>
+            </div>
 
-                <h3 style="margin-top: 35px;">What I Changed</h3>
+            <div class="side side-right">
+                <h2>What I Changed</h2>
+                <h3>Built for How I Actually Listen</h3>
                 <ul class="solution-list">
-                    <li><strong>Book time, not chapter time</strong> &mdash; elapsed and remaining for the entire book. The progress bar shows &plusmn;30 minutes around where you are, not a 3-hour chapter or a 15-hour book.</li>
+                    <li><strong>Book time, not chapter time</strong> &mdash; elapsed and remaining for the entire book. The progress bar shows &plusmn;30 minutes around where you are.</li>
                     <li><strong>Narrator is first-class</strong> &mdash; tap any narrator name to filter the library. Because sometimes the voice matters more than who wrote it.</li>
                     <li><strong>Sleep timer with rewind</strong> &mdash; set 30 minutes, fall asleep, wake up. The player offers to rewind exactly those 30 minutes. One tap.</li>
                     <li><strong>Offline just works</strong> &mdash; auto-prefetches the next 30 minutes during playback. Auto-deletes old cache when storage fills up. No manual downloads, no cleanup.</li>
-                    <li><strong>Series make sense</strong> &mdash; books grouped into series cards with position ("Part 3 of 7"). Descriptions written for the series, not copy-pasted marketing blurbs.</li>
-                    <li><strong>Pictures suppressed, text elevated</strong> &mdash; title, author, narrator, genre tags, and a clean description visible without tapping anything.</li>
+                    <li><strong>AI-cleaned descriptions</strong> &mdash; boilerplate stripped, marketing removed, cut at 800 characters. Genre and sub-genre tags generated by Gemini. Story first, credits never.</li>
+                    <li><strong>Series make sense</strong> &mdash; books grouped into series cards with position ("Part 3 of 7"). AI-written series descriptions instead of copy-pasted marketing blurbs.</li>
                 </ul>
+
+                <div class="image-grid">
+                    <div class="image-box" style="margin: 0;">
+                        <img src="prehravac-library.png" alt="Redesigned library: rich list with series and genre tags" style="max-height: 400px; width: auto;">
+                        <p class="caption good">v107: tag cloud, series cards, narrator links</p>
+                    </div>
+                    <div class="image-box" style="margin: 0;">
+                        <img src="prehravac-detail.png" alt="Redesigned player: context-aware" style="max-height: 400px; width: auto;">
+                        <p class="caption good">v107: book-level time, 30-min seek, sleep rewind</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- SECTION 5: Insight -->
     <div class="insight-section">
         <h3>What I Learned Building This</h3>
         <p>I'm a UX designer, not a developer. I built this with AI because I wanted to see what's possible &mdash; and because I needed a real project to develop a UX design skill beyond theory. Not my skill &mdash; Claude's. Every design decision I made became a documented principle: "names are navigation," "show enough to decide without tapping," "system handles errors, user does nothing." The skill grew from a generic design system to 24KB of battle-tested patterns in five days. Now Claude applies them to new projects automatically.</p>
         <p>When you're both the designer and the user, you can test a control layout at 11pm and change it by midnight. The skip buttons changed three times. The sleep timer was preset to 30 minutes from day one because that's what I always set it to. No speed options &mdash; I never use them. Every decision was filtered through one question: does this help me listen to a book in bed?</p>
+        <p>The AI text pipeline was an afterthought that became the backbone. Once every book had clean descriptions and genre tags, the entire library became browsable. What started as "fix the player" turned into "rethink how audiobook metadata should work." 2,000 books, all retagged, all with cleaned descriptions, all filterable by narrator, genre, and series &mdash; computed from the same raw data that Audioteka buries under marketing copy.</p>
         <div class="insight-box">
             The best product decisions come from solving your own frustrations.<br>Not from competitive analysis.
         </div>
