@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Když je designér zároveň uživatel | UX Case Study</title>
+
+    <meta property="og:title" content="Když je designér zároveň uživatel">
+    <meta property="og:description" content="UX Case Study: UX designér si staví vlastní přehrávač audioknih s AI — webovou aplikaci, která funguje líp než nativní appky, které nahrazuje.">
+    <meta property="og:type" content="article">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #e0e0e0;
+            background: #121212;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* HEADER */
+        header {
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            background: #1a1a1a;
+            z-index: 100;
+        }
+
+        header .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+        }
+
+        nav {
+            display: flex;
+            gap: 32px;
+        }
+
+        nav a {
+            font-size: 14px;
+            color: #888;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: white;
+        }
+
+        /* HERO */
+        .hero {
+            text-align: center;
+            padding: 80px 20px 60px;
+            background: #1a1a1a;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            color: white;
+        }
+
+        .hero .subtitle {
+            font-size: 17px;
+            color: #888;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* NARRATIVE SECTIONS */
+        .narrative {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        .narrative h2 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            font-weight: 600;
+            color: #888;
+        }
+
+        .narrative h3 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .narrative p {
+            font-size: 17px;
+            margin-bottom: 18px;
+            color: #ccc;
+        }
+
+        /* FULL-WIDTH SECTIONS */
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px 60px;
+        }
+
+        .section-dark {
+            background: #1a1a1a;
+            padding-top: 60px;
+            padding-bottom: 60px;
+        }
+
+        .section-dark .section {
+            padding-bottom: 0;
+        }
+
+        /* COMPARISON LAYOUTS */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .comparison-side {
+            padding: 30px;
+            border-radius: 12px;
+        }
+
+        .comparison-bad {
+            background: #2a1a1a;
+        }
+
+        .comparison-good {
+            background: #1a2a1a;
+        }
+
+        .comparison-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .comparison-bad .comparison-label {
+            color: #ff6b6b;
+        }
+
+        .comparison-good .comparison-label {
+            color: #69db7c;
+        }
+
+        .comparison-side h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        .comparison-side p {
+            font-size: 15px;
+            color: #aaa;
+            margin-bottom: 12px;
+        }
+
+        .comparison-side img {
+            max-width: 280px;
+            height: auto;
+            display: block;
+            border-radius: 6px;
+            margin: 16px auto 0;
+        }
+
+        .comparison-start {
+            align-items: start;
+        }
+
+        /* SPLIT LAYOUT (before/after) */
+        .split-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+            background: #121212;
+        }
+
+        .split-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .side {
+            padding: 50px;
+            border-radius: 12px;
+        }
+
+        .side-left {
+            background: #2a1a1a;
+        }
+
+        .side-right {
+            background: #1a2a1a;
+        }
+
+        .side h2 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .side-left h2 {
+            color: #ff6b6b;
+        }
+
+        .side-right h2 {
+            color: #69db7c;
+        }
+
+        .side h3 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .side p {
+            font-size: 17px;
+            margin-bottom: 18px;
+            color: #ccc;
+        }
+
+        .problem-list {
+            list-style: none;
+            margin: 25px 0;
+        }
+
+        .problem-list li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            font-size: 15px;
+            color: #ccc;
+        }
+
+        .problem-list li::before {
+            content: "\2717";
+            position: absolute;
+            left: 0;
+            color: #ff6b6b;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .solution-list {
+            list-style: none;
+            margin: 25px 0;
+        }
+
+        .solution-list li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            font-size: 15px;
+            color: #ccc;
+        }
+
+        .solution-list li::before {
+            content: "\2713";
+            position: absolute;
+            left: 0;
+            color: #69db7c;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        /* AI SECTION */
+        .ai-section {
+            background: #1a1a2a;
+            padding: 60px 0;
+        }
+
+        .ai-section .narrative {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        .ai-section h2 {
+            color: #a78bfa;
+        }
+
+        .ai-pipeline {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 20px;
+            align-items: center;
+            margin: 30px 0;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 40px;
+        }
+
+        .ai-pipeline-box {
+            padding: 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .ai-pipeline-input {
+            background: #2a1a1a;
+            color: #ccc;
+        }
+
+        .ai-pipeline-output {
+            background: #1a2a1a;
+            color: #ccc;
+        }
+
+        .ai-pipeline-arrow {
+            font-size: 24px;
+            color: #a78bfa;
+            text-align: center;
+        }
+
+        .ai-pipeline-box .label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .ai-pipeline-input .label {
+            color: #ff6b6b;
+        }
+
+        .ai-pipeline-output .label {
+            color: #69db7c;
+        }
+
+        .ai-pipeline-box .text {
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .ai-pipeline-box .content-card {
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .ai-pipeline-input .content-card {
+            background: #f2d4d8;
+            color: #333;
+        }
+
+        .ai-pipeline-output .content-card {
+            background: #fafafa;
+            color: #1a1a1a;
+        }
+
+        .ai-pipeline-box .strike {
+            text-decoration: line-through;
+            color: #999;
+        }
+
+        .ai-pipeline-box .kept {
+            color: #1a1a1a;
+            font-weight: 500;
+        }
+
+        .ai-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .ai-tag {
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: #fff;
+            color: #6366f1;
+            font-weight: 500;
+            border: 1px solid #e0e0e0;
+        }
+
+        /* INSIGHT SECTION */
+        .insight-section {
+            background: #1a1a1a;
+            padding: 80px 40px;
+            text-align: center;
+        }
+
+        .insight-section h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #ccc;
+        }
+
+        .insight-section p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: #ccc;
+        }
+
+        .insight-box {
+            display: inline-block;
+            background: #2a2a1a;
+            padding: 20px 40px;
+            border-radius: 8px;
+            font-size: 18px;
+            color: #f5a623;
+            font-weight: 600;
+        }
+
+        /* OFFLINE SECTION */
+        .offline-section {
+            background: #1a1a1a;
+            padding: 60px 0;
+        }
+
+        .offline-section .narrative {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        .offline-list {
+            list-style: none;
+            margin: 25px 0;
+        }
+
+        .offline-list li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            font-size: 15px;
+            color: #ccc;
+        }
+
+        .offline-list li::before {
+            content: "\2713";
+            position: absolute;
+            left: 0;
+            color: #69db7c;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #222;
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        footer .tagline {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        footer .subtitle {
+            font-size: 16px;
+            color: #888;
+        }
+
+        footer a {
+            color: #888;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #f5a623;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #f5a623;
+            font-weight: 600;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 968px) {
+            .split-container,
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+
+            .split-wrapper {
+                padding: 40px 20px;
+            }
+
+            .side {
+                padding: 40px 30px;
+            }
+
+            .narrative {
+                padding: 40px 20px;
+            }
+
+            .section {
+                padding: 0 20px 40px;
+            }
+
+            .hero h1 { font-size: 32px; }
+
+            header .container {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            nav {
+                gap: 20px;
+            }
+
+            .ai-pipeline {
+                grid-template-columns: 1fr;
+                padding: 0 20px;
+            }
+
+            .ai-pipeline-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="../index.html" class="logo">Ing. Ales Brom</a>
+            <nav>
+                <a href="../index.html#skills">Co d&ecaron;l&aacute;m</a>
+                <a href="../index.html#work">Pr&aacute;ce</a>
+                <a href="../index.html#contact">Kontakt</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="hero">
+        <h1>Přehr&aacute;vač audioknih</h1>
+        <p class="subtitle">Probl&eacute;m vid&iacute;m. Řešen&iacute; m&aacute;m. K&oacute;duje AI.</p>
+    </div>
+
+    <!-- SEKCE 1: Proč stavět vlastní přehrávač -->
+    <div class="narrative">
+        <h2>Probl&eacute;m</h2>
+        <h3>Dvě platformy, ručn&iacute; stahov&aacute;n&iacute;, ztracen každ&eacute; r&aacute;no</h3>
+        <p>M&aacute;m př&iacute;stup k tis&iacute;covk&aacute;m knih na Audiot&eacute;ce. Plat&iacute;m měs&iacute;čn&iacute; předplatn&eacute; a jsem spokojen&yacute; z&aacute;kazn&iacute;k &mdash; katalog je skvěl&yacute;, služba funguje. Ale poslouchat chodím ven, střídám Wi-Fi a mobilní data, často v místech se slab&yacute;m sign&aacute;lem. Přehr&aacute;vač Audiot&eacute;ky hled&aacute; připojen&iacute;. Když se nemůže připojit, zasekne se. Knihy si můžete st&aacute;hnout pro offline poslech, ale je to někde v nastaven&iacute; &mdash; zapomenete a m&aacute;te smůlu.</p>
+        <p>M&aacute;m taky asi 50 knih na Audiolibrixu, dalš&iacute; česk&eacute; audioknihovně. Jejich appka je horš&iacute;: klepnete na Play a popup v&aacute;m řekne, že nic nen&iacute; stažen&eacute;, jestli chcete nejdř&iacute;v st&aacute;hnout. Tak jsem ji přestal použ&iacute;vat &mdash; ale ty knihy pořád chci.</p>
+        <p>To je skutečn&yacute; důvod, proč jsem si postavil vlastn&iacute; přehr&aacute;vač: <strong>spolehlivé offline přehr&aacute;v&aacute;n&iacute;</strong> a <strong>spojen&iacute; dvou platforem</strong> do jedn&eacute; knihovny. Dokonce i Claude mi řekl, ať do toho nejdu &mdash; ať použ&iacute;v&aacute;m existuj&iacute;c&iacute; platformu. Ale ty přehr&aacute;vače mi nevyhovovaly.</p>
+        <p>Tak jsem postavil Přehr&aacute;vač &mdash; a je to webov&yacute; přehr&aacute;vač, PWA běž&iacute;c&iacute; v Safari, ne nativn&iacute; iOS appka. Funguje l&iacute;p než nativn&iacute; appky, kter&eacute; nahrazuje.</p>
+    </div>
+
+    <!-- SEKCE 2: Audiotéka je dobrá -->
+    <div class="narrative">
+        <h2>F&eacute;rov&yacute; pohled</h2>
+        <h3>Audiot&eacute;ka je dobr&aacute;</h3>
+        <p>Klikateln&eacute; odkazy na autory a interprety, ovl&aacute;dac&iacute; prvky v dosahu palce, katalog, kter&yacute; denně použ&iacute;vaj&iacute; miliony lid&iacute;. Ale čeho je moc, toho je př&iacute;liš.</p>
+    </div>
+
+    <!-- Porovnání detailu knihy -->
+    <div class="section">
+        <div class="comparison comparison-start">
+            <div class="comparison-side comparison-bad">
+                <div class="comparison-label">Audiot&eacute;ka</div>
+                <h4>Detail knihy: pět obrazovek</h4>
+                <img src="audioteka-book-detail.png" alt="Detail knihy v Audiotéce: 4 obrazovky scrollování pro jednu knihu">
+            </div>
+            <div class="comparison-side comparison-good">
+                <div class="comparison-label">Přehr&aacute;vač</div>
+                <h4>Detail knihy: jedna obrazovka</h4>
+                <p>Abyste na Audiot&eacute;ce zjistili, o čem jedna kniha je, mus&iacute;te proscrollovat pět obrazovek: obř&iacute; ob&aacute;lka fyzick&eacute; knihy, nadbytečn&aacute; metadata, sbalený popis s předpřipraveným textem (&bdquo;Audiokniha [n&aacute;zev], autor [autor], čte [interpret], režie [režis&eacute;r]&ldquo;), a když ho konečně rozbal&iacute;te &mdash; marketingov&yacute; text, CAPSLOCK slogany a recenze uživatelů. Skutečn&yacute; př&iacute;běh je pohřben&yacute; o čtyři obrazovky n&iacute;ž.</p>
+                <p>Stejn&aacute; kniha v Přehr&aacute;vači. Metadata, ovl&aacute;d&aacute;n&iacute; přehr&aacute;vače a čist&yacute; popis &mdash; vše viditeln&eacute; bez scrollov&aacute;n&iacute;.</p>
+                <img src="IMG_3673.PNG" alt="Přehrávač: vše viditelné na jedné obrazovce">
+            </div>
+        </div>
+    </div>
+
+    <!-- Úvod knihovny -->
+    <div class="narrative">
+        <h2>Knihovna</h2>
+        <h3>2 000 knih a jak si vybrat?</h3>
+        <p>Většinu večerů stejn&aacute; ot&aacute;zka: co budu poslouchat d&aacute;l? V&iacute;m, že m&aacute;m r&aacute;d interpreta, jsem naladněn&yacute; na sci-fi &mdash; ale nedá se to kombinovat. Klepnu na interpreta a vid&iacute;m všechno, co nač&iacute;tal: detektivky, romanci, historii. Ž&aacute;dn&yacute; způsob, jak ř&iacute;ct &bdquo;jen to sci-fi&ldquo;. Tak scrolluju ploch&yacute;m seznamem a snař&iacute;m se vzpomenout, co jsem už slyšel.</p>
+    </div>
+
+    <!-- Porovnání knihovny -->
+    <div class="section">
+        <div class="comparison">
+            <div class="comparison-side comparison-bad">
+                <div class="comparison-label">Audiot&eacute;ka</div>
+                <h4>Knihovna: ploch&yacute; seznam, jednotliv&eacute; filtry</h4>
+                <p>Ob&aacute;lka + autor + n&aacute;zev + hodnocen&iacute;. Klepnut&iacute;m na interpreta filtruji jen podle interpreta &mdash; ale nedá se to kombinovat se ž&aacute;nrem nebo s&eacute;ri&iacute;. 119 obl&iacute;ben&yacute;ch, ž&aacute;dn&eacute; kř&iacute;žov&eacute; filtrování.</p>
+                <img src="audioteka-favorites.png" alt="Oblíbené v Audiotéce: plochý seznam s obálkou, názvem a hodnocením">
+            </div>
+            <div class="comparison-side comparison-good">
+                <div class="comparison-label">Přehr&aacute;vač</div>
+                <h4>Knihovna: bohat&eacute; karty, kombinovan&eacute; filtry</h4>
+                <p>Žánrové tagy, filtry podle interpreta a autora, které se kombinují. Karty s&eacute;ri&iacute; s počtem d&iacute;lů, popisy viditelné přímo v seznamu. Vyhledávání napříč všemi metadaty.</p>
+                <img src="IMG_3676.PNG" alt="Knihovna přehrávače: cloud tagů, bohaté položky s žánry a informacemi o sérii">
+            </div>
+        </div>
+    </div>
+
+    <!-- Úvod přehrávače -->
+    <div class="narrative">
+        <h2>Přehr&aacute;vač</h2>
+        <h3>Přerušen&iacute; jsou vždycky &bdquo;tak deset minut&ldquo;</h3>
+        <p>Někdo v&aacute;s zastav&iacute; na ulici, myšlenky odběhnou na proch&aacute;zce, na chv&iacute;li usnete &mdash; když se vr&aacute;t&iacute;te do reality, potřebujete se vr&aacute;tit i v kn&iacute;žce. Je to vždycky přibližně stejn&yacute; kus: pět, deset, možn&aacute; patn&aacute;ct minut. Tahání posuvn&iacute;ku znamen&aacute; h&aacute;dat &mdash; nikdy nev&iacute;te, kolik času jste právě posunuli. Klepnout na tečku, kter&aacute; je vždycky 5 minut, je úplně jin&aacute; věc. V&iacute;te přesně, kam se dostanete.</p>
+    </div>
+
+    <!-- Porovnání přehrávače -->
+    <div class="section">
+        <div class="comparison">
+            <div class="comparison-side comparison-bad">
+                <div class="comparison-label">Audiot&eacute;ka</div>
+                <h4>Přehr&aacute;vač: obř&iacute; ob&aacute;lka fyzick&eacute; knihy, posuvn&iacute;k kapitoly</h4>
+                <p>Ob&aacute;lka zab&iacute;r&aacute; 60 % displeje. Surový n&aacute;zev kapitoly &bdquo;19_Muz na stezce 13&ldquo;. Ovládání dole &mdash; spr&aacute;vně umístěn&eacute; pro dosah palce. Ale posuvn&iacute;k se pohybuje v kapitole &mdash; a ani nev&iacute;te, jak je dlouh&aacute;.</p>
+                <img src="audioteka-player.png" alt="Přehrávač Audiotéky: obří obálka, surové názvy kapitol, posuvník na úrovni kapitoly">
+            </div>
+            <div class="comparison-side comparison-good">
+                <div class="comparison-label">Přehr&aacute;vač</div>
+                <h4>Přehr&aacute;vač: čas knihy, tečkov&aacute; navigace</h4>
+                <p>Mal&aacute; ob&aacute;lka + metadata. Uběhnutý a zb&yacute;vaj&iacute;c&iacute; čas cel&eacute; knihy. 30minutov&eacute; okno s 5minutov&yacute;mi tečkami jako klepac&iacute; c&iacute;le. Uspávač a offline jako pilulkov&eacute; ovl&aacute;dac&iacute; prvky. Měnit rychlost nepotřebuju &mdash; tak tam nen&iacute;.</p>
+                <img src="prehravac-detail-new.png" alt="Přehrávač: čas celé knihy, tečková navigace, pilulkové ovládání">
+            </div>
+        </div>
+    </div>
+
+    <!-- Úvod sérií -->
+    <div class="narrative">
+        <h2>S&eacute;rie</h2>
+        <h3>Většina m&yacute;ch obl&iacute;ben&yacute;ch jsou s&eacute;rie</h3>
+        <p>Honor Harringtonov&aacute;, Inferium, česk&eacute; sci-fi, ke kter&eacute;mu se pořád vrac&iacute;m &mdash; většina toho, co poslouchám, jsou dlouh&eacute; s&eacute;rie. Chci vědět, kde jsem: D&iacute;l 3 ze 7, ne jen n&aacute;zev v seznamu. A když objev&iacute;m novou s&eacute;rii, chci vědět, o čem je, než se zav&aacute;žu k 50 hodin&aacute;m poslechu.</p>
+    </div>
+
+    <!-- Porovnání sérií -->
+    <div class="section">
+        <div class="comparison">
+            <div class="comparison-side comparison-bad">
+                <div class="comparison-label">Audiot&eacute;ka</div>
+                <h4>S&eacute;rie: zvl&aacute;štn&iacute; str&aacute;nka, bez popisu</h4>
+                <p>S&eacute;rie jsou označen&eacute; v popisech hashtagy. Ale str&aacute;nka s&eacute;rie samotn&aacute; je jen obří ob&aacute;lka a ploch&yacute; seznam &mdash; ž&aacute;dn&aacute; č&iacute;sla d&iacute;lů, ž&aacute;dn&yacute; popis toho, o čem s&eacute;rie je.</p>
+                <img src="audioteka-series-new.png" alt="Série v Audiotéce: plochý seznam bez čísel dílů a popisu">
+            </div>
+            <div class="comparison-side comparison-good">
+                <div class="comparison-label">Přehr&aacute;vač</div>
+                <h4>S&eacute;rie: rozbalovac&iacute; s popisy</h4>
+                <p>Počet d&iacute;lů viditeln&yacute; př&iacute;mo v knihovně. Klepněte pro rozbalen&iacute;: každ&aacute; kniha ukáže 2ř&aacute;dkov&yacute; popis. AI napsan&eacute; popisy s&eacute;ri&iacute; tam, kde je Audiot&eacute;ka nem&aacute;. Klepněte na n&aacute;zev s&eacute;rie a uv&iacute;d&iacute;te všechny d&iacute;ly.</p>
+                <img src="prehravac-series-new.png" alt="Knihovna přehrávače: série rozbalená s popisy knih">
+            </div>
+        </div>
+    </div>
+
+    <!-- SEKCE 4: Příběh posuvníku -->
+    <div class="narrative">
+        <h2>Designov&yacute; poznatek</h2>
+        <h3>Než začnete stavět chytr&eacute; funkce, udělejte z&aacute;kladn&iacute; interakci spr&aacute;vně</h3>
+        <p>Přehr&aacute;vače audioknih přehr&aacute;vaj&iacute; kapitoly. Takže ukazatel průběhu někdy představuje 8 minut, jindy 3 hodiny. Kapitoly mě nezaj&iacute;maj&iacute;. Zaj&iacute;m&aacute; mě, kolik zb&yacute;v&aacute; z knihy &mdash; stejně jako při čten&iacute; kouk&aacute;m na str&aacute;nku, ne na kapitolu.</p>
+        <p>Prvn&iacute; řešen&iacute; bylo zřejm&eacute;: uk&aacute;zat čas cel&eacute; knihy a přidat tlač&iacute;tka &plusmn;30 minut, aby uživatel mohl přeskočit hranice kapitol. Pak jsem postavil čas na sp&aacute;nek s funkc&iacute; přetočen&iacute; &mdash; nastav&iacute;te sleep na 30 minut, r&aacute;no se probud&iacute;te a přehr&aacute;vač nab&iacute;dne přetočit přesně těch 30 minut jedn&iacute;m klepnut&iacute;m. Přišlo mi to jako killer f&yacute;čura, protože většinou usnu hned.</p>
+        <p>Pak jsem předesignoval samotn&yacute; posuvn&iacute;k. M&iacute;sto spojit&eacute;ho slajderu jsem postavil 30minutov&eacute; okno kolem aktu&aacute;ln&iacute; pozice s tečkami po 5 minut&aacute;ch jako klepac&iacute; c&iacute;le. Chcete se vr&aacute;tit o 10 minut? Jedno klepnut&iacute; na tečku &minus;10. Dopředu o 5? Jedno klepnut&iacute;. Tečky jsou dost velk&eacute; pro osp&aacute;l&yacute; palec o půlnoci.</p>
+        <p>Stalo se něco nečekan&eacute;ho: notifikace s přetočen&iacute;m po sp&aacute;nku &mdash; ta &bdquo;killer feature&ldquo;, na kterou jsem byl pyšn&yacute; &mdash; se z nezbytnosti stala volitelnou. Když je z&aacute;kladn&iacute; navigace jedno klepnut&iacute; na nejbližš&iacute; tečku, na vychyt&aacute;vky spol&eacute;h&aacute;te m&eacute;ně.</p>
+    </div>
+
+    <div class="insight-section" style="padding: 40px;">
+        <div class="insight-box">
+            Spousta &bdquo;killer features&ldquo; existuje jen proto, aby kompenzovala špatn&eacute; z&aacute;klady.<br>Opravte z&aacute;klady a vychyt&aacute;vky se stanou zbytečn&yacute;mi.
+        </div>
+    </div>
+
+    <!-- SEKCE 5: AI vrstva -->
+    <div class="ai-section">
+        <div class="narrative">
+            <h2>AI vrstva</h2>
+            <h3>Popisy, kter&eacute; pomůžou vybrat</h3>
+            <p>Z&aacute;kladem projektu je přehr&aacute;vač &mdash; offline přehr&aacute;v&aacute;n&iacute;, kter&eacute; prostě funguje. Ale jakmile to bylo vyřešen&eacute;, přirozeně se objev&iacute; dalš&iacute; krok: audioknihy si nevyb&iacute;r&aacute;m podle ob&aacute;lky. Vyb&iacute;r&aacute;m je podle toho, o čem jsou a kdo je čte. Popisy v Audiot&eacute;ce to ztěžuj&iacute; v&iacute;c, než je třeba.</p>
+            <p>Tak jsem nechal AI vyrobit udělátko: odstranit předpřipraven&yacute; text (&bdquo;Audiokniha [n&aacute;zev], autor [autor]...&ldquo;), odebrat CAPSLOCK slogany a bloky creditů, oř&iacute;znout na skutečn&yacute; př&iacute;běh. Typick&yacute; popis v Audiot&eacute;ce m&aacute; 3 000 znaků šumu &mdash; pipeline z něj vyt&aacute;hne děj a omez&iacute; na 800. Pak Google Gemini přečte vyčištěn&yacute; text a vygeneruje ž&aacute;nrov&eacute; tagy (9 ž&aacute;nrů, 28 podž&aacute;nrů), detekuje př&iacute;slušnost k s&eacute;rii přes 3stup&ncaron;ov&yacute; syst&eacute;m (regex extrakce, ručn&iacute; přepisy pro zn&aacute;m&eacute; v&yacute;jimky, AI fallback) a p&iacute;še kr&aacute;tk&eacute; popisy s&eacute;ri&iacute; v češtině.</p>
+        </div>
+
+        <div class="ai-pipeline">
+            <div class="ai-pipeline-box ai-pipeline-input">
+                <div class="label">Audiot&eacute;ka surově</div>
+                <div class="content-card">
+                    <div class="text">
+                        <span class="strike">Audiokniha Muž na stezce, autor Engelbert Př&iacute;m, čte Martin Zah&aacute;lka, režie Miloš Vr&aacute;na.</span>
+                        <span class="kept">Inferium #1.</span>
+                        <span class="strike">TEMN&Aacute; A STRHUJ&Iacute;C&Iacute; VIZE BUDOUCNOSTI!</span>
+                        <span class="kept">Z temn&yacute;ch mračen, kter&aacute; se nad lidstvem l&eacute;ta stahovala, konečně uhodilo. Většina světov&eacute; populace podlehla vražedn&eacute;mu viru...</span>
+                        <span class="strike">Drsn&yacute; vědeckofantastick&yacute; rom&aacute;n v ponur&eacute; &eacute;ře soumraku lidstva. Pokud chcete vědět, kam až může lidstvo klesnout, tenhle př&iacute;běh v&aacute;m to uk&aacute;že. A jestli ano, jste divn&iacute;.</span>
+                        <span class="strike">Copyright &copy; Engelbert Př&iacute;m, Audiot&eacute;ka 2022. Nahr&aacute;vka vznikla ve studiu XYZ. Zvuk a režie Miloš Vr&aacute;na.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ai-pipeline-arrow">&rarr;</div>
+            <div class="ai-pipeline-box ai-pipeline-output">
+                <div class="label">Vyčištěno + AI tagy</div>
+                <div class="content-card">
+                    <div class="text">
+                        Z temn&yacute;ch mračen, kter&aacute; se nad lidstvem l&eacute;ta stahovala, konečně uhodilo. Většina světov&eacute; populace podlehla vražedn&eacute;mu viru...
+                    </div>
+                    <div class="ai-tags">
+                        <span class="ai-tag">Sci-fi</span>
+                        <span class="ai-tag">Postapo</span>
+                        <span class="ai-tag">D&iacute;l 1 z 5</span>
+                        <span class="ai-tag">Inferium</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="narrative" style="padding-top: 30px;">
+            <p>2 000 knih, všechny s čist&yacute;mi popisy zaměřen&yacute;mi na př&iacute;běh, ž&aacute;nrov&yacute;mi a podž&aacute;nrov&yacute;mi tagy pro filtrov&aacute;n&iacute; a pozic&iacute; v s&eacute;rii. Ne n&aacute;hrada dat Audiot&eacute;ky &mdash; vrstva nad nimi, kter&aacute; ze seznamu jmen &uacute;častn&iacute;ků z&aacute;jezdu udělá poutav&eacute; čten&iacute;.</p>
+        </div>
+    </div>
+
+    <!-- SEKCE 6: Offline a spolehlivost -->
+    <div class="offline-section">
+        <div class="narrative">
+            <h2>Neviditeln&yacute; UX design</h2>
+            <h3>Syst&eacute;m řeš&iacute; chyby, uživatel děl&aacute; to, proč přišel</h3>
+            <p>Funkce, kter&eacute; nikdo nevid&iacute;, jsou ty nejdůležitějš&iacute;, když nefunguj&iacute; ty internety. Můj standardn&iacute; př&iacute;stup je jednoduch&yacute;: dokud syst&eacute;m nezkusil vše možn&eacute; i nemožn&eacute;, aby chybu odstranil s&aacute;m, nem&aacute; pr&aacute;vo obtěžovat uživatele.</p>
+            <ul class="offline-list">
+                <li><strong>Automatick&eacute; stahov&aacute;n&iacute; &bdquo;do foroty&ldquo;</strong> &mdash; na pozad&iacute; stahuje dalš&iacute;ch ~30 minut kapitol během přehr&aacute;v&aacute;n&iacute;. Ž&aacute;dn&aacute; tlač&iacute;tka pro ručn&iacute; stahov&aacute;n&iacute;.</li>
+                <li><strong>Chytr&eacute; maz&aacute;n&iacute;</strong> &mdash; když se zaplní úložiště, 4stupňov&yacute; syst&eacute;m nejdř&iacute;v odstraní přehran&eacute; kapitoly jin&yacute;ch knih, aktu&aacute;ln&iacute; knihu chr&aacute;n&iacute;. Ž&aacute;dn&yacute; ručn&iacute; úklid.</li>
+                <li><strong>5stupňov&eacute; rozlišov&aacute;n&iacute; URL</strong> &mdash; IndexedDB cache, in-memory cache, předrozlišen&eacute; CDN, API proxy, graciézní null. Přehr&aacute;vač zkus&iacute; všechno, než to vzd&aacute;.</li>
+                <li><strong>Automatick&aacute; obnova</strong> &mdash; chyby zvuku spust&iacute; automatick&eacute; znovu-rozlišen&iacute;. Obnoven&iacute; připojen&iacute; pokračuje tam, kde jste skončili. Ž&aacute;dn&aacute; tlač&iacute;tka pro ručn&iacute; opakov&aacute;n&iacute;.</li>
+            </ul>
+            <p style="font-style: italic; color: #888;">Prvn&iacute; den jsem si lehl do postele se sluch&aacute;tky, poslouchal dobrodružstv&iacute; kapit&aacute;nky Harringtonov&eacute;, a m&aacute;lem jsem se rozbrečel, když jsem zapnul režim v letadle a ono to pořád hr&aacute;lo.</p>
+        </div>
+    </div>
+
+    <!-- SEKCE 7: Shrnutí -->
+    <div class="split-wrapper">
+        <div class="split-container">
+            <div class="side side-left">
+                <h2>Co mi vadilo</h2>
+                <h3>Možn&aacute; maličkosti, ale tis&iacute;ckr&aacute;t nic umořilo osla</h3>
+                <ul class="problem-list">
+                    <li>Ž&aacute;dn&yacute; sign&aacute;l, ž&aacute;dn&eacute; přehr&aacute;v&aacute;n&iacute;. Offline vyžaduje ručn&iacute; stahov&aacute;n&iacute; před každ&yacute;m v&yacute;letem &mdash; a ručn&iacute; úklid potom.</li>
+                    <li>Dvě platformy audioknih, dvě appky, ž&aacute;dn&yacute; způsob, jak je spojit do jedn&eacute; knihovny.</li>
+                    <li>Usn&iacute;te při poslechu, r&aacute;no se probud&iacute;te, nemůžete naj&iacute;t, kde jste byli. Ukazatel ukazuje kapitoly, ne knihu.</li>
+                    <li>Chcete &bdquo;sci-fi čten&eacute; t&iacute;mhle interpretem&ldquo;? Nemožn&eacute;. Filtry se nedaj&iacute; kombinovat.</li>
+                    <li>Popisy knih pohřben&eacute; pod předpřipraven&yacute;m textem, credity a CAPSLOCK marketingov&yacute;mi slogany.</li>
+                    <li>S&eacute;rie existuj&iacute;, ale na kartě nen&iacute; ž&aacute;dn&eacute; &bdquo;D&iacute;l 3 ze 7&ldquo; a ž&aacute;dn&yacute; popis toho, o čem s&eacute;rie je.</li>
+                </ul>
+            </div>
+
+            <div class="side side-right">
+                <h2>Co jsem postavil</h2>
+                <h3>Přehr&aacute;vač pro to, jak skutečně poslouchám</h3>
+                <ul class="solution-list">
+                    <li><strong>Offline prostě funguje</strong> &mdash; automatick&eacute; stahov&aacute;n&iacute; &bdquo;do foroty&ldquo; během přehr&aacute;v&aacute;n&iacute;, chytr&eacute; maz&aacute;n&iacute; při zaplněn&iacute; úložiště, automatick&aacute; obnova při znovu připojen&iacute;. Nula ručn&iacute;ch kroků.</li>
+                    <li><strong>Jedna knihovna</strong> &mdash; Audiot&eacute;ka a Audiolibrix spojen&eacute;. 2 000 knih, jeden přehr&aacute;vač, jedno vyhled&aacute;v&aacute;n&iacute;.</li>
+                    <li><strong>Čas knihy</strong> &mdash; uběhnutý a zb&yacute;vaj&iacute;c&iacute; pro celou knihu. 30minutov&eacute; okno s tečkovou navigac&iacute;. Probud&iacute;te se, klepnete na nejbližš&iacute; tečku, posloucháte d&aacute;l.</li>
+                    <li><strong>Kombinovan&eacute; filtry</strong> &mdash; klepněte na interpreta, přidejte ž&aacute;nr, hledejte podle n&aacute;zvu. Jm&eacute;na jsou navigace &mdash; každ&eacute; metadatov&eacute; pole je filtr.</li>
+                    <li><strong>Čist&eacute; popisy</strong> &mdash; 3 000 znaků šumu oř&iacute;znut&yacute;ch na skutečn&yacute; př&iacute;běh. Žánrové tagy od Gemini. Vyb&iacute;rejte podle děje, ne podle marketingu.</li>
+                    <li><strong>S&eacute;rie inline</strong> &mdash; &bdquo;D&iacute;l 3 ze 7&ldquo; na každ&eacute; kartě, rozbalovac&iacute; s popisy. AI p&iacute;še to, co Audiot&eacute;ka nem&aacute;.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SEKCE 8: Závěr -->
+    <div class="insight-section">
+        <h3>Co jsem se naučil</h3>
+        <p>Jsem UX design&eacute;r, ne v&yacute;voj&aacute;ř. Postavil jsem to s Claude Code &mdash; ale přehr&aacute;vač nebyl jedin&yacute; c&iacute;l. Než jsem začal, měl jsem pl&aacute;n: vytvořit znovupoužiteln&yacute; designov&yacute; skill, kter&yacute; Claude aplikuje na každ&yacute; projekt automaticky. Jako z&aacute;klad jsem vzal GitLab Pajamas, přidal principy, kter&yacute;m věř&iacute;m &mdash; odpouštěj&iacute;c&iacute; software, undo m&iacute;sto potvrzovac&iacute;ch dialogů, inputy dimenzovan&eacute; podle obsahu &mdash; a začal stavět. Každ&yacute; re&aacute;ln&yacute; probl&eacute;m skill zpřesnil. &bdquo;Jm&eacute;na jsou navigace&ldquo; vzniklo z oprav knihovny. &bdquo;Syst&eacute;m řeš&iacute; chyby, uživatel nedělá nic&ldquo; vzniklo z offline přehr&aacute;v&aacute;n&iacute;. Skill vyrostl z obecn&eacute; šablony na 24KB otestovan&yacute;ch vzorů. Přehr&aacute;vač audioknih byl skutečn&yacute; projekt. Designov&yacute; skill byl pl&aacute;n od zač&aacute;tku.</p>
+        <div class="insight-box">
+            Nejlepš&iacute; osobn&iacute; n&aacute;stroje vznikaj&iacute; z řešen&iacute; vlastn&iacute;ch frustrac&iacute; &mdash;<br>pokud jste upř&iacute;mn&iacute; v tom, kdo je uživatel.
+        </div>
+    </div>
+
+    <footer>
+        <div class="tagline">M&aacute;te zad&aacute;n&iacute;, kter&eacute; potřebuje napadnout?<br>Nebo zmatek, kter&yacute; potřebuje zjednodušit?</div>
+        <div class="subtitle">Odstraňuji, co nen&iacute; podstatn&eacute;. Abyste se mohli soustředit na to, co je.</div>
+        <a href="../index.html#work" class="back-link">Zpět na portfolio</a>
+    </footer>
+</body>
+</html>

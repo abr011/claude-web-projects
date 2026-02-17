@@ -603,7 +603,7 @@
                 <h4>Book Detail: One Screen</h4>
                 <p>To see what a single book is about on Audioteka, you scroll through five screens: a giant cover, redundant metadata, a collapsed description prefixed with boilerplate ("Audiokniha [title], autor [author], cte [narrator], rezie [director]"), and when you finally expand it &mdash; marketing copy, CAPSLOCK taglines, and user reviews. The actual story is buried four screens down.</p>
                 <p>Same book in Přehr&aacute;vač. Metadata, player controls, and a clean description &mdash; all visible without scrolling.</p>
-                <img src="prehravac-player-new.png" alt="Prehravac player: everything visible in one screen">
+                <img src="IMG_3673.PNG" alt="Prehravac player: everything visible in one screen">
             </div>
         </div>
     </div>
@@ -628,7 +628,7 @@
                 <div class="comparison-label">Přehr&aacute;vač</div>
                 <h4>Library: Rich Cards, Combined Filters</h4>
                 <p>Genre tags, narrator and author filters that combine. Series cards with position ("Part 6 of 7"), descriptions visible inline. Search across all metadata.</p>
-                <img src="prehravac-library-new.png" alt="Prehravac library: tag cloud, rich list items with genre tags and series info">
+                <img src="IMG_3676.PNG" alt="Prehravac library: tag cloud, rich list items with genre tags and series info">
             </div>
         </div>
     </div>
@@ -684,7 +684,7 @@
     <!-- SECTION 4: The Seek Bar Story -->
     <div class="narrative">
         <h2>Design Insight</h2>
-        <h3>Before Building Clever Features, Make the Basic Interaction Excellent</h3>
+        <h3>Before Building Clever Features, Make the Basic Interaction Right</h3>
         <p>Audiobook players play chapters. So the progress bar sometimes represents 8 minutes, sometimes 3 hours. I don't care about chapters. I care how much of the book is left.</p>
         <p>The first solution was obvious: show book-level time and add &plusmn;30 minute skip buttons so users can jump past chapter boundaries. Then I built a sleep timer with a rewind feature &mdash; fall asleep for 30 minutes, wake up, and the player offers to rewind exactly those 30 minutes with one tap. It felt like a killer feature.</p>
         <p>Then I redesigned the seek bar itself. Instead of a continuous slider, I built a 30-minute window centered on the current position, with 5-minute interval dots as tap targets. Want to go back 10 minutes? One tap on the &minus;10 dot. Forward 5? One tap. The dots are large enough for a sleepy thumb at midnight.</p>
@@ -746,7 +746,7 @@
     <div class="offline-section">
         <div class="narrative">
             <h2>Invisible UX</h2>
-            <h3>System Handles Errors, User Does Nothing</h3>
+            <h3>System Handles Errors, User Does What She Came For</h3>
             <p>The features nobody sees are the ones that matter most when you're listening in bed with no signal. My design principle was simple: the system handles every error automatically. Toast notifications are a last resort, not a first response.</p>
             <ul class="offline-list">
                 <li><strong>Auto-prefetch</strong> &mdash; background downloads the next ~30 minutes of chapters during playback. No manual download buttons.</li>
