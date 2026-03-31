@@ -466,79 +466,11 @@ $('input').keyup(function () {
 	get_proper_value(key);
 });
 
-// Format amount with spans for thousands (10000+)
-function formatAmountWithSpans(amount) {
-	var num = parseInt(String(amount).replace(/\s/g, ''), 10);
-	if (num < 10000) return String(num);
-	var str = String(num);
-	var parts = [];
-	while (str.length > 3) {
-		parts.unshift(str.slice(-3));
-		str = str.slice(0, -3);
-	}
-	if (str.length > 0) parts.unshift(str);
-	return parts.map(function(part, index) {
-		if (index < parts.length - 1) {
-			return "<span class='amount-thousands'>" + part + "</span>";
-		}
-		return part;
-	}).join('');
-}
-
-// Generate filename based on format template
-function generatePdfFilename(data) {
-	var myInfo = window.myInfo || {};
-	var myName = myInfo.name || 'ales-brom';
-	var invNum = String(data.invoice_number).padStart(2, '0');
-	var year = String(data.invoice_number_year).slice(-2);
-	var clientName = data.client_name || 'klient';
-
-	function normalize(str) {
-		return str.toLowerCase()
-			.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-			.replace(/[^a-z0-9]+/g, '-')
-			.replace(/^-+|-+$/g, '');
-	}
-
-	var format = data.filename_format || 'fa-{jmeno}-{cislo}-{rok}-{klient}';
-	return format
-		.replace('{jmeno}', normalize(myName))
-		.replace('{cislo}', invNum)
-		.replace('{rok}', year)
-		.replace('{klient}', normalize(clientName));
-}
-
-// Save invoice to Firebase with automatic retry
-function saveInvoiceToAPI(data) {
-	if (!data) return;
-
-	database.ref("invoice").push({
-		amount: data.amount,
-		client_key: data.client_key,
-		client_name: data.client_name,
-		date_issued: data.date_issued,
-		date_to_send: data.date_to_send,
-		for_what: data.for_what,
-		invoice_number: data.invoice_number,
-		invoice_number_year: data.invoice_number_year,
-		thanks: data.thanks
-	}).then(function() {
-		localStorage.removeItem('invoicePending');
-		console.log('Invoice saved');
-	}).catch(function(error) {
-		console.log('Save failed, retrying in 5s...', error);
-		setTimeout(function() {
-			saveInvoiceToAPI(data);
-		}, 5000);
-	});
-}
 
 $('#confirm_invoice .button').on("click", function () {
 	if ($(this).hasClass("disabled")) {
 		return;
 	}
-
-	$('#confirm_invoice .button').addClass("disabled");
 
 	// Get current form values
 	get_proper_value('invoice_number');
@@ -560,83 +492,11 @@ $('#confirm_invoice .button').on("click", function () {
 		filename_format: $('#filename-format-display').text() || 'fa-{jmeno}-{cislo}-{rok}-{klient}'
 	};
 
-	// Store for retry if needed
+	// Store as pending (will be saved to Firebase after PDF download)
 	localStorage.setItem('invoicePending', JSON.stringify(invoiceData));
 
-	// Populate hidden print template
-	var $tpl = $('#print-template');
-	var invNum = String(invoiceData.invoice_number).padStart(2, '0');
-	var myInfo = window.myInfo || {};
-
-	// My info
-	var myFullName = myInfo.name + ', ' + myInfo.address_street + ', ' + myInfo.address_town + ', ' + myInfo.address_zip;
-	var myAccount = (myInfo.account_prefix ? myInfo.account_prefix + ' – ' : '') + myInfo.account_number + ' / ' + myInfo.bank_code;
-
-	$tpl.find('#print_invoice_number').html("Faktura č. <span class='inv-nn'>" + invNum + "</span><span class='inv-yyyy'>" + invoiceData.invoice_number_year + "</span>");
-	$tpl.find('#me .name').html(myFullName);
-	$tpl.find('#me .legal_id').html('IČ ' + myInfo.legal_id);
-	$tpl.find('#account_number .my_account_number').html(myAccount);
-
-	// Invoice data
-	$tpl.find('#print_for_what .for_what').html(invoiceData.for_what);
-	$tpl.find('#date .date_to_send').html(invoiceData.date_to_send);
-	$tpl.find('#date .date_issued').html(invoiceData.date_issued);
-	$tpl.find('#print_amount .total_amount').html(formatAmountWithSpans(invoiceData.amount) + ' Kč');
-
-	// Client info
-	var clientInfo = $('.client .additional_info').text();
-	var clientAddress = clientInfo.split(', IČ')[0] || '';
-	var clientLegalId = clientInfo.split('IČ ')[1] || '';
-	$tpl.find('#client .name').html(invoiceData.client_name + ', ' + clientAddress);
-	$tpl.find('#client .legal_id').html('IČ ' + clientLegalId);
-
-	// Thanks
-	$tpl.find('#print_thanks .thanks').html(invoiceData.thanks);
-
-	// Generate QR code URL
-	var pureAmount = String(invoiceData.amount).replace(/\s/g, '');
-	var vs = invNum + invoiceData.invoice_number_year;
-	if (myInfo.account_number && myInfo.bank_code) {
-		var qrUrl = '<img src="https://api.paylibo.com/paylibo/generator/czech/image?accountNumber=' + myInfo.account_number + '&bankCode=' + myInfo.bank_code + '&amount=' + pureAmount + '&currency=CZK&vs=' + vs + '">';
-		$tpl.find('.qr').html(qrUrl);
-	}
-
-	// Generate PDF
-	var filename = generatePdfFilename(invoiceData) + '.pdf';
-	var element = document.getElementById('invoice-content');
-
-	// Temporarily show the template for rendering
-	$tpl.css('left', '0');
-
-	var opt = {
-		margin: [10, 10, 10, 10],
-		filename: filename,
-		image: { type: 'jpeg', quality: 0.98 },
-		html2canvas: { scale: 2, useCORS: true },
-		jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-	};
-
-	html2pdf().set(opt).from(element).save().then(function() {
-		// Hide template again
-		$tpl.css('left', '-9999px');
-
-		// Save to API
-		saveInvoiceToAPI(invoiceData);
-
-		// Reset form for next invoice
-		var nextInvoiceNum = parseInt(invoiceData.invoice_number) + 1;
-		$('#new_invoice_number').val(String(nextInvoiceNum).padStart(2, '0'));
-
-		// Reset dates to today + 14 days
-		dateIssuedPicker.setDate(new Date(), true);
-		dateToSendPicker.setDate(moment().add(14, 'days').toDate(), true);
-
-		// Update last invoice number hint
-		$('#invoice_number .additional_info').text(invNum + ' ' + invoiceData.invoice_number_year + ' je číslo poslední faktury');
-
-		// Re-enable button
-		$('#confirm_invoice .button').removeClass("disabled");
-	});
+	// Navigate to print page which auto-generates PDF and saves to Firebase
+	window.location.href = 'invoice_to_print.html?save=true';
 });
 
 // Preview links - save form data to localStorage before opening
