@@ -204,8 +204,10 @@ function loadInitialData() {
 	});
 
 	// Load my info
-	var myInfoPromise = database.ref("about_me").limitToLast(1).once("child_added").then(function(snapshot) {
-		myInfoData = snapshot.val();
+	var myInfoPromise = database.ref("about_me").limitToLast(1).once("value").then(function(snapshot) {
+		snapshot.forEach(function(child) {
+			myInfoData = child.val();
+		});
 	});
 
 	// Load clients
