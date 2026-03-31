@@ -7,6 +7,32 @@ var animationEnd = "webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimation
 var ok = "&#127867;";
 var nok = " ";
 
+// Check for edit mode
+var urlParams = new URLSearchParams(window.location.search);
+var editKey = urlParams.get('edit');
+
+if (editKey) {
+	$(document).ready(function() {
+		database.ref("about_client/" + editKey).once("value").then(function(snapshot) {
+			var client = snapshot.val();
+			if (!client) return;
+
+			$('#new_client_legal_id').val(client.client_legal_id || '');
+			$('#new_client_tax_id').val(client.client_tax_id || '');
+			$('#new_client_name').val(client.client_name_id || '');
+			$('#new_client_address_street').val(client.client_address_street || '');
+			$('#new_client_address_town').val(client.client_address_town || '');
+			$('#new_client_address_zip').val(client.client_address_zip || '');
+
+			// Re-run validation on all fields
+			Object.keys(list_of_form_fields).forEach(function(key) {
+				get_proper_value(key);
+				input_status(list_of_form_fields[key], list_of_form_fields[key].cleared_input_value);
+			});
+		});
+	});
+}
+
 var list_of_form_fields = {
 
 	"client_legal_id": {
@@ -214,15 +240,21 @@ $('#confirm_about_client .button').on("click", function () {
 	if ($(this).hasClass("disabled")) {
 		what_is_wrong(2);
 	} else {
-		database.ref("about_client").push({
+		var clientData = {
 			client_legal_id: list_of_form_fields.client_legal_id.cleared_input_value,
 			client_tax_id: list_of_form_fields.client_tax_id.cleared_input_value,
 			client_name_id: list_of_form_fields.client_name.cleared_input_value,
 			client_address_street: list_of_form_fields.client_address_street.cleared_input_value,
 			client_address_town: list_of_form_fields.client_address_town.cleared_input_value,
 			client_address_zip: list_of_form_fields.client_address_zip.cleared_input_value,
-		}).then(function() {
-			window.location.href = "index.html";
+		};
+
+		var saveRef = editKey
+			? database.ref("about_client/" + editKey).update(clientData)
+			: database.ref("about_client").push(clientData);
+
+		saveRef.then(function() {
+			window.location.href = editKey ? "clients.html" : "index.html";
 		}).catch(function(error) {
 			alert('Chyba při ukládání: ' + error.message);
 		});

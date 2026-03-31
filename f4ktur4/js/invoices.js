@@ -138,7 +138,7 @@ function loadInvoiceAndNavigate(key, targetPage) {
         client_key: data.client_key
     };
 
-    sessionStorage.setItem('invoicePreview', JSON.stringify(previewData));
+    localStorage.setItem('invoicePreview', JSON.stringify(previewData));
     window.location.href = targetPage;
 }
 
