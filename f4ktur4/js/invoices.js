@@ -1,36 +1,31 @@
-// Check authentication
-checkAuth();
-
 // Store clients for name lookup
 var clientsMap = {};
 
 // Load clients first, then invoices
-firebase.database().ref("about_client").once('value').then(function(clientsSnapshot) {
-    // Build clients map
-    clientsSnapshot.forEach(function(child) {
-        clientsMap[child.key] = child.val().client_name_id;
-    });
+function loadData() {
+    database.ref("about_client").once("value").then(function(clientSnapshot) {
+        clientSnapshot.forEach(function(child) {
+            clientsMap[child.key] = child.val().client_name_id;
+        });
 
-    // Now load invoices
-    firebase.database().ref("invoice").on('value', function(snapshot) {
+        return database.ref("invoice").once("value");
+    }).then(function(invSnapshot) {
         var invoices = [];
-
-        snapshot.forEach(function(childSnapshot) {
-            invoices.push({
-                key: childSnapshot.key,
-                data: childSnapshot.val()
-            });
+        invSnapshot.forEach(function(child) {
+            invoices.push({ key: child.key, ...child.val() });
         });
-
-        // Sort by year and number (newest first)
-        invoices.sort(function(a, b) {
-            var aNum = parseInt(a.data.invoice_number_year + String(a.data.invoice_number).padStart(2, '0'));
-            var bNum = parseInt(b.data.invoice_number_year + String(b.data.invoice_number).padStart(2, '0'));
-            return bNum - aNum;
-        });
-
+        // Sort newest first (by key descending)
+        invoices.reverse();
         renderInvoices(invoices);
+    }).catch(function(error) {
+        console.error('Failed to load data:', error);
+        alert('Nepodařilo se načíst data: ' + error.message);
     });
+}
+
+// Initial load
+$(document).ready(function() {
+    loadData();
 });
 
 function renderInvoices(invoices) {
@@ -49,14 +44,13 @@ function renderInvoices(invoices) {
     var currentYear = null;
 
     invoices.forEach(function(invoice) {
-        var data = invoice.data;
-        var isArchived = data.archived === true;
-        var invNumber = String(data.invoice_number).padStart(2, '0');
-        var amount = formatAmount(data.amount);
-        var year = data.invoice_number_year;
+        var isArchived = invoice.archived === true;
+        var invNumber = String(invoice.invoice_number).padStart(2, '0');
+        var amount = formatAmount(invoice.amount);
+        var year = invoice.invoice_number_year;
 
         // Get client name from stored value or lookup from clients map
-        var clientName = data.client_name || clientsMap[data.client_key] || 'Neznámý klient';
+        var clientName = invoice.client_name || clientsMap[invoice.client_key] || 'Neznámý klient';
 
         // Add year divider if year changed
         if (year !== currentYear) {
@@ -68,7 +62,7 @@ function renderInvoices(invoices) {
         var headerText = invNumber + ' — ' + clientName;
 
         // Info line: amount, date
-        var infoLine = amount + ' Kč, ' + data.date_issued;
+        var infoLine = amount + ' Kč, ' + invoice.date_issued;
 
         var html = '<div class="invoice-item' + (isArchived ? ' archived' : '') + '" data-key="' + invoice.key + '">' +
             '<div class="item-header">' + headerText + '</div>' +
@@ -96,6 +90,21 @@ function formatAmount(amount) {
     return num.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 }
 
+// Store invoices data for preview lookups
+var invoicesData = {};
+
+// Update invoicesData when loading
+function loadInvoicesData() {
+    database.ref("invoice").once("value").then(function(snapshot) {
+        snapshot.forEach(function(child) {
+            invoicesData[child.key] = { key: child.key, ...child.val() };
+        });
+    }).catch(function(error) {
+        console.error('Failed to load invoices data:', error);
+    });
+}
+loadInvoicesData();
+
 // View invoice - load into sessionStorage and navigate
 $(document).on('click', '.view-bezna', function(e) {
     e.preventDefault();
@@ -110,26 +119,27 @@ $(document).on('click', '.view-nova', function(e) {
 });
 
 function loadInvoiceAndNavigate(key, targetPage) {
-    var invoiceRef = firebase.database().ref("invoice").child(key);
+    var data = invoicesData[key];
 
-    invoiceRef.once('value').then(function(snapshot) {
-        var data = snapshot.val();
+    if (!data) {
+        alert('Faktura nenalezena');
+        return;
+    }
 
-        // Format for preview
-        var previewData = {
-            invoice_number: data.invoice_number,
-            invoice_number_year: data.invoice_number_year,
-            date_issued: data.date_issued,
-            date_to_send: data.date_to_send,
-            amount: data.amount,
-            for_what: data.for_what,
-            thanks: data.thanks,
-            client_key: data.client_key
-        };
+    // Format for preview
+    var previewData = {
+        invoice_number: data.invoice_number,
+        invoice_number_year: data.invoice_number_year,
+        date_issued: data.date_issued,
+        date_to_send: data.date_to_send,
+        amount: data.amount,
+        for_what: data.for_what,
+        thanks: data.thanks,
+        client_key: data.client_key
+    };
 
-        sessionStorage.setItem('invoicePreview', JSON.stringify(previewData));
-        window.location.href = targetPage;
-    });
+    sessionStorage.setItem('invoicePreview', JSON.stringify(previewData));
+    window.location.href = targetPage;
 }
 
 // Archive invoice
@@ -139,10 +149,11 @@ $(document).on('click', '.invoice-item .archive', function() {
     var invoiceNumber = item.find('.item-header').text();
 
     if (confirm('Archivovat fakturu ' + invoiceNumber + '?')) {
-        firebase.database().ref("invoice").child(key).update({ archived: true })
-            .catch(function(error) {
-                alert('Chyba: ' + error.message);
-            });
+        database.ref("invoice/" + key).update({archived: true}).then(function() {
+            loadData(); // Reload list
+        }).catch(function(error) {
+            alert('Chyba: ' + error.message);
+        });
     }
 });
 
@@ -150,8 +161,9 @@ $(document).on('click', '.invoice-item .archive', function() {
 $(document).on('click', '.invoice-item .reactivate', function() {
     var key = $(this).data('key');
 
-    firebase.database().ref("invoice").child(key).update({ archived: false })
-        .catch(function(error) {
-            alert('Chyba: ' + error.message);
-        });
+    database.ref("invoice/" + key).update({archived: false}).then(function() {
+        loadData(); // Reload list
+    }).catch(function(error) {
+        alert('Chyba: ' + error.message);
+    });
 });

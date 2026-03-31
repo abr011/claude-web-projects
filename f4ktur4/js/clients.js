@@ -1,30 +1,25 @@
-// Check authentication
-checkAuth();
-
 // Load all clients from Firebase
-var clientsRef = firebase.database().ref("about_client");
-
-clientsRef.on('value', function(snapshot) {
-    var clients = [];
-
-    snapshot.forEach(function(childSnapshot) {
-        clients.push({
-            key: childSnapshot.key,
-            data: childSnapshot.val()
+function loadClients() {
+    database.ref("about_client").once("value").then(function(snapshot) {
+        var clients = [];
+        snapshot.forEach(function(child) {
+            clients.push({ key: child.key, ...child.val() });
         });
+        // Sort: non-archived first, then alphabetically
+        clients.sort(function(a, b) {
+            if (a.archived !== b.archived) return a.archived ? 1 : -1;
+            return (a.client_name_id || '').localeCompare(b.client_name_id || '', 'cs');
+        });
+        renderClients(clients);
+    }).catch(function(error) {
+        console.error('Failed to load clients:', error);
+        alert('Nepodařilo se načíst klienty: ' + error.message);
     });
+}
 
-    // Sort alphabetically by name (archived at end)
-    clients.sort(function(a, b) {
-        // Archived at the end
-        if (a.data.archived !== b.data.archived) {
-            return a.data.archived ? 1 : -1;
-        }
-        // Alphabetically by name
-        return (a.data.client_name_id || '').localeCompare(b.data.client_name_id || '', 'cs');
-    });
-
-    renderClients(clients);
+// Initial load
+$(document).ready(function() {
+    loadClients();
 });
 
 function renderClients(clients) {
@@ -41,27 +36,26 @@ function renderClients(clients) {
     emptyMessage.addClass('hidden');
 
     clients.forEach(function(client) {
-        var data = client.data;
-        var isArchived = data.archived === true;
+        var isArchived = client.archived === true;
 
         // Build info line: street, city, IČ, DIČ
         var infoParts = [];
-        if (data.client_address_street) {
-            infoParts.push(data.client_address_street);
+        if (client.client_address_street) {
+            infoParts.push(client.client_address_street);
         }
-        if (data.client_address_town) {
-            infoParts.push(data.client_address_town);
+        if (client.client_address_town) {
+            infoParts.push(client.client_address_town);
         }
-        if (data.client_legal_id) {
-            infoParts.push('IČ ' + data.client_legal_id);
+        if (client.client_legal_id) {
+            infoParts.push('IČ ' + client.client_legal_id);
         }
-        if (data.client_tax_id) {
-            infoParts.push('DIČ CZ' + data.client_tax_id);
+        if (client.client_tax_id) {
+            infoParts.push('DIČ CZ' + client.client_tax_id);
         }
         var infoLine = infoParts.join(', ');
 
         var html = '<div class="client-item' + (isArchived ? ' archived' : '') + '" data-key="' + client.key + '">' +
-            '<div class="item-header">' + (data.client_name_id || 'Bez názvu') + '</div>' +
+            '<div class="item-header">' + (client.client_name_id || 'Bez názvu') + '</div>' +
             '<div class="item-row">' +
                 '<div class="item-info">' + infoLine + '</div>' +
                 '<div class="item-actions">';
@@ -83,13 +77,14 @@ function renderClients(clients) {
 $(document).on('click', '.archive', function() {
     var key = $(this).data('key');
     var item = $(this).closest('.client-item');
-    var clientName = item.find('.client-name').text();
+    var clientName = item.find('.item-header').text();
 
     if (confirm('Archivovat klienta ' + clientName + '?')) {
-        firebase.database().ref("about_client").child(key).update({ archived: true })
-            .catch(function(error) {
-                alert('Chyba: ' + error.message);
-            });
+        database.ref("about_client/" + key).update({archived: true}).then(function() {
+            loadClients(); // Reload list
+        }).catch(function(error) {
+            alert('Chyba: ' + error.message);
+        });
     }
 });
 
@@ -97,8 +92,9 @@ $(document).on('click', '.archive', function() {
 $(document).on('click', '.reactivate', function() {
     var key = $(this).data('key');
 
-    firebase.database().ref("about_client").child(key).update({ archived: false })
-        .catch(function(error) {
-            alert('Chyba: ' + error.message);
-        });
+    database.ref("about_client/" + key).update({archived: false}).then(function() {
+        loadClients(); // Reload list
+    }).catch(function(error) {
+        alert('Chyba: ' + error.message);
+    });
 });
