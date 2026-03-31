@@ -495,8 +495,8 @@ $('#confirm_invoice .button').on("click", function () {
 	// Store as pending (will be saved to Firebase after PDF download)
 	localStorage.setItem('invoicePending', JSON.stringify(invoiceData));
 
-	// Navigate to print page which auto-generates PDF and saves to Firebase
-	window.location.href = 'invoice_to_print.html?save=true';
+	// Open print page in background to generate PDF (stay on this page)
+	window.open('invoice_to_print.html?save=true', '_blank');
 });
 
 // Preview links - save form data to localStorage before opening

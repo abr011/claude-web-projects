@@ -16,7 +16,7 @@ body:not(:has(.container)) {
 h1 {
 	font-size: 2rem;
 	line-height: 2.2rem;
-	padding: 40px 0 0px 0;
+	padding: 16px 0 0px 0;
 	font-weight: 500;
 }
 
